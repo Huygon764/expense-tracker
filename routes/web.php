@@ -10,6 +10,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\RecurringExpenseController;
+use App\Http\Controllers\SavingsGoalController;
 use App\Http\Controllers\OnboardingController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::middleware(['auth', 'onboarding'])->group(function () {
     Route::resource('budgets', BudgetController::class);
     Route::patch('recurring-expenses/{recurring_expense}/toggle', [RecurringExpenseController::class, 'toggle'])->name('recurring-expenses.toggle');
     Route::resource('recurring-expenses', RecurringExpenseController::class);
+    Route::resource('savings-goals', SavingsGoalController::class);
     Route::resource('categories', CategoryController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
