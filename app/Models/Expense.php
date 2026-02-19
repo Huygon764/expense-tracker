@@ -13,6 +13,7 @@ class Expense extends Model
         'amount',
         'note',
         'date',
+        'recurring_expense_id',
     ];
 
     protected function casts(): array
@@ -31,5 +32,10 @@ class Expense extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function recurringExpense(): BelongsTo
+    {
+        return $this->belongsTo(RecurringExpense::class);
     }
 }
