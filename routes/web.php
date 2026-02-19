@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\RecurringExpenseController;
 use App\Http\Controllers\SavingsGoalController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OnboardingController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,9 @@ Route::middleware(['auth', 'onboarding'])->group(function () {
     Route::resource('recurring-expenses', RecurringExpenseController::class);
     Route::resource('savings-goals', SavingsGoalController::class);
     Route::resource('categories', CategoryController::class);
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+    Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
