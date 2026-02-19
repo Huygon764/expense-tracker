@@ -6,17 +6,27 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OnboardingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'onboarding'])->group(function () {
     Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+    Route::resource('categories', CategoryController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('/onboarding/step1', [OnboardingController::class, 'step1'])->name('onboarding.step1');
+    Route::post('/onboarding/step1', [OnboardingController::class, 'storeStep1'])->name('onboarding.storeStep1');
+    Route::get('/onboarding/step2', [OnboardingController::class, 'step2'])->name('onboarding.step2');
+    Route::post('/onboarding/step2', [OnboardingController::class, 'storeStep2'])->name('onboarding.storeStep2');
+    Route::get('/onboarding/step3', [OnboardingController::class, 'step3'])->name('onboarding.step3');
+    Route::post('/onboarding/step3', [OnboardingController::class, 'storeStep3'])->name('onboarding.storeStep3');
 });
 
 Route::middleware('guest')->group(function () {

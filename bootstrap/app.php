@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'auth/google/callback',
         ]);
+        $middleware->alias([
+            'onboarding' => \App\Http\Middleware\EnsureOnboardingCompleted::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
