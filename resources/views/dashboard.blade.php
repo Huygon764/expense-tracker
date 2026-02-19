@@ -4,7 +4,26 @@
 
 @section('content')
 <div class="space-y-6">
-    <h1 class="text-2xl font-semibold">Dashboard</h1>
+    <div class="flex flex-wrap items-center justify-between gap-2">
+        <h1 class="text-2xl font-semibold">Dashboard</h1>
+        <button type="button" id="ai-analyze-btn" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+            Phân tích AI
+        </button>
+    </div>
+
+    {{-- AI Analysis modal --}}
+    <dialog id="ai-modal" class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl backdrop:bg-black/50 p-0 w-full max-w-2xl max-h-[90vh] overflow-hidden">
+        <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+            <h2 class="text-lg font-semibold">Phân tích AI</h2>
+            <button type="button" id="ai-modal-close" class="rounded p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" aria-label="Đóng">✕</button>
+        </div>
+        <div class="p-4 overflow-y-auto max-h-[calc(90vh-8rem)]">
+            <div id="ai-loading" class="hidden text-gray-500 dark:text-gray-400">Đang phân tích...</div>
+            <div id="ai-error" class="hidden rounded-md border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-3 text-sm text-red-800 dark:text-red-200"></div>
+            <div id="ai-tips" class="hidden mt-2 rounded-md border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-3 text-sm text-amber-800 dark:text-amber-200"></div>
+            <div id="ai-result" class="prose prose-sm dark:prose-invert max-w-none"></div>
+        </div>
+    </dialog>
 
     {{-- Month overview --}}
     <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
@@ -161,6 +180,87 @@
             new window.Chart(barEl, { type: 'bar', data: barData });
         }
     })();
+</script>
+<script>
+(function() {
+    const modal = document.getElementById('ai-modal');
+    const btn = document.getElementById('ai-analyze-btn');
+    const closeBtn = document.getElementById('ai-modal-close');
+    const loadingEl = document.getElementById('ai-loading');
+    const errorEl = document.getElementById('ai-error');
+    const tipsEl = document.getElementById('ai-tips');
+    const resultEl = document.getElementById('ai-result');
+
+    function showLoading() {
+        loadingEl.classList.remove('hidden');
+        errorEl.classList.add('hidden');
+        tipsEl.classList.add('hidden');
+        resultEl.innerHTML = '';
+    }
+    function showResult(html) {
+        loadingEl.classList.add('hidden');
+        errorEl.classList.add('hidden');
+        tipsEl.classList.add('hidden');
+        resultEl.innerHTML = html;
+    }
+    function showError(err, tips) {
+        loadingEl.classList.add('hidden');
+        errorEl.classList.remove('hidden');
+        errorEl.textContent = err || 'Đã xảy ra lỗi.';
+        if (tips) {
+            tipsEl.classList.remove('hidden');
+            tipsEl.textContent = tips;
+        } else {
+            tipsEl.classList.add('hidden');
+        }
+        resultEl.innerHTML = '';
+    }
+
+    if (btn && modal) {
+        btn.addEventListener('click', function() {
+            modal.showModal();
+            showLoading();
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            fetch('{{ route("ai.analyze") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': token || ''
+                }
+            })
+            .then(function(res) { return res.json().then(function(data) { return { ok: res.ok, status: res.status, data: data }; }); })
+            .then(function(r) {
+                if (r.ok && r.data.analysis) {
+                    var content = r.data.analysis;
+                    if (typeof window.marked !== 'undefined') {
+                        var p = window.marked.parse(content);
+                        if (p && typeof p.then === 'function') {
+                            p.then(function(html) { showResult(html); });
+                        } else {
+                            showResult(p);
+                        }
+                    } else {
+                        showResult(content.replace(/\n/g, '<br>'));
+                    }
+                } else {
+                    showError(r.data.error || 'Không thể phân tích lúc này.', r.data.tips);
+                }
+            })
+            .catch(function() {
+                showError('Không thể kết nối. Vui lòng thử lại.', 'Một số gợi ý chung: Theo dõi chi tiêu hàng ngày, set ngân sách cho từng danh mục.');
+            });
+        });
+    }
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', function() { modal.close(); });
+    }
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) modal.close();
+        });
+    }
+})();
 </script>
 @endpush
 @endsection
