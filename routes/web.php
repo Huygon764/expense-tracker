@@ -14,6 +14,7 @@ use App\Http\Controllers\RecurringExpenseController;
 use App\Http\Controllers\SavingsGoalController;
 use App\Http\Controllers\AiAnalyzeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\OnboardingController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,9 @@ Route::get('/', function () {
 Route::middleware(['auth', 'onboarding'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/ai/analyze', [AiAnalyzeController::class, 'analyze'])->name('ai.analyze');
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/pdf', [ReportController::class, 'pdf'])->name('reports.pdf');
+    Route::get('/reports/excel', [ReportController::class, 'excel'])->name('reports.excel');
     Route::resource('expenses', ExpenseController::class);
     Route::resource('budgets', BudgetController::class);
     Route::patch('recurring-expenses/{recurring_expense}/toggle', [RecurringExpenseController::class, 'toggle'])->name('recurring-expenses.toggle');
