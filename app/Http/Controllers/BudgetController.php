@@ -73,7 +73,7 @@ class BudgetController extends Controller
             'type' => $type,
         ]);
 
-        return redirect()->route('budgets.index')->with('status', 'Budget created.');
+        return redirect()->route('budgets.index')->with('status', 'Đã tạo ngân sách.');
     }
 
     public function edit(Budget $budget): View|RedirectResponse
@@ -130,7 +130,7 @@ class BudgetController extends Controller
             'type' => $type,
         ]);
 
-        return redirect()->route('budgets.index')->with('status', 'Budget updated.');
+        return redirect()->route('budgets.index')->with('status', 'Đã cập nhật ngân sách.');
     }
 
     public function destroy(Budget $budget): RedirectResponse
@@ -140,6 +140,6 @@ class BudgetController extends Controller
         }
         $budget->delete();
 
-        return redirect()->route('budgets.index')->with('status', 'Budget deleted.');
+        return redirect()->route('budgets.index')->with('status', 'Đã xóa ngân sách.');
     }
 }

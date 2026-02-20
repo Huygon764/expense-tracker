@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-semibold">Notifications</h1>
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Notifications</h1>
     @if($notifications->isNotEmpty())
         <form method="POST" action="{{ route('notifications.mark-all-read') }}" class="inline">
             @csrf
@@ -16,7 +16,7 @@
     @endif
 </div>
 
-<div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden">
+<div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
         <thead class="bg-gray-50 dark:bg-gray-700">
             <tr>

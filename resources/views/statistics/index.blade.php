@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="space-y-6">
-    <h1 class="text-2xl font-semibold">Thống kê</h1>
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Thống kê</h1>
 
     {{-- Filter: preset + custom --}}
     <form method="GET" action="{{ route('statistics.index') }}" class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 flex flex-wrap items-end gap-4">
@@ -64,6 +64,7 @@
     <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
         <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Top 5 danh mục chi nhiều nhất</h2>
         @if(!empty($topCategories))
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
@@ -82,6 +83,7 @@
                     @endforeach
                 </tbody>
             </table>
+            </div>
         @else
             <p class="py-4 text-center text-gray-500 dark:text-gray-400">Chưa có dữ liệu</p>
         @endif
@@ -98,12 +100,13 @@
     </div>
 
     {{-- Expenses table --}}
-    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden">
+    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div class="flex justify-between items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
             <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Chi tiêu trong kỳ</h2>
             <a href="{{ route('expenses.index') }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">Xem tất cả</a>
         </div>
         @if($expenses->isNotEmpty())
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
@@ -128,6 +131,7 @@
                     @endforeach
                 </tbody>
             </table>
+            </div>
             <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
                 {{ $expenses->withQueryString()->links() }}
             </div>

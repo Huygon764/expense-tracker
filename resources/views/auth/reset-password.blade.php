@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
-    <h1 class="text-xl font-semibold mb-4">Reset Password</h1>
+    <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Reset Password</h1>
 
     <form method="POST" action="{{ route('password.store') }}" class="space-y-4">
         @csrf

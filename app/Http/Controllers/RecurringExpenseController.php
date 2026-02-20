@@ -54,7 +54,7 @@ class RecurringExpenseController extends Controller
 
         RecurringExpense::create($validated);
 
-        return redirect()->route('recurring-expenses.index')->with('status', 'Recurring expense created.');
+        return redirect()->route('recurring-expenses.index')->with('status', 'Đã tạo chi tiêu định kỳ.');
     }
 
     public function edit(RecurringExpense $recurringExpense): View|RedirectResponse
@@ -95,7 +95,7 @@ class RecurringExpenseController extends Controller
 
         $recurringExpense->update($validated);
 
-        return redirect()->route('recurring-expenses.index')->with('status', 'Recurring expense updated.');
+        return redirect()->route('recurring-expenses.index')->with('status', 'Đã cập nhật chi tiêu định kỳ.');
     }
 
     public function destroy(RecurringExpense $recurringExpense): RedirectResponse
@@ -105,7 +105,7 @@ class RecurringExpenseController extends Controller
         }
         $recurringExpense->delete();
 
-        return redirect()->route('recurring-expenses.index')->with('status', 'Recurring expense deleted.');
+        return redirect()->route('recurring-expenses.index')->with('status', 'Đã xóa chi tiêu định kỳ.');
     }
 
     public function toggle(RecurringExpense $recurringExpense): RedirectResponse
@@ -115,6 +115,6 @@ class RecurringExpenseController extends Controller
         }
         $recurringExpense->update(['is_active' => ! $recurringExpense->is_active]);
 
-        return back()->with('status', $recurringExpense->is_active ? 'Recurring expense activated.' : 'Recurring expense paused.');
+        return back()->with('status', $recurringExpense->is_active ? 'Đã bật chi tiêu định kỳ.' : 'Đã tạm dừng chi tiêu định kỳ.');
     }
 }

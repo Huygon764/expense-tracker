@@ -1,4 +1,4 @@
-<h1 class="text-2xl font-semibold mb-2">Set your total budget</h1>
+<h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Set your total budget</h1>
 <p class="text-gray-600 dark:text-gray-400 mb-6">Choose a weekly or monthly budget limit. You can add category budgets later.</p>
 
 <form method="POST" action="{{ route('onboarding.storeStep3') }}" class="space-y-4">

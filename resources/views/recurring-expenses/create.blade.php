@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="max-w-md">
-    <h1 class="text-2xl font-semibold mb-6">Add recurring expense</h1>
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Add recurring expense</h1>
 
     <form method="POST" action="{{ route('recurring-expenses.store') }}" class="space-y-4" id="recurring-form">
         @csrf

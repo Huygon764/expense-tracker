@@ -1,4 +1,4 @@
-<h1 class="text-2xl font-semibold mb-2">Choose your categories</h1>
+<h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Choose your categories</h1>
 <p class="text-gray-600 dark:text-gray-400 mb-6">Select at least one category to track your expenses.</p>
 
 <form method="POST" action="{{ route('onboarding.storeStep1') }}" class="space-y-4">

@@ -60,7 +60,7 @@ class ExpenseController extends Controller
             'date' => $validated['date'],
         ]);
 
-        return redirect()->route('expenses.index')->with('status', 'Expense created.');
+        return redirect()->route('expenses.index')->with('status', 'Đã tạo chi tiêu.');
     }
 
     public function edit(Expense $expense): View|RedirectResponse
@@ -88,7 +88,7 @@ class ExpenseController extends Controller
 
         $expense->update($validated);
 
-        return redirect()->route('expenses.index')->with('status', 'Expense updated.');
+        return redirect()->route('expenses.index')->with('status', 'Đã cập nhật chi tiêu.');
     }
 
     public function destroy(Expense $expense): RedirectResponse
@@ -98,7 +98,7 @@ class ExpenseController extends Controller
         }
         $expense->delete();
 
-        return redirect()->route('expenses.index')->with('status', 'Expense deleted.');
+        return redirect()->route('expenses.index')->with('status', 'Đã xóa chi tiêu.');
     }
 
     /**

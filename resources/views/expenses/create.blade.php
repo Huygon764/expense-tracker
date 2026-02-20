@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="max-w-md">
-    <h1 class="text-2xl font-semibold mb-6">Add expense</h1>
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Add expense</h1>
 
     @if($categories->isEmpty())
         <p class="rounded-md bg-amber-50 dark:bg-amber-900/20 p-4 text-sm text-amber-800 dark:text-amber-200 mb-4">

@@ -4,14 +4,8 @@
 
 @section('content')
 <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
-    <h1 class="text-xl font-semibold mb-4">Forgot Password</h1>
+    <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Forgot Password</h1>
     <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Enter your email and we'll send you a link to reset your password.</p>
-
-    @if (session('status'))
-        <div class="mb-4 rounded-md bg-green-50 dark:bg-green-900/20 p-3 text-sm text-green-800 dark:text-green-200">
-            {{ session('status') }}
-        </div>
-    @endif
 
     <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
         @csrf

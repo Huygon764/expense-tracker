@@ -5,7 +5,7 @@
 @section('content')
 <div class="space-y-6">
     <div class="flex flex-wrap items-center justify-between gap-2">
-        <h1 class="text-2xl font-semibold">Dashboard</h1>
+        <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Dashboard</h1>
         <button type="button" id="ai-analyze-btn" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
             Phân tích AI
         </button>
@@ -108,12 +108,13 @@
     </div>
 
     {{-- Recent expenses --}}
-    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden">
+    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div class="flex justify-between items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
             <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Chi tiêu gần đây</h2>
             <a href="{{ route('expenses.index') }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">Xem tất cả</a>
         </div>
         @if($recentExpenses->isNotEmpty())
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
@@ -138,6 +139,7 @@
                     @endforeach
                 </tbody>
             </table>
+            </div>
         @else
             <p class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">Chưa có chi tiêu nào.</p>
         @endif

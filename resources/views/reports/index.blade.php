@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="space-y-6">
-    <h1 class="text-2xl font-semibold">Báo cáo</h1>
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Báo cáo</h1>
 
     @if($errors->any())
         <div class="rounded-md border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-3 text-sm text-red-800 dark:text-red-200">

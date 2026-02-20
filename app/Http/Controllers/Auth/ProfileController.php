@@ -34,6 +34,6 @@ class ProfileController extends Controller
             'monthly_income' => $validated['monthly_income'] ?? null,
         ]);
 
-        return back()->with('status', 'Profile updated.');
+        return back()->with('status', 'Đã cập nhật hồ sơ.');
     }
 }

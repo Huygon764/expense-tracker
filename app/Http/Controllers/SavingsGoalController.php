@@ -50,7 +50,7 @@ class SavingsGoalController extends Controller
             'deadline' => $validated['deadline'],
         ]);
 
-        return redirect()->route('savings-goals.index')->with('status', 'Savings goal created.');
+        return redirect()->route('savings-goals.index')->with('status', 'Đã tạo mục tiêu tiết kiệm.');
     }
 
     public function edit(SavingsGoal $savingsGoal): View|RedirectResponse
@@ -75,7 +75,7 @@ class SavingsGoalController extends Controller
 
         $savingsGoal->update($validated);
 
-        return redirect()->route('savings-goals.index')->with('status', 'Savings goal updated.');
+        return redirect()->route('savings-goals.index')->with('status', 'Đã cập nhật mục tiêu tiết kiệm.');
     }
 
     public function destroy(SavingsGoal $savingsGoal): RedirectResponse
@@ -85,6 +85,6 @@ class SavingsGoalController extends Controller
         }
         $savingsGoal->delete();
 
-        return redirect()->route('savings-goals.index')->with('status', 'Savings goal deleted.');
+        return redirect()->route('savings-goals.index')->with('status', 'Đã xóa mục tiêu tiết kiệm.');
     }
 }

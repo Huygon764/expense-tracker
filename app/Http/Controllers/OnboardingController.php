@@ -106,6 +106,6 @@ class OnboardingController extends Controller
 
         $user->update(['onboarding_completed_at' => now()]);
 
-        return redirect()->route('dashboard')->with('status', 'Onboarding completed. Welcome!');
+        return redirect()->route('dashboard')->with('status', 'Đã hoàn thành giới thiệu. Chào mừng!');
     }
 }
