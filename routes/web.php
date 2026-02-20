@@ -15,6 +15,7 @@ use App\Http\Controllers\SavingsGoalController;
 use App\Http\Controllers\AiAnalyzeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\OnboardingController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,7 @@ Route::middleware(['auth', 'onboarding'])->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/pdf', [ReportController::class, 'pdf'])->name('reports.pdf');
     Route::get('/reports/excel', [ReportController::class, 'excel'])->name('reports.excel');
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
     Route::resource('expenses', ExpenseController::class);
     Route::resource('budgets', BudgetController::class);
     Route::patch('recurring-expenses/{recurring_expense}/toggle', [RecurringExpenseController::class, 'toggle'])->name('recurring-expenses.toggle');
