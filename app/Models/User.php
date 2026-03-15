@@ -25,6 +25,8 @@ class User extends Authenticatable
         'google_id',
         'email_notification',
         'onboarding_completed_at',
+        'role',
+        'is_active',
     ];
 
     /**
@@ -49,7 +51,13 @@ class User extends Authenticatable
             'password' => 'hashed',
             'email_notification' => 'boolean',
             'onboarding_completed_at' => 'datetime',
+            'is_active' => 'boolean',
         ];
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
     }
 
     public function categories(): HasMany

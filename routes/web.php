@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDefaultCategoryController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -23,7 +25,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'onboarding'])->group(function () {
+Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('users.toggle-status');
+    Route::resource('categories', AdminDefaultCategoryController::class);
+});
+
+Route::middleware(['auth', 'active', 'onboarding'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/ai/analyze', [AiAnalyzeController::class, 'analyze'])->name('ai.analyze');
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');

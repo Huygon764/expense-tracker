@@ -59,6 +59,17 @@
                     <a href="{{ route('reports.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Báo cáo</a>
                     <a href="{{ route('statistics.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Thống kê</a>
                     <a href="{{ route('categories.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Categories</a>
+                    @auth
+                    @if(Auth::user()->isAdmin())
+                    <details class="relative group">
+                        <summary class="list-none cursor-pointer text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 font-medium [&::-webkit-details-marker]:hidden">Admin ▾</summary>
+                        <div class="absolute right-0 z-50 mt-1 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-gray-600">
+                            <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Quản lý Users</a>
+                            <a href="{{ route('admin.categories.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Quản lý Danh mục</a>
+                        </div>
+                    </details>
+                    @endif
+                    @endauth
                     <a href="{{ route('profile.edit') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Profile</a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
@@ -111,6 +122,15 @@
                 <a href="{{ route('reports.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Báo cáo</a>
                 <a href="{{ route('statistics.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Thống kê</a>
                 <a href="{{ route('categories.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Categories</a>
+                @auth
+                @if(Auth::user()->isAdmin())
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-2 mt-1">
+                    <p class="px-3 py-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Admin</p>
+                    <a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Quản lý Users</a>
+                    <a href="{{ route('admin.categories.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Quản lý Danh mục</a>
+                </div>
+                @endif
+                @endauth
                 <a href="{{ route('profile.edit') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
                 <form method="POST" action="{{ route('logout') }}" class="pt-2">
                     @csrf
