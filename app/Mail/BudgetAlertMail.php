@@ -23,6 +23,9 @@ class BudgetAlertMail extends Mailable
             'budget_50' => 'Bạn đã dùng 50% ngân sách tháng này',
             'budget_80' => 'Bạn đã dùng 80% ngân sách tháng này',
             'budget_100' => 'Bạn đã vượt ngân sách tháng này!',
+            'budget_weekly_50' => 'Bạn đã dùng 50% ngân sách tuần này',
+            'budget_weekly_80' => 'Bạn đã dùng 80% ngân sách tuần này',
+            'budget_weekly_100' => 'Bạn đã vượt ngân sách tuần này!',
         ];
 
         $subject = $subjects[$this->notification->type] ?? 'Thông báo ngân sách';
@@ -37,7 +40,7 @@ class BudgetAlertMail extends Mailable
         return new Content(
             view: 'emails.budget_alert',
             with: [
-                'message' => $this->notification->message,
+                'alertMessage' => $this->notification->message,
             ],
         );
     }

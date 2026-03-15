@@ -10,7 +10,6 @@ class Budget extends Model
 {
     protected $fillable = [
         'user_id',
-        'category_id',
         'amount',
         'type',
     ];
@@ -27,14 +26,6 @@ class Budget extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    /**
-     * Sum of expenses in the current period (week or month) for this budget.
-     */
     public function getSpentInCurrentPeriod(): float
     {
         $today = Carbon::today();
@@ -46,13 +37,8 @@ class Budget extends Model
             $end = $today->copy()->endOfMonth();
         }
 
-        $query = Expense::where('user_id', $this->user_id)
-            ->whereBetween('date', [$start->format('Y-m-d'), $end->format('Y-m-d')]);
-
-        if ($this->category_id !== null) {
-            $query->where('category_id', $this->category_id);
-        }
-
-        return (float) $query->sum('amount');
+        return (float) Expense::where('user_id', $this->user_id)
+            ->whereBetween('date', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->sum('amount');
     }
 }

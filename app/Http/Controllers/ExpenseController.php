@@ -4,17 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Expense;
+use App\Services\BudgetAlertService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class ExpenseController extends Controller
 {
+    public function __construct(
+        private BudgetAlertService $budgetAlertService
+    ) {}
+
     public function index(Request $request): View
     {
-        $query = Expense::where('user_id', auth()->id())
+        $query = Expense::where('user_id', Auth::id())
             ->with('category')
             ->orderBy('date', 'desc');
 
@@ -26,7 +32,7 @@ class ExpenseController extends Controller
             }
         }
 
-        $search = $request->string('search')->trim();
+        $search = $request->string('search')->trim()->toString();
         if ($search !== '') {
             $query->where('note', 'like', '%'.$search.'%');
         }
@@ -38,7 +44,7 @@ class ExpenseController extends Controller
 
     public function create(): View
     {
-        $categories = Category::where('user_id', auth()->id())->orderBy('name')->get();
+        $categories = Category::where('user_id', Auth::id())->orderBy('name')->get();
 
         return view('expenses.create', compact('categories'));
     }
@@ -47,62 +53,68 @@ class ExpenseController extends Controller
     {
         $validated = $request->validate([
             'amount' => ['required', 'numeric', 'min:0'],
-            'category_id' => ['required', Rule::exists('categories', 'id')->where('user_id', auth()->id())],
+            'category_id' => ['required', Rule::exists('categories', 'id')->where('user_id', Auth::id())],
             'note' => ['nullable', 'string', 'max:65535'],
             'date' => ['required', 'date'],
         ]);
 
         Expense::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'category_id' => $validated['category_id'],
             'amount' => $validated['amount'],
             'note' => $validated['note'] ?? null,
             'date' => $validated['date'],
         ]);
 
+        $this->budgetAlertService->checkAndNotify(Auth::id());
+
         return redirect()->route('expenses.index')->with('status', 'Đã tạo chi tiêu.');
     }
 
     public function edit(Expense $expense): View|RedirectResponse
     {
-        if ($expense->user_id !== auth()->id()) {
+        if ($expense->user_id !== Auth::id()) {
             abort(403);
         }
-        $categories = Category::where('user_id', auth()->id())->orderBy('name')->get();
+        $categories = Category::where('user_id', Auth::id())->orderBy('name')->get();
 
         return view('expenses.edit', compact('expense', 'categories'));
     }
 
     public function update(Request $request, Expense $expense): RedirectResponse
     {
-        if ($expense->user_id !== auth()->id()) {
+        if ($expense->user_id !== Auth::id()) {
             abort(403);
         }
 
         $validated = $request->validate([
             'amount' => ['required', 'numeric', 'min:0'],
-            'category_id' => ['required', Rule::exists('categories', 'id')->where('user_id', auth()->id())],
+            'category_id' => ['required', Rule::exists('categories', 'id')->where('user_id', Auth::id())],
             'note' => ['nullable', 'string', 'max:65535'],
             'date' => ['required', 'date'],
         ]);
 
         $expense->update($validated);
 
+        $this->budgetAlertService->checkAndNotify(Auth::id());
+
         return redirect()->route('expenses.index')->with('status', 'Đã cập nhật chi tiêu.');
     }
 
     public function destroy(Expense $expense): RedirectResponse
     {
-        if ($expense->user_id !== auth()->id()) {
+        if ($expense->user_id !== Auth::id()) {
             abort(403);
         }
         $expense->delete();
+
+        $this->budgetAlertService->checkAndNotify(Auth::id());
 
         return redirect()->route('expenses.index')->with('status', 'Đã xóa chi tiêu.');
     }
 
     /**
-     * @return array{0: string, 1: string}|null [start, end] Y-md or null if invalid
+     * @return array{0: string, 1: string}|null
      */
     private function periodToDateRange(string $period): ?array
     {

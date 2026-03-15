@@ -145,14 +145,21 @@
     @push('scripts')
     <script>
         (function() {
-            const pieData = {
-                labels: @json($pieLabels),
-                datasets: [{ data: @json($pieValues), backgroundColor: @json($pieColors) }]
-            };
-            const pieEl = document.getElementById('chart-pie');
-            if (pieEl && typeof window.Chart !== 'undefined') {
-                new window.Chart(pieEl, { type: 'doughnut', data: pieData });
+            function initPie() {
+                if (typeof window.Chart === 'undefined') {
+                    setTimeout(initPie, 50);
+                    return;
+                }
+                var pieEl = document.getElementById('chart-pie');
+                if (pieEl) {
+                    var pieData = {
+                        labels: @json($pieLabels),
+                        datasets: [{ data: @json($pieValues), backgroundColor: @json($pieColors) }]
+                    };
+                    new window.Chart(pieEl, { type: 'doughnut', data: pieData });
+                }
             }
+            initPie();
         })();
     </script>
     @endpush
@@ -161,14 +168,21 @@
 @push('scripts')
 <script>
 (function() {
-    const barData = {
-        labels: @json($barLabels),
-        datasets: [{ label: 'Chi tiêu', data: @json($barValues), backgroundColor: '#4F46E5' }]
-    };
-    const barEl = document.getElementById('chart-bar');
-    if (barEl && typeof window.Chart !== 'undefined') {
-        new window.Chart(barEl, { type: 'bar', data: barData });
+    function initBar() {
+        if (typeof window.Chart === 'undefined') {
+            setTimeout(initBar, 50);
+            return;
+        }
+        var barEl = document.getElementById('chart-bar');
+        if (barEl) {
+            var barData = {
+                labels: @json($barLabels),
+                datasets: [{ label: 'Chi tiêu', data: @json($barValues), backgroundColor: '#4F46E5' }]
+            };
+            new window.Chart(barEl, { type: 'bar', data: barData });
+        }
     }
+    initBar();
 })();
 </script>
 @endpush

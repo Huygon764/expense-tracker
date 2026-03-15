@@ -25,11 +25,6 @@ class Category extends Model
         return $this->hasMany(Expense::class);
     }
 
-    public function budgets(): HasMany
-    {
-        return $this->hasMany(Budget::class);
-    }
-
     public function recurringExpenses(): HasMany
     {
         return $this->hasMany(RecurringExpense::class);

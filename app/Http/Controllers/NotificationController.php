@@ -10,8 +10,9 @@ class NotificationController extends Controller
 {
     public function index()
     {
-        $notifications = Auth::user()
-            ->notifications()
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $notifications = $user->notifications()
             ->orderByDesc('created_at')
             ->paginate(15);
 
@@ -31,8 +32,9 @@ class NotificationController extends Controller
 
     public function markAllAsRead()
     {
-        Auth::user()
-            ->notifications()
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->notifications()
             ->where('is_read', false)
             ->update(['is_read' => true]);
 

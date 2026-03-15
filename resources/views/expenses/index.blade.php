@@ -48,7 +48,7 @@
                     <td class="px-4 py-3 text-sm">{{ $expense->date->format('Y-m-d') }}</td>
                     <td class="px-4 py-3 text-sm">{{ $expense->category?->name ?? '—' }}</td>
                     <td class="px-4 py-3 text-sm font-medium">{{ number_format($expense->amount, 2) }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate">{{ $expense->note ?? '—' }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate">{{ $expense->note ?: '—' }}</td>
                     <td class="px-4 py-3 text-right text-sm">
                         <a href="{{ route('expenses.edit', $expense) }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">Edit</a>
                         <form method="POST" action="{{ route('expenses.destroy', $expense) }}" class="inline ml-4" onsubmit="return confirm('Delete this expense?');">

@@ -19,7 +19,6 @@ class DashboardController extends Controller
         $lastMonthEnd = Carbon::now()->copy()->subMonth()->endOfMonth();
 
         $budgetMonthly = Budget::where('user_id', $userId)
-            ->whereNull('category_id')
             ->where('type', 'monthly')
             ->first();
 
@@ -35,7 +34,6 @@ class DashboardController extends Controller
         $spentThisWeek = null;
         $budgetWeeklyAmount = null;
         $budgetWeekly = Budget::where('user_id', $userId)
-            ->whereNull('category_id')
             ->where('type', 'weekly')
             ->first();
         if ($budgetWeekly) {

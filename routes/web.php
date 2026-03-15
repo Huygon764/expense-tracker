@@ -35,6 +35,9 @@ Route::middleware(['auth', 'onboarding'])->group(function () {
     Route::patch('recurring-expenses/{recurring_expense}/toggle', [RecurringExpenseController::class, 'toggle'])->name('recurring-expenses.toggle');
     Route::resource('recurring-expenses', RecurringExpenseController::class);
     Route::resource('savings-goals', SavingsGoalController::class);
+    Route::get('/savings-goals/{savings_goal}/deposits', [SavingsGoalController::class, 'deposits'])->name('savings-goals.deposits');
+    Route::post('/savings-goals/{savings_goal}/deposits', [SavingsGoalController::class, 'storeDeposit'])->name('savings-goals.deposits.store');
+    Route::delete('/savings-goals/deposits/{deposit}', [SavingsGoalController::class, 'destroyDeposit'])->name('savings-goals.deposits.destroy');
     Route::resource('categories', CategoryController::class);
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::patch('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
@@ -47,8 +50,6 @@ Route::middleware(['auth', 'onboarding'])->group(function () {
     Route::post('/onboarding/step1', [OnboardingController::class, 'storeStep1'])->name('onboarding.storeStep1');
     Route::get('/onboarding/step2', [OnboardingController::class, 'step2'])->name('onboarding.step2');
     Route::post('/onboarding/step2', [OnboardingController::class, 'storeStep2'])->name('onboarding.storeStep2');
-    Route::get('/onboarding/step3', [OnboardingController::class, 'step3'])->name('onboarding.step3');
-    Route::post('/onboarding/step3', [OnboardingController::class, 'storeStep3'])->name('onboarding.storeStep3');
 });
 
 Route::middleware('guest')->group(function () {

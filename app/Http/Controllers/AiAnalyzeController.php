@@ -101,13 +101,11 @@ class AiAnalyzeController extends Controller
         }
 
         $budgetMonthly = Budget::where('user_id', $userId)
-            ->whereNull('category_id')
             ->where('type', 'monthly')
             ->first();
         $budgetMonth = $budgetMonthly ? (float) $budgetMonthly->amount : null;
 
         $budgetWeekly = Budget::where('user_id', $userId)
-            ->whereNull('category_id')
             ->where('type', 'weekly')
             ->first();
         $budgetWeek = $budgetWeekly ? (float) $budgetWeekly->amount : null;

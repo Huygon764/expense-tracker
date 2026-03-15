@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
     public function index(): View
     {
-        $categories = Category::where('user_id', auth()->id())
+        $categories = Category::where('user_id', Auth::id())
             ->orderBy('name')
             ->get();
 
@@ -32,7 +33,7 @@ class CategoryController extends Controller
         ]);
 
         Category::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'name' => $validated['name'],
             'icon' => $validated['icon'] ?? null,
             'color' => $validated['color'] ?? null,
@@ -43,7 +44,7 @@ class CategoryController extends Controller
 
     public function edit(Category $category): View|RedirectResponse
     {
-        if ($category->user_id !== auth()->id()) {
+        if ($category->user_id !== Auth::id()) {
             abort(403);
         }
 
@@ -52,7 +53,7 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category): RedirectResponse
     {
-        if ($category->user_id !== auth()->id()) {
+        if ($category->user_id !== Auth::id()) {
             abort(403);
         }
 
@@ -69,7 +70,7 @@ class CategoryController extends Controller
 
     public function destroy(Category $category): RedirectResponse
     {
-        if ($category->user_id !== auth()->id()) {
+        if ($category->user_id !== Auth::id()) {
             abort(403);
         }
 

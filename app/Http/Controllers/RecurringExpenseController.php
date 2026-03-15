@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\RecurringExpense;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -13,7 +14,7 @@ class RecurringExpenseController extends Controller
 {
     public function index(): View
     {
-        $recurringExpenses = RecurringExpense::where('user_id', auth()->id())
+        $recurringExpenses = RecurringExpense::where('user_id', Auth::id())
             ->with('category')
             ->orderBy('title')
             ->get();
@@ -23,7 +24,7 @@ class RecurringExpenseController extends Controller
 
     public function create(): View
     {
-        $categories = Category::where('user_id', auth()->id())->orderBy('name')->get();
+        $categories = Category::where('user_id', Auth::id())->orderBy('name')->get();
 
         return view('recurring-expenses.create', compact('categories'));
     }
@@ -36,7 +37,7 @@ class RecurringExpenseController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'amount' => ['required', 'numeric', 'min:0'],
-            'category_id' => ['nullable', Rule::exists('categories', 'id')->where('user_id', auth()->id())],
+            'category_id' => ['nullable', Rule::exists('categories', 'id')->where('user_id', Auth::id())],
             'type' => ['required', 'in:weekly,monthly'],
             'day_of_week' => ['required_if:type,weekly', 'nullable', 'integer', 'between:0,6'],
             'day_of_month' => ['required_if:type,monthly', 'nullable', 'integer', 'between:1,31'],
@@ -49,7 +50,7 @@ class RecurringExpenseController extends Controller
             $validated['day_of_week'] = null;
         }
         $validated['category_id'] = $validated['category_id'] ?? null;
-        $validated['user_id'] = auth()->id();
+        $validated['user_id'] = Auth::id();
         $validated['is_active'] = $request->has('is_active') ? $request->boolean('is_active') : true;
 
         RecurringExpense::create($validated);
@@ -59,17 +60,17 @@ class RecurringExpenseController extends Controller
 
     public function edit(RecurringExpense $recurringExpense): View|RedirectResponse
     {
-        if ($recurringExpense->user_id !== auth()->id()) {
+        if ($recurringExpense->user_id !== Auth::id()) {
             abort(403);
         }
-        $categories = Category::where('user_id', auth()->id())->orderBy('name')->get();
+        $categories = Category::where('user_id', Auth::id())->orderBy('name')->get();
 
         return view('recurring-expenses.edit', compact('recurringExpense', 'categories'));
     }
 
     public function update(Request $request, RecurringExpense $recurringExpense): RedirectResponse
     {
-        if ($recurringExpense->user_id !== auth()->id()) {
+        if ($recurringExpense->user_id !== Auth::id()) {
             abort(403);
         }
         if ($request->input('category_id') === '') {
@@ -78,7 +79,7 @@ class RecurringExpenseController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'amount' => ['required', 'numeric', 'min:0'],
-            'category_id' => ['nullable', Rule::exists('categories', 'id')->where('user_id', auth()->id())],
+            'category_id' => ['nullable', Rule::exists('categories', 'id')->where('user_id', Auth::id())],
             'type' => ['required', 'in:weekly,monthly'],
             'day_of_week' => ['required_if:type,weekly', 'nullable', 'integer', 'between:0,6'],
             'day_of_month' => ['required_if:type,monthly', 'nullable', 'integer', 'between:1,31'],
@@ -100,7 +101,7 @@ class RecurringExpenseController extends Controller
 
     public function destroy(RecurringExpense $recurringExpense): RedirectResponse
     {
-        if ($recurringExpense->user_id !== auth()->id()) {
+        if ($recurringExpense->user_id !== Auth::id()) {
             abort(403);
         }
         $recurringExpense->delete();
@@ -110,7 +111,7 @@ class RecurringExpenseController extends Controller
 
     public function toggle(RecurringExpense $recurringExpense): RedirectResponse
     {
-        if ($recurringExpense->user_id !== auth()->id()) {
+        if ($recurringExpense->user_id !== Auth::id()) {
             abort(403);
         }
         $recurringExpense->update(['is_active' => ! $recurringExpense->is_active]);

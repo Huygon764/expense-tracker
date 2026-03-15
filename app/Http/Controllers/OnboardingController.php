@@ -7,13 +7,14 @@ use App\Models\Category;
 use App\Models\DefaultCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class OnboardingController extends Controller
 {
     public function step1(): View|RedirectResponse
     {
-        if (auth()->user()->onboarding_completed_at !== null) {
+        if (Auth::user()->onboarding_completed_at !== null) {
             return redirect()->route('dashboard');
         }
         $defaultCategories = DefaultCategory::orderBy('sort_order')->get();
@@ -32,7 +33,7 @@ class OnboardingController extends Controller
         ]);
 
         $defaults = DefaultCategory::whereIn('id', $validated['default_category_ids'])->orderBy('sort_order')->get();
-        $userId = auth()->id();
+        $userId = Auth::id();
 
         foreach ($defaults as $default) {
             Category::create([
@@ -48,48 +49,24 @@ class OnboardingController extends Controller
 
     public function step2(): View|RedirectResponse
     {
-        if (auth()->user()->onboarding_completed_at !== null) {
+        if (Auth::user()->onboarding_completed_at !== null) {
             return redirect()->route('dashboard');
         }
         return view('onboarding.index', [
             'step' => 2,
-            'user' => auth()->user(),
         ]);
     }
 
     public function storeStep2(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'monthly_income' => ['nullable', 'numeric', 'min:0'],
-        ]);
-
-        auth()->user()->update([
-            'monthly_income' => $validated['monthly_income'] ?? null,
-        ]);
-
-        return redirect()->route('onboarding.step3');
-    }
-
-    public function step3(): View|RedirectResponse
-    {
-        if (auth()->user()->onboarding_completed_at !== null) {
-            return redirect()->route('dashboard');
-        }
-        return view('onboarding.index', [
-            'step' => 3,
-        ]);
-    }
-
-    public function storeStep3(Request $request): RedirectResponse
-    {
-        $validated = $request->validate([
             'type' => ['required', 'in:weekly,monthly'],
-            'amount' => ['required', 'numeric', 'min:0'],
+            'amount' => ['required', 'numeric', 'min:1'],
         ]);
 
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
         $existing = Budget::where('user_id', $user->id)
-            ->whereNull('category_id')
             ->where('type', $validated['type'])
             ->exists();
 
@@ -99,7 +76,6 @@ class OnboardingController extends Controller
 
         Budget::create([
             'user_id' => $user->id,
-            'category_id' => null,
             'amount' => $validated['amount'],
             'type' => $validated['type'],
         ]);

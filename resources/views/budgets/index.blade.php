@@ -30,12 +30,8 @@
                     $overBudget = $amount > 0 && $spent > $amount;
                 @endphp
                 <tr>
-                    <td class="px-4 py-3 text-sm">
-                        @if($budget->category_id === null)
-                            Total ({{ $budget->type }})
-                        @else
-                            {{ $budget->category?->name ?? '—' }} ({{ $budget->type }})
-                        @endif
+                    <td class="px-4 py-3 text-sm font-medium">
+                        {{ ucfirst($budget->type) }}
                     </td>
                     <td class="px-4 py-3 text-sm text-right font-medium">{{ number_format($budget->amount, 2) }}</td>
                     <td class="px-4 py-3 text-sm text-right">{{ number_format($spent, 2) }}</td>

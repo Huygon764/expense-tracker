@@ -3,19 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Budget;
-use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class BudgetController extends Controller
 {
     public function index(): View
     {
-        $budgets = Budget::where('user_id', auth()->id())
-            ->with('category')
-            ->orderByRaw('category_id IS NULL DESC')
+        $budgets = Budget::where('user_id', Auth::id())
             ->orderBy('type')
             ->get();
 
@@ -28,49 +25,30 @@ class BudgetController extends Controller
 
     public function create(): View
     {
-        $categories = Category::where('user_id', auth()->id())->orderBy('name')->get();
-
-        return view('budgets.create', compact('categories'));
+        return view('budgets.create');
     }
 
     public function store(Request $request): RedirectResponse
     {
-        if ($request->input('category_id') === '') {
-            $request->merge(['category_id' => null]);
-        }
         $validated = $request->validate([
             'type' => ['required', 'in:weekly,monthly'],
-            'amount' => ['required', 'numeric', 'min:0'],
-            'category_id' => ['nullable', Rule::exists('categories', 'id')->where('user_id', auth()->id())],
+            'amount' => ['required', 'numeric', 'min:1'],
         ]);
 
-        $userId = auth()->id();
-        $categoryId = $validated['category_id'] ?? null;
-        $type = $validated['type'];
+        $userId = Auth::id();
 
-        if ($categoryId === null || $categoryId === '') {
-            $exists = Budget::where('user_id', $userId)
-                ->whereNull('category_id')
-                ->where('type', $type)
-                ->exists();
-            if ($exists) {
-                return back()->withErrors(['type' => 'You already have a total budget for this period.'])->withInput();
-            }
-        } else {
-            $exists = Budget::where('user_id', $userId)
-                ->where('category_id', $categoryId)
-                ->where('type', $type)
-                ->exists();
-            if ($exists) {
-                return back()->withErrors(['category_id' => 'You already have a budget for this category and period.'])->withInput();
-            }
+        $exists = Budget::where('user_id', $userId)
+            ->where('type', $validated['type'])
+            ->exists();
+
+        if ($exists) {
+            return back()->withErrors(['type' => 'You already have a total budget for this period.'])->withInput();
         }
 
         Budget::create([
             'user_id' => $userId,
-            'category_id' => $categoryId ?: null,
             'amount' => $validated['amount'],
-            'type' => $type,
+            'type' => $validated['type'],
         ]);
 
         return redirect()->route('budgets.index')->with('status', 'Đã tạo ngân sách.');
@@ -78,56 +56,36 @@ class BudgetController extends Controller
 
     public function edit(Budget $budget): View|RedirectResponse
     {
-        if ($budget->user_id !== auth()->id()) {
+        if ($budget->user_id !== Auth::id()) {
             abort(403);
         }
-        $categories = Category::where('user_id', auth()->id())->orderBy('name')->get();
 
-        return view('budgets.edit', compact('budget', 'categories'));
+        return view('budgets.edit', compact('budget'));
     }
 
     public function update(Request $request, Budget $budget): RedirectResponse
     {
-        if ($budget->user_id !== auth()->id()) {
+        if ($budget->user_id !== Auth::id()) {
             abort(403);
         }
-        if ($request->input('category_id') === '') {
-            $request->merge(['category_id' => null]);
-        }
+
         $validated = $request->validate([
             'type' => ['required', 'in:weekly,monthly'],
-            'amount' => ['required', 'numeric', 'min:0'],
-            'category_id' => ['nullable', Rule::exists('categories', 'id')->where('user_id', auth()->id())],
+            'amount' => ['required', 'numeric', 'min:1'],
         ]);
 
-        $userId = auth()->id();
-        $categoryId = isset($validated['category_id']) && $validated['category_id'] !== '' ? $validated['category_id'] : null;
-        $type = $validated['type'];
+        $exists = Budget::where('user_id', Auth::id())
+            ->where('type', $validated['type'])
+            ->where('id', '!=', $budget->id)
+            ->exists();
 
-        if ($categoryId === null) {
-            $exists = Budget::where('user_id', $userId)
-                ->whereNull('category_id')
-                ->where('type', $type)
-                ->where('id', '!=', $budget->id)
-                ->exists();
-            if ($exists) {
-                return back()->withErrors(['type' => 'You already have a total budget for this period.'])->withInput();
-            }
-        } else {
-            $exists = Budget::where('user_id', $userId)
-                ->where('category_id', $categoryId)
-                ->where('type', $type)
-                ->where('id', '!=', $budget->id)
-                ->exists();
-            if ($exists) {
-                return back()->withErrors(['category_id' => 'You already have a budget for this category and period.'])->withInput();
-            }
+        if ($exists) {
+            return back()->withErrors(['type' => 'You already have a total budget for this period.'])->withInput();
         }
 
         $budget->update([
-            'category_id' => $categoryId,
             'amount' => $validated['amount'],
-            'type' => $type,
+            'type' => $validated['type'],
         ]);
 
         return redirect()->route('budgets.index')->with('status', 'Đã cập nhật ngân sách.');
@@ -135,7 +93,7 @@ class BudgetController extends Controller
 
     public function destroy(Budget $budget): RedirectResponse
     {
-        if ($budget->user_id !== auth()->id()) {
+        if ($budget->user_id !== Auth::id()) {
             abort(403);
         }
         $budget->delete();

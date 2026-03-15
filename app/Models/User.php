@@ -24,7 +24,6 @@ class User extends Authenticatable
         'password',
         'google_id',
         'email_notification',
-        'monthly_income',
         'onboarding_completed_at',
     ];
 
@@ -50,7 +49,6 @@ class User extends Authenticatable
             'password' => 'hashed',
             'email_notification' => 'boolean',
             'onboarding_completed_at' => 'datetime',
-            'monthly_income' => 'decimal:2',
         ];
     }
 
