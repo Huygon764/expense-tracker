@@ -39,7 +39,7 @@ class CategoryController extends Controller
             'color' => $validated['color'] ?? null,
         ]);
 
-        return redirect()->route('categories.index')->with('status', 'Đã tạo danh mục.');
+        return redirect()->route('categories.index')->with('status', __('messages.category_created'));
     }
 
     public function edit(Category $category): View|RedirectResponse
@@ -65,7 +65,7 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
-        return redirect()->route('categories.index')->with('status', 'Đã cập nhật danh mục.');
+        return redirect()->route('categories.index')->with('status', __('messages.category_updated'));
     }
 
     public function destroy(Category $category): RedirectResponse
@@ -76,6 +76,6 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return redirect()->route('categories.index')->with('status', 'Đã xóa danh mục.');
+        return redirect()->route('categories.index')->with('status', __('messages.category_deleted'));
     }
 }

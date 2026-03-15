@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Edit recurring expense')
+@section('title', __('messages.edit_recurring'))
 
 @section('content')
 <div class="max-w-md">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Edit recurring expense</h1>
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">{{ __('messages.edit_recurring') }}</h1>
 
     <form method="POST" action="{{ route('recurring-expenses.update', $recurringExpense) }}" class="space-y-4" id="recurring-form">
         @csrf
@@ -19,7 +19,7 @@
             @enderror
         </div>
 
-        <x-amount-input name="amount" label="Amount" :value="$recurringExpense->amount" :required="true" />
+        <x-amount-input name="amount" :label="__('messages.amount')" :value="$recurringExpense->amount" :required="true" />
 
         <div>
             <label for="category_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>

@@ -2,7 +2,7 @@
     'name',
     'value' => '',
     'required' => false,
-    'label' => 'Số tiền',
+    'label' => __('messages.amount'),
     'disabled' => false,
 ])
 @php

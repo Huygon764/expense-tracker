@@ -49,11 +49,11 @@ class DashboardController extends Controller
         if ($budgetMonthly && $budgetMonthly->amount > 0) {
             $ratio = $spentThisMonth / (float) $budgetMonthly->amount;
             if ($ratio >= 1) {
-                $alertMessage = 'Đã vượt ngân sách!';
+                $alertMessage = __('messages.budget_alert_100');
             } elseif ($ratio >= 0.8) {
-                $alertMessage = 'Đã dùng 80% ngân sách';
+                $alertMessage = __('messages.budget_alert_80');
             } elseif ($ratio >= 0.5) {
-                $alertMessage = 'Đã dùng 50% ngân sách';
+                $alertMessage = __('messages.budget_alert_50');
             }
         }
 
@@ -67,8 +67,8 @@ class DashboardController extends Controller
         $categories = $categoryIds ? Category::whereIn('id', $categoryIds)->get()->keyBy('id') : collect();
 
         $pieLabels = $pieRows->map(fn ($row) => $row->category_id
-            ? ($categories->get($row->category_id)?->name ?? 'Khác')
-            : 'Khác');
+            ? ($categories->get($row->category_id)?->name ?? __('messages.other_category'))
+            : __('messages.other_category'));
         $pieValues = $pieRows->pluck('total')->map(fn ($v) => (float) $v)->values();
         $pieColors = $pieRows->map(fn ($row) => $row->category_id
             ? ($categories->get($row->category_id)?->color ?? '#B8B8B8')

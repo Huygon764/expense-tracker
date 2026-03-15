@@ -16,17 +16,12 @@ class BudgetAlertService
         100 => 1.0,
     ];
 
-    private const MESSAGES_MONTHLY = [
-        50 => 'Bạn đã dùng 50% ngân sách tháng này.',
-        80 => 'Bạn đã dùng 80% ngân sách tháng này.',
-        100 => 'Bạn đã vượt ngân sách tháng này.',
-    ];
+    private static function getMessage(bool $isWeekly, int $level): string
+    {
+        $key = $isWeekly ? "messages.budget_alert_weekly_{$level}" : "messages.budget_alert_{$level}";
 
-    private const MESSAGES_WEEKLY = [
-        50 => 'Bạn đã dùng 50% ngân sách tuần này.',
-        80 => 'Bạn đã dùng 80% ngân sách tuần này.',
-        100 => 'Bạn đã vượt ngân sách tuần này.',
-    ];
+        return __($key);
+    }
 
     public function checkAndNotify(int $userId): void
     {
@@ -49,7 +44,6 @@ class BudgetAlertService
         $ratio = $spent / $amount;
 
         $isWeekly = $budget->type === 'weekly';
-        $messages = $isWeekly ? self::MESSAGES_WEEKLY : self::MESSAGES_MONTHLY;
 
         if ($isWeekly) {
             $periodStart = Carbon::now()->startOfWeek();
@@ -78,7 +72,7 @@ class BudgetAlertService
             $notification = Notification::create([
                 'user_id' => $budget->user_id,
                 'type' => $type,
-                'message' => $messages[$level],
+                'message' => self::getMessage($isWeekly, $level),
                 'is_read' => false,
             ]);
 

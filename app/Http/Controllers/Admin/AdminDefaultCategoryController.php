@@ -36,7 +36,7 @@ class AdminDefaultCategoryController extends Controller
         DefaultCategory::create($validated);
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Đã thêm danh mục mặc định.');
+            ->with('success', __('messages.default_category_added'));
     }
 
     public function edit(DefaultCategory $category): View
@@ -58,7 +58,7 @@ class AdminDefaultCategoryController extends Controller
         $category->update($validated);
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Đã cập nhật danh mục mặc định.');
+            ->with('success', __('messages.default_category_updated'));
     }
 
     public function destroy(DefaultCategory $category): RedirectResponse
@@ -66,6 +66,6 @@ class AdminDefaultCategoryController extends Controller
         $category->delete();
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Đã xóa danh mục mặc định.');
+            ->with('success', __('messages.default_category_deleted'));
     }
 }

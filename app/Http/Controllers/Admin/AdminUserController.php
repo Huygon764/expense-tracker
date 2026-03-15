@@ -37,17 +37,17 @@ class AdminUserController extends Controller
     public function toggleStatus(User $user): RedirectResponse
     {
         if ($user->id === Auth::id()) {
-            return back()->with('error', 'Không thể thay đổi trạng thái tài khoản của chính mình.');
+            return back()->with('error', __('messages.admin_cannot_toggle_self'));
         }
 
         if ($user->role === 'admin') {
-            return back()->with('error', 'Không thể thay đổi trạng thái tài khoản admin.');
+            return back()->with('error', __('messages.admin_cannot_toggle_admin'));
         }
 
         $user->update(['is_active' => ! $user->is_active]);
 
-        $status = $user->is_active ? 'kích hoạt' : 'vô hiệu hóa';
+        $action = $user->is_active ? __('messages.admin_status_enabled') : __('messages.admin_status_disabled');
 
-        return back()->with('success', "Đã {$status} tài khoản {$user->name}.");
+        return back()->with('success', __('messages.admin_user_status_changed', ['name' => $user->name, 'action' => $action]));
     }
 }

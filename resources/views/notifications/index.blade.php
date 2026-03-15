@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Notifications')
+@section('title', __('messages.notifications'))
 
 @section('content')
 <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Notifications</h1>
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ __('messages.notifications') }}</h1>
     @if($notifications->isNotEmpty())
         <form method="POST" action="{{ route('notifications.mark-all-read') }}" class="inline">
             @csrf
             @method('PATCH')
             <button type="submit" class="rounded-md bg-gray-200 dark:bg-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500">
-                Đánh dấu tất cả đã đọc
+                {{ __('messages.mark_all_read') }}
             </button>
         </form>
     @endif
@@ -20,10 +20,10 @@
     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
         <thead class="bg-gray-50 dark:bg-gray-700">
             <tr>
-                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Message</th>
-                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Type</th>
-                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Date</th>
-                <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Actions</th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.message') }}</th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.status') }}</th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.date') }}</th>
+                <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.actions') }}</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -37,16 +37,16 @@
                             <form method="POST" action="{{ route('notifications.mark-read', $notification) }}" class="inline">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="text-indigo-600 dark:text-indigo-400 hover:underline">Đã đọc</button>
+                                <button type="submit" class="text-indigo-600 dark:text-indigo-400 hover:underline">{{ __('messages.mark_read') }}</button>
                             </form>
                         @else
-                            <span class="text-gray-400 dark:text-gray-500">Đã đọc</span>
+                            <span class="text-gray-400 dark:text-gray-500">{{ __('messages.read_badge') }}</span>
                         @endif
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">Chưa có thông báo.</td>
+                    <td colspan="4" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">{{ __('messages.no_notifications') }}</td>
                 </tr>
             @endforelse
         </tbody>

@@ -19,16 +19,15 @@ class BudgetAlertMail extends Mailable
 
     public function envelope(): Envelope
     {
-        $subjects = [
-            'budget_50' => 'Bạn đã dùng 50% ngân sách tháng này',
-            'budget_80' => 'Bạn đã dùng 80% ngân sách tháng này',
-            'budget_100' => 'Bạn đã vượt ngân sách tháng này!',
-            'budget_weekly_50' => 'Bạn đã dùng 50% ngân sách tuần này',
-            'budget_weekly_80' => 'Bạn đã dùng 80% ngân sách tuần này',
-            'budget_weekly_100' => 'Bạn đã vượt ngân sách tuần này!',
-        ];
-
-        $subject = $subjects[$this->notification->type] ?? 'Thông báo ngân sách';
+        $subject = match ($this->notification->type) {
+            'budget_50' => __('messages.budget_alert_50'),
+            'budget_80' => __('messages.budget_alert_80'),
+            'budget_100' => __('messages.budget_alert_100'),
+            'budget_weekly_50' => __('messages.budget_alert_weekly_50'),
+            'budget_weekly_80' => __('messages.budget_alert_weekly_80'),
+            'budget_weekly_100' => __('messages.budget_alert_weekly_100'),
+            default => __('messages.email_subject_budget_default'),
+        };
 
         return new Envelope(
             subject: $subject,

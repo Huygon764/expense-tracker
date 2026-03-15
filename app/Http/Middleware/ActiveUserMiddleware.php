@@ -17,7 +17,7 @@ class ActiveUserMiddleware
             $request->session()->regenerateToken();
 
             return redirect()->route('login')
-                ->with('error', 'Tài khoản của bạn đã bị khóa.');
+                ->with('error', __('messages.account_disabled'));
         }
 
         return $next($request);

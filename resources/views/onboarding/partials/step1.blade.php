@@ -1,5 +1,5 @@
-<h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Choose your categories</h1>
-<p class="text-gray-600 dark:text-gray-400 mb-6">Select at least one category to track your expenses.</p>
+<h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ __('messages.select_categories') }}</h1>
+<p class="text-gray-600 dark:text-gray-400 mb-6">{{ __('messages.select_categories_help') }}</p>
 
 <form method="POST" action="{{ route('onboarding.storeStep1') }}" class="space-y-4">
     @csrf
@@ -21,9 +21,9 @@
         <p class="text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
     @enderror
     @if($errors->has('default_category_ids.*'))
-        <p class="text-sm text-red-600 dark:text-red-400">Please select at least one category.</p>
+        <p class="text-sm text-red-600 dark:text-red-400">{{ __('messages.select_at_least_one') }}</p>
     @endif
     <div class="pt-4">
-        <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500">Next</button>
+        <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500">{{ __('messages.next') }}</button>
     </div>
 </form>

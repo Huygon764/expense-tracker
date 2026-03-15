@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', config('app.name'))</title>
+    <title>@yield('title', __('messages.app_name'))</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col items-center justify-center p-4">
@@ -22,7 +22,7 @@
     </main>
     <script>
     (function() {
-        var loadingText = 'Đang lưu…';
+        var loadingText = '{{ __("messages.save") }}…';
         document.addEventListener('submit', function(e) {
             var form = e.target;
             if (form && form.tagName === 'FORM' && form.method && form.method.toLowerCase() === 'post') {

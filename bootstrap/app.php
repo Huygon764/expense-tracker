@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'auth/google/callback',
         ]);
+        $middleware->appendToGroup('web', \App\Http\Middleware\SetLocaleMiddleware::class);
         $middleware->alias([
             'onboarding' => \App\Http\Middleware\EnsureOnboardingCompleted::class,
             'admin' => \App\Http\Middleware\AdminMiddleware::class,

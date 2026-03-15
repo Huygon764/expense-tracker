@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', config('app.name'))</title>
+    <title>@yield('title', __('messages.app_name'))</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
@@ -12,7 +12,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center gap-2">
-                    <a href="{{ route('dashboard') }}" class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ config('app.name') }}</a>
+                    <a href="{{ route('dashboard') }}" class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ __('messages.app_name') }}</a>
                     {{-- Mobile: hamburger --}}
                     <button type="button" id="nav-mobile-toggle" class="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="Mở menu" aria-expanded="false">
                         <svg class="w-6 h-6 nav-icon-open" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -37,43 +37,50 @@
                                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ $notif->created_at->diffForHumans() }}</p>
                                     </div>
                                 @empty
-                                    <p class="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">Chưa có thông báo.</p>
+                                    <p class="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">{{ __('messages.no_notifications') }}</p>
                                 @endforelse
                             </div>
                             <div class="border-t border-gray-200 dark:border-gray-700 py-1">
                                 <form method="POST" action="{{ route('notifications.mark-all-read') }}" class="px-3 py-1">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="block w-full text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 px-2 py-1 rounded">Đánh dấu tất cả đã đọc</button>
+                                    <button type="submit" class="block w-full text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 px-2 py-1 rounded">{{ __('messages.mark_all_read') }}</button>
                                 </form>
-                                <a href="{{ route('notifications.index') }}" class="block px-3 py-2 text-sm text-indigo-600 dark:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700">Xem tất cả</a>
+                                <a href="{{ route('notifications.index') }}" class="block px-3 py-2 text-sm text-indigo-600 dark:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.view_all') }}</a>
                             </div>
                         </div>
                     </details>
                     @endauth
-                    <a href="{{ route('dashboard') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Dashboard</a>
-                    <a href="{{ route('expenses.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Expenses</a>
-                    <a href="{{ route('budgets.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Budgets</a>
-                    <a href="{{ route('recurring-expenses.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Recurring</a>
-                    <a href="{{ route('savings-goals.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Savings</a>
-                    <a href="{{ route('reports.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Báo cáo</a>
-                    <a href="{{ route('statistics.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Thống kê</a>
-                    <a href="{{ route('categories.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Categories</a>
+                    <a href="{{ route('dashboard') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">{{ __('messages.dashboard') }}</a>
+                    <a href="{{ route('expenses.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">{{ __('messages.expenses') }}</a>
+                    <a href="{{ route('budgets.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">{{ __('messages.budgets') }}</a>
+                    <a href="{{ route('recurring-expenses.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">{{ __('messages.recurring_expenses') }}</a>
+                    <a href="{{ route('savings-goals.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">{{ __('messages.savings_goals') }}</a>
+                    <a href="{{ route('reports.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">{{ __('messages.reports') }}</a>
+                    <a href="{{ route('statistics.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">{{ __('messages.statistics') }}</a>
+                    <a href="{{ route('categories.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">{{ __('messages.categories') }}</a>
                     @auth
                     @if(Auth::user()->isAdmin())
                     <details class="relative group">
-                        <summary class="list-none cursor-pointer text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 font-medium [&::-webkit-details-marker]:hidden">Admin ▾</summary>
+                        <summary class="list-none cursor-pointer text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 font-medium [&::-webkit-details-marker]:hidden">{{ __('messages.admin') }} ▾</summary>
                         <div class="absolute right-0 z-50 mt-1 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-gray-600">
-                            <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Quản lý Users</a>
-                            <a href="{{ route('admin.categories.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Quản lý Danh mục</a>
+                            <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.manage_users') }}</a>
+                            <a href="{{ route('admin.categories.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.manage_categories') }}</a>
                         </div>
                     </details>
                     @endif
                     @endauth
-                    <a href="{{ route('profile.edit') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Profile</a>
+                    <details class="relative group">
+                        <summary class="list-none cursor-pointer text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 [&::-webkit-details-marker]:hidden">{{ app()->getLocale() === 'en' ? 'EN' : 'VI' }} ▾</summary>
+                        <div class="absolute right-0 z-50 mt-1 w-40 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-gray-600">
+                            <a href="{{ route('language.switch', 'en') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.english') }}</a>
+                            <a href="{{ route('language.switch', 'vi') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.vietnamese') }}</a>
+                        </div>
+                    </details>
+                    <a href="{{ route('profile.edit') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">{{ __('messages.profile') }}</a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
-                        <button type="submit" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">Logout</button>
+                        <button type="submit" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">{{ __('messages.logout') }}</button>
                     </form>
                 </div>
                 {{-- Mobile: bell only (when auth) --}}
@@ -94,16 +101,16 @@
                                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ $notif->created_at->diffForHumans() }}</p>
                                     </div>
                                 @empty
-                                    <p class="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">Chưa có thông báo.</p>
+                                    <p class="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">{{ __('messages.no_notifications') }}</p>
                                 @endforelse
                             </div>
                             <div class="border-t border-gray-200 dark:border-gray-700 py-1">
                                 <form method="POST" action="{{ route('notifications.mark-all-read') }}" class="px-3 py-1">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="block w-full text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 px-2 py-1 rounded">Đánh dấu tất cả đã đọc</button>
+                                    <button type="submit" class="block w-full text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 px-2 py-1 rounded">{{ __('messages.mark_all_read') }}</button>
                                 </form>
-                                <a href="{{ route('notifications.index') }}" class="block px-3 py-2 text-sm text-indigo-600 dark:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700">Xem tất cả</a>
+                                <a href="{{ route('notifications.index') }}" class="block px-3 py-2 text-sm text-indigo-600 dark:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.view_all') }}</a>
                             </div>
                         </div>
                     </details>
@@ -114,27 +121,32 @@
         {{-- Mobile menu drawer --}}
         <div id="nav-mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
             <div class="px-4 py-3 space-y-1">
-                <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Dashboard</a>
-                <a href="{{ route('expenses.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Expenses</a>
-                <a href="{{ route('budgets.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Budgets</a>
-                <a href="{{ route('recurring-expenses.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Recurring</a>
-                <a href="{{ route('savings-goals.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Savings</a>
-                <a href="{{ route('reports.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Báo cáo</a>
-                <a href="{{ route('statistics.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Thống kê</a>
-                <a href="{{ route('categories.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Categories</a>
+                <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.dashboard') }}</a>
+                <a href="{{ route('expenses.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.expenses') }}</a>
+                <a href="{{ route('budgets.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.budgets') }}</a>
+                <a href="{{ route('recurring-expenses.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.recurring_expenses') }}</a>
+                <a href="{{ route('savings-goals.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.savings_goals') }}</a>
+                <a href="{{ route('reports.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.reports') }}</a>
+                <a href="{{ route('statistics.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.statistics') }}</a>
+                <a href="{{ route('categories.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.categories') }}</a>
                 @auth
                 @if(Auth::user()->isAdmin())
                 <div class="border-t border-gray-200 dark:border-gray-700 pt-2 mt-1">
-                    <p class="px-3 py-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Admin</p>
-                    <a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Quản lý Users</a>
-                    <a href="{{ route('admin.categories.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Quản lý Danh mục</a>
+                    <p class="px-3 py-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">{{ __('messages.admin') }}</p>
+                    <a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.manage_users') }}</a>
+                    <a href="{{ route('admin.categories.index') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.manage_categories') }}</a>
                 </div>
                 @endif
                 @endauth
-                <a href="{{ route('profile.edit') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-2 mt-1">
+                    <p class="px-3 py-1 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.language') }}</p>
+                    <a href="{{ route('language.switch', 'en') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.english') }}</a>
+                    <a href="{{ route('language.switch', 'vi') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.vietnamese') }}</a>
+                </div>
+                <a href="{{ route('profile.edit') }}" class="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.profile') }}</a>
                 <form method="POST" action="{{ route('logout') }}" class="pt-2">
                     @csrf
-                    <button type="submit" class="block w-full text-left px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Logout</button>
+                    <button type="submit" class="block w-full text-left px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('messages.logout') }}</button>
                 </form>
             </div>
         </div>
@@ -172,7 +184,7 @@
     @stack('scripts')
     <script>
     (function() {
-        var loadingText = 'Đang lưu…';
+        var loadingText = '{{ __("messages.save") }}…';
         document.addEventListener('submit', function(e) {
             var form = e.target;
             if (form && form.tagName === 'FORM' && form.method && form.method.toLowerCase() === 'post') {

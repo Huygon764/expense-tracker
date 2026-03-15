@@ -68,7 +68,7 @@ class ExpenseController extends Controller
 
         $this->budgetAlertService->checkAndNotify(Auth::id());
 
-        return redirect()->route('expenses.index')->with('status', 'Đã tạo chi tiêu.');
+        return redirect()->route('expenses.index')->with('status', __('messages.expense_created'));
     }
 
     public function edit(Expense $expense): View|RedirectResponse
@@ -98,7 +98,7 @@ class ExpenseController extends Controller
 
         $this->budgetAlertService->checkAndNotify(Auth::id());
 
-        return redirect()->route('expenses.index')->with('status', 'Đã cập nhật chi tiêu.');
+        return redirect()->route('expenses.index')->with('status', __('messages.expense_updated'));
     }
 
     public function destroy(Expense $expense): RedirectResponse
@@ -110,7 +110,7 @@ class ExpenseController extends Controller
 
         $this->budgetAlertService->checkAndNotify(Auth::id());
 
-        return redirect()->route('expenses.index')->with('status', 'Đã xóa chi tiêu.');
+        return redirect()->route('expenses.index')->with('status', __('messages.expense_deleted'));
     }
 
     /**

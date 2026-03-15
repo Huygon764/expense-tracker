@@ -31,6 +31,6 @@ class ProfileController extends Controller
             'email_notification' => $request->boolean('email_notification'),
         ]);
 
-        return back()->with('status', 'Đã cập nhật hồ sơ.');
+        return back()->with('status', __('messages.profile_updated'));
     }
 }

@@ -17,7 +17,6 @@ class AiAnalyzeController extends Controller
 {
     private const CACHE_TTL_SECONDS = 3600;
 
-    private const FALLBACK_TIPS = 'Một số gợi ý chung: Theo dõi chi tiêu hàng ngày, set ngân sách cho từng danh mục, ưu tiên khoản cần thiết trước.';
 
     public function analyze(Request $request): JsonResponse
     {
@@ -29,8 +28,8 @@ class AiAnalyzeController extends Controller
         $apiKey = config('services.gemini.api_key', '');
         if ($apiKey === '') {
             return response()->json([
-                'error' => 'Chưa cấu hình API key.',
-                'tips' => self::FALLBACK_TIPS,
+                'error' => __('messages.api_key_not_configured'),
+                'tips' => __('messages.generic_tips'),
             ], 400);
         }
 
@@ -49,8 +48,8 @@ class AiAnalyzeController extends Controller
             Log::error('Gemini API error', ['error' => $e->getMessage()]);
 
             return response()->json([
-                'error' => 'Không thể phân tích lúc này.',
-                'tips' => self::FALLBACK_TIPS,
+                'error' => __('messages.cannot_analyze_now'),
+                'tips' => __('messages.generic_tips'),
             ], 500);
         }
     }

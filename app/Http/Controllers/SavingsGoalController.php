@@ -43,7 +43,7 @@ class SavingsGoalController extends Controller
             'deadline' => $validated['deadline'],
         ]);
 
-        return redirect()->route('savings-goals.index')->with('status', 'Đã tạo mục tiêu tiết kiệm.');
+        return redirect()->route('savings-goals.index')->with('status', __('messages.goal_created'));
     }
 
     public function edit(SavingsGoal $savingsGoal): View|RedirectResponse
@@ -68,7 +68,7 @@ class SavingsGoalController extends Controller
 
         $savingsGoal->update($validated);
 
-        return redirect()->route('savings-goals.index')->with('status', 'Đã cập nhật mục tiêu tiết kiệm.');
+        return redirect()->route('savings-goals.index')->with('status', __('messages.goal_updated'));
     }
 
     public function destroy(SavingsGoal $savingsGoal): RedirectResponse
@@ -78,7 +78,7 @@ class SavingsGoalController extends Controller
         }
         $savingsGoal->delete();
 
-        return redirect()->route('savings-goals.index')->with('status', 'Đã xóa mục tiêu tiết kiệm.');
+        return redirect()->route('savings-goals.index')->with('status', __('messages.goal_deleted'));
     }
 
     public function deposits(SavingsGoal $savingsGoal): View
@@ -106,7 +106,7 @@ class SavingsGoalController extends Controller
 
         $savingsGoal->deposits()->create($validated);
 
-        return redirect()->route('savings-goals.deposits', $savingsGoal)->with('status', 'Đã thêm khoản nạp.');
+        return redirect()->route('savings-goals.deposits', $savingsGoal)->with('status', __('messages.deposit_added'));
     }
 
     public function destroyDeposit(SavingsDeposit $deposit): RedirectResponse
@@ -118,6 +118,6 @@ class SavingsGoalController extends Controller
 
         $deposit->delete();
 
-        return redirect()->route('savings-goals.deposits', $goal)->with('status', 'Đã xóa khoản nạp.');
+        return redirect()->route('savings-goals.deposits', $goal)->with('status', __('messages.deposit_deleted'));
     }
 }

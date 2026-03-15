@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Sửa danh mục mặc định — Admin')
+@section('title', __('messages.edit_default_category') . ' — ' . __('messages.admin'))
 
 @section('content')
 <div class="max-w-lg space-y-6">
     <div class="flex items-center gap-3">
-        <a href="{{ route('admin.categories.index') }}" class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">← Danh sách</a>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Sửa danh mục: {{ $category->name }}</h1>
+        <a href="{{ route('admin.categories.index') }}" class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">← {{ __('messages.back') }}</a>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('messages.edit_default_category') }}: {{ $category->name }}</h1>
     </div>
 
     <form method="POST" action="{{ route('admin.categories.update', $category) }}" class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 space-y-4">
@@ -14,39 +14,39 @@
         @method('PUT')
 
         <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tên <span class="text-red-500">*</span></label>
+            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.name') }} <span class="text-red-500">*</span></label>
             <input type="text" id="name" name="name" value="{{ old('name', $category->name) }}" required
                 class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 @error('name') border-red-400 @enderror">
             @error('name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
         </div>
 
         <div>
-            <label for="icon" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Icon (emoji)</label>
+            <label for="icon" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.icon') }}</label>
             <input type="text" id="icon" name="icon" value="{{ old('icon', $category->icon) }}" placeholder="🍔"
                 class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 @error('icon') border-red-400 @enderror">
             @error('icon')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
         </div>
 
         <div>
-            <label for="color" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Màu</label>
+            <label for="color" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.color') }}</label>
             <div class="flex items-center gap-3">
                 <input type="color" id="color" name="color" value="{{ old('color', $category->color ?? '#6366f1') }}"
                     class="h-10 w-16 cursor-pointer rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-1">
-                <span class="text-xs text-gray-500 dark:text-gray-400">Chọn màu cho danh mục</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('messages.color_picker_hint') }}</span>
             </div>
             @error('color')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
         </div>
 
         <div>
-            <label for="sort_order" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort order</label>
+            <label for="sort_order" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.sort_order') }}</label>
             <input type="number" id="sort_order" name="sort_order" value="{{ old('sort_order', $category->sort_order) }}" min="0"
                 class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             @error('sort_order')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
         </div>
 
         <div class="flex gap-3 pt-2">
-            <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">Lưu thay đổi</button>
-            <a href="{{ route('admin.categories.index') }}" class="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Hủy</a>
+            <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">{{ __('messages.save') }}</button>
+            <a href="{{ route('admin.categories.index') }}" class="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.cancel') }}</a>
         </div>
     </form>
 </div>
