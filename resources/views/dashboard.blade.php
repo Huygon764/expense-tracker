@@ -12,7 +12,7 @@
     </div>
 
     {{-- AI Analysis modal --}}
-    <dialog id="ai-modal" class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl backdrop:bg-black/50 p-0 w-full max-w-2xl max-h-[90vh] overflow-hidden">
+    <dialog id="ai-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl backdrop:bg-black/50 p-0 w-full max-w-2xl max-h-[90vh] overflow-hidden">
         <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-4 py-3">
             <h2 class="text-lg font-semibold">Phân tích AI</h2>
             <button type="button" id="ai-modal-close" class="rounded p-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" aria-label="Đóng">✕</button>

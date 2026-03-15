@@ -14,7 +14,7 @@ class GeminiService
     public static function fromConfig(): self
     {
         $key = config('services.gemini.api_key', '');
-        $model = config('services.gemini.model', 'gemini-2.5-flash-preview-09-2025');
+        $model = config('services.gemini.model', 'gemini-2.5-flash');
         return new self($key, $model);
     }
 
