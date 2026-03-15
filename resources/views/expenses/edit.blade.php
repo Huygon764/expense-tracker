@@ -10,14 +10,7 @@
         @csrf
         @method('PATCH')
 
-        <div>
-            <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Amount</label>
-            <input type="number" name="amount" id="amount" value="{{ old('amount', $expense->amount) }}" required min="0" step="0.01"
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-            @error('amount')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+        <x-amount-input name="amount" label="Amount" :value="$expense->amount" :required="true" />
 
         <div>
             <label for="category_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>

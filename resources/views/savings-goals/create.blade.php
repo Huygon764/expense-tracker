@@ -18,14 +18,7 @@
             @enderror
         </div>
 
-        <div>
-            <label for="target_amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Target amount</label>
-            <input type="number" name="target_amount" id="target_amount" value="{{ old('target_amount') }}" required min="0" step="0.01"
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-            @error('target_amount')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+        <x-amount-input name="target_amount" label="Target amount" :required="true" />
 
         <div>
             <label for="deadline" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Deadline</label>

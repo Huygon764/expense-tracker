@@ -3,9 +3,9 @@
 
 <form method="POST" action="{{ route('onboarding.storeStep1') }}" class="space-y-4">
     @csrf
-    <div class="space-y-3">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
         @foreach($defaultCategories as $dc)
-            <label class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer">
+            <label class="flex items-center gap-2 p-3 border border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50">
                 <input type="checkbox" name="default_category_ids[]" value="{{ $dc->id }}"
                     {{ in_array($dc->id, old('default_category_ids', [])) ? 'checked' : '' }}
                     class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
