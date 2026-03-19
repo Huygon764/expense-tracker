@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notifications - Financial Curator</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .headline-font {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-bright": "#f8f9fa",
+                "primary-fixed": "#d8e2ff",
+                "error": "#ba1a1a",
+                "on-surface-variant": "#424754",
+                "tertiary-fixed": "#ffdcc6",
+                "surface-container-high": "#e7e8e9",
+                "primary-fixed-dim": "#adc6ff",
+                "secondary-container": "#b6ccff",
+                "on-tertiary": "#ffffff",
+                "primary": "#0058be",
+                "on-error-container": "#93000a",
+                "error-container": "#ffdad6",
+                "outline-variant": "#c2c6d6",
+                "on-error": "#ffffff",
+                "tertiary": "#924700",
+                "outline": "#727785",
+                "on-primary-fixed-variant": "#004395",
+                "on-primary-fixed": "#001a42",
+                "on-background": "#191c1d",
+                "inverse-primary": "#adc6ff",
+                "secondary-fixed": "#d8e2ff",
+                "secondary-fixed-dim": "#b1c6f9",
+                "on-primary-container": "#fefcff",
+                "background": "#f8f9fa",
+                "surface-container": "#edeeef",
+                "on-tertiary-fixed-variant": "#723600",
+                "on-secondary": "#ffffff",
+                "surface-container-highest": "#e1e3e4",
+                "inverse-on-surface": "#f0f1f2",
+                "on-secondary-fixed": "#001a42",
+                "on-secondary-container": "#405682",
+                "secondary": "#495e8a",
+                "inverse-surface": "#2e3132",
+                "surface-tint": "#005ac2",
+                "on-secondary-fixed-variant": "#304671",
+                "surface-dim": "#d9dadb",
+                "on-tertiary-container": "#fffbff",
+                "on-tertiary-fixed": "#311400",
+                "primary-container": "#2170e4",
+                "tertiary-fixed-dim": "#ffb786",
+                "tertiary-container": "#b75b00",
+                "on-primary": "#ffffff",
+                "surface-variant": "#e1e3e4",
+                "surface-container-lowest": "#ffffff",
+                "surface-container-low": "#f3f4f5",
+                "surface": "#f8f9fa",
+                "on-surface": "#191c1d"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed">
+<!-- SideNavBar Anchor -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-slate-50 dark:bg-slate-900 flex flex-col border-r border-slate-200 dark:border-slate-800 z-50">
+<div class="p-8">
+<h1 class="text-2xl font-bold tracking-tight text-blue-800 dark:text-blue-300 headline-font">Curator</h1>
+<p class="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 mt-1">Wealth Management</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[22px]">dashboard</span>
+<span class="font-['Manrope'] font-medium text-sm tracking-wide">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+<span class="font-['Manrope'] font-medium text-sm tracking-wide">Expenses</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined text-[22px]">category</span>
+<span class="font-['Manrope'] font-medium text-sm tracking-wide">Categories</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+<span class="font-['Manrope'] font-medium text-sm tracking-wide">Budgets</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined text-[22px]">monitoring</span>
+<span class="font-['Manrope'] font-medium text-sm tracking-wide">Statistics</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-slate-100 dark:border-slate-800">
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-medium text-sm flex items-center justify-center gap-2 shadow-sm hover:opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                Add Transaction
+            </button>
+</div>
+</aside>
+<!-- TopNavBar Anchor -->
+<header class="fixed top-0 right-0 left-64 h-16 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md flex justify-end items-center px-8 gap-6">
+<div class="flex items-center gap-4">
+<button class="p-2 text-blue-700 dark:text-blue-400 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 transition-colors">
+<span class="material-symbols-outlined">language</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 ring-2 ring-primary-container/20">
+<img class="w-full h-full object-cover" data-alt="User profile avatar smiling businessman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnVuI-LAeDbHIJnpL2d_IQ8l62rZassS2bcTWwZohftf2X8q6bEpRtb9kVjeDSTh0FFI2S1izhCOh1EqoE2ioeIIwZWzF9eKoeI3oMFf6P6zoPHpqh41vVn-uNmaubf94ts8uTYaCmIvmNomXdnr4DhTFNKBaWmYO-U8WpOitOz2D1cKs1OvWlfdwrC6yUM65UK4H7LznivrXtyFC4oqy688ksfI6653V8hLpiR43Ajlnad3aubYv1HpgGoOMphXMLaQQCu-DZT6Y"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-12 pb-20 min-h-screen">
+<div class="max-w-4xl mx-auto">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="text-4xl font-extrabold tracking-tight headline-font text-on-surface">Notifications</h2>
+<p class="text-on-surface-variant mt-2 font-body">Stay updated with your curated financial movements.</p>
+</div>
+<button class="px-5 py-2.5 rounded-lg border border-outline-variant/30 text-primary font-semibold text-sm hover:bg-surface-container-low transition-colors active:scale-95">
+                    Mark all as read
+                </button>
+</div>
+<!-- Notifications Container -->
+<div class="space-y-4">
+<!-- Unread Notification -->
+<div class="group relative flex items-start gap-6 p-6 bg-surface-container-lowest rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-12 bg-primary rounded-r-full"></div>
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-weight="fill">account_balance_wallet</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-lg text-on-surface group-hover:text-primary transition-colors">Budget Alert: Groceries</h3>
+<span class="text-xs font-label uppercase tracking-widest text-outline">2 mins ago</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed mb-3">You've reached 85% of your monthly budget for Groceries. Total spent: $850.00 of $1,000.00.</p>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-secondary-container/30 text-on-secondary-container rounded-full text-[10px] font-bold uppercase tracking-wider">Financial Alert</span>
+</div>
+</div>
+</div>
+<!-- Read Notification -->
+<div class="group flex items-start gap-6 p-6 bg-surface-container-low/50 rounded-xl transition-all duration-300 hover:bg-surface-container-lowest">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-semibold text-lg text-on-surface opacity-80">Subscription Renewed</h3>
+<span class="text-xs font-label uppercase tracking-widest text-outline">4 hours ago</span>
+</div>
+<p class="text-on-surface-variant/70 leading-relaxed mb-3">Your subscription to "Bloomberg Digital" has been successfully renewed for $34.99.</p>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider">Recurring</span>
+</div>
+</div>
+</div>
+<!-- Unread Notification -->
+<div class="group relative flex items-start gap-6 p-6 bg-surface-container-lowest rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-12 bg-primary rounded-r-full"></div>
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-tertiary-fixed-dim/20 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-weight="fill">savings</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-lg text-on-surface group-hover:text-primary transition-colors">Milestone Achieved!</h3>
+<span class="text-xs font-label uppercase tracking-widest text-outline">6 hours ago</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed mb-3">Congratulations! You've reached your savings goal of $5,000 for "European Summer '25".</p>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[10px] font-bold uppercase tracking-wider">Savings Goal</span>
+</div>
+</div>
+</div>
+<!-- Section: Yesterday -->
+<div class="pt-8 pb-4">
+<h4 class="text-xs font-label font-bold uppercase tracking-[0.2em] text-outline ml-2">Yesterday</h4>
+</div>
+<!-- Read Notification -->
+<div class="group flex items-start gap-6 p-6 bg-surface-container-low/50 rounded-xl transition-all duration-300 hover:bg-surface-container-lowest">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">group</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-semibold text-lg text-on-surface opacity-80">Shared Budget Invitation</h3>
+<span class="text-xs font-label uppercase tracking-widest text-outline">Yesterday</span>
+</div>
+<p class="text-on-surface-variant/70 leading-relaxed mb-3">Elena Gilbert invited you to join the "Home Renovations" shared budget.</p>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider">Social</span>
+</div>
+</div>
+</div>
+<!-- Read Notification (Error/Warning) -->
+<div class="group flex items-start gap-6 p-6 bg-surface-container-low/50 rounded-xl transition-all duration-300 hover:bg-surface-container-lowest">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-error-container/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-semibold text-lg text-on-surface opacity-80">Unusual Activity Detected</h3>
+<span class="text-xs font-label uppercase tracking-widest text-outline">Yesterday</span>
+</div>
+<p class="text-on-surface-variant/70 leading-relaxed mb-3">A login was detected from a new browser in San Francisco, CA. If this wasn't you, please secure your account.</p>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-error-container text-on-error-container rounded-full text-[10px] font-bold uppercase tracking-wider">Security</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Illustration (Decorative) -->
+<div class="mt-20 py-16 border-t border-outline-variant/10 flex flex-col items-center opacity-40">
+<span class="material-symbols-outlined text-6xl mb-4 text-outline">auto_awesome</span>
+<p class="text-sm font-label uppercase tracking-widest text-outline">That's all for now</p>
+</div>
+</div>
+</main>
+<!-- Footer Anchor -->
+<footer class="ml-64 w-full py-8 mt-auto border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 flex flex-col md:flex-row justify-between items-center px-12">
+<p class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">© 2024 Financial Curator. Editorial Precision in Wealth.</p>
+<div class="flex gap-8 mt-4 md:mt-0">
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all duration-300" href="#">Privacy Policy</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all duration-300" href="#">Terms of Service</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all duration-300" href="#">Cookie Policy</a>
+</div>
+</footer>
+</body></html>

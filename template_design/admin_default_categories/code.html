@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Default Categories | Financial Curator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#f8f9fa",
+              "primary-fixed": "#d8e2ff",
+              "error": "#ba1a1a",
+              "on-surface-variant": "#424754",
+              "tertiary-fixed": "#ffdcc6",
+              "surface-container-high": "#e7e8e9",
+              "primary-fixed-dim": "#adc6ff",
+              "secondary-container": "#b6ccff",
+              "on-tertiary": "#ffffff",
+              "primary": "#0058be",
+              "on-error-container": "#93000a",
+              "error-container": "#ffdad6",
+              "outline-variant": "#c2c6d6",
+              "on-error": "#ffffff",
+              "tertiary": "#924700",
+              "outline": "#727785",
+              "on-primary-fixed-variant": "#004395",
+              "on-primary-fixed": "#001a42",
+              "on-background": "#191c1d",
+              "inverse-primary": "#adc6ff",
+              "secondary-fixed": "#d8e2ff",
+              "secondary-fixed-dim": "#b1c6f9",
+              "on-primary-container": "#fefcff",
+              "background": "#f8f9fa",
+              "surface-container": "#edeeef",
+              "on-tertiary-fixed-variant": "#723600",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#e1e3e4",
+              "inverse-on-surface": "#f0f1f2",
+              "on-secondary-fixed": "#001a42",
+              "on-secondary-container": "#405682",
+              "secondary": "#495e8a",
+              "inverse-surface": "#2e3132",
+              "surface-tint": "#005ac2",
+              "on-secondary-fixed-variant": "#304671",
+              "surface-dim": "#d9dadb",
+              "on-tertiary-container": "#fffbff",
+              "on-tertiary-fixed": "#311400",
+              "primary-container": "#2170e4",
+              "tertiary-fixed-dim": "#ffb786",
+              "tertiary-container": "#b75b00",
+              "on-primary": "#ffffff",
+              "surface-variant": "#e1e3e4",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#f3f4f5",
+              "surface": "#f8f9fa",
+              "on-surface": "#191c1d"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8f9fa;
+        color: #191c1d;
+      }
+      .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto flex flex-col border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 z-50">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div>
+<h1 class="text-2xl font-bold tracking-tight text-blue-800 dark:text-blue-300 font-headline leading-tight">Curator</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-medium">Wealth Management</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                    Expenses
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+                    Categories
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                    Budgets
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="update">update</span>
+                    Recurring Expenses
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="savings">savings</span>
+                    Savings Goals
+                </a>
+<div class="pt-4 pb-2">
+<p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Administration</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+                    Statistics
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+                    Reports
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                    Users
+                </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-blue-700 dark:text-blue-400 font-bold border-r-4 border-blue-700 dark:border-blue-400 bg-blue-50/50 dark:bg-blue-900/20 font-['Manrope'] text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="settings_applications">settings_applications</span>
+                    Default Categories
+                </a>
+</nav>
+</div>
+<div class="mt-auto p-6 border-t border-slate-200">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-3 px-4 rounded-xl font-semibold text-sm shadow-lg shadow-primary/20 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                Add Transaction
+            </button>
+<div class="mt-6 flex flex-col gap-2">
+<a class="flex items-center gap-2 text-xs font-['Inter'] text-slate-400 hover:text-slate-900 uppercase tracking-widest transition-colors" href="#">
+<span class="material-symbols-outlined text-xs" data-icon="gavel">gavel</span>
+                    Privacy
+                </a>
+<a class="flex items-center gap-2 text-xs font-['Inter'] text-slate-400 hover:text-slate-900 uppercase tracking-widest transition-colors" href="#">
+<span class="material-symbols-outlined text-xs" data-icon="description">description</span>
+                    Terms
+                </a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 left-64 h-16 z-40 bg-white/80 backdrop-blur-md flex justify-end items-center px-8 gap-6 shadow-sm">
+<div class="flex items-center gap-4">
+<button class="text-slate-600 hover:text-blue-600 transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="text-slate-600 hover:text-blue-600 transition-colors">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold text-on-surface leading-none">Admin User</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-tighter">System Curator</p>
+</div>
+<img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-primary-fixed ring-4 ring-primary/5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXhG3B3ZNlQL55ViH7s6Ow9bhWGS1SG2v60lPmCDWGUeP80oDPEhoqPjTPe6i0ryFhePB_UGM9VUfXulUN-C9qcJL_8__bciumREK4VeBDEKKV0I3rLHNkEB4yzZHZZQQWXldRzYhr7d6FZdMRWOYV7E-VVX_JBYcoi5oJkRdPaF8jzB62pvOcqXo8QHflR3Ini4O0p_m6p9yd9oQUX5rIKODyCfddR8Cx_Z0c_Qv0kxod7322GzGZW5iMgtkBLgJZ486ygk4G41g"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-12 px-8 min-h-screen">
+<!-- Header Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<p class="text-sm font-label uppercase tracking-[0.2em] text-primary font-bold mb-2">System Administration</p>
+<h2 class="text-4xl font-headline font-extrabold text-on-surface tracking-tight">Default Categories</h2>
+<p class="mt-3 text-slate-500 max-w-2xl leading-relaxed">Manage the global taxonomy of financial classifications. These categories serve as the baseline for all new wealth management profiles.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 bg-surface-container-high text-on-surface font-semibold rounded-xl flex items-center gap-2 hover:bg-surface-dim transition-all">
+<span class="material-symbols-outlined" data-icon="file_download">file_download</span>
+                        Export Schema
+                    </button>
+<button class="px-6 py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-xl flex items-center gap-2 shadow-xl shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="playlist_add">playlist_add</span>
+                        New Category
+                    </button>
+</div>
+</div>
+</section>
+<!-- Bento Grid Layout for Statistics and Table -->
+<div class="grid grid-cols-12 gap-8 items-start">
+<!-- Quick Stats Sidebar (Asymmetric) -->
+<div class="col-span-12 lg:col-span-3 space-y-8">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-transparent">
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.1em] mb-4">Total Classification</p>
+<p class="text-5xl font-headline font-extrabold text-primary">24</p>
+<p class="text-xs text-slate-500 mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-tertiary" data-icon="trending_up">trending_up</span>
+                        +2 added this quarter
+                    </p>
+</div>
+<div class="bg-primary text-on-primary p-6 rounded-xl shadow-lg shadow-primary/10 overflow-hidden relative">
+<div class="relative z-10">
+<p class="text-[10px] font-bold text-primary-fixed uppercase tracking-[0.1em] mb-4">Most Used</p>
+<h4 class="text-xl font-headline font-bold mb-1">Essential Living</h4>
+<p class="text-xs text-primary-fixed-dim">Applied to 84% of user profiles</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-8xl" data-icon="receipt_long">receipt_long</span>
+</div>
+</div>
+<div class="bg-surface-container p-6 rounded-xl space-y-4">
+<h5 class="text-sm font-bold text-on-surface">Admin Tips</h5>
+<p class="text-xs text-slate-600 leading-relaxed">Maintain a maximum of 30 default categories to ensure user onboarding remains focused and editorial.</p>
+</div>
+</div>
+<!-- Main Categories Table -->
+<div class="col-span-12 lg:col-span-9">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<div class="px-8 py-6 bg-surface-container-low flex items-center justify-between">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="w-full bg-surface-container-lowest border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400" placeholder="Filter categories..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="sort_by_alpha">sort_by_alpha</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="text-left bg-surface-container-lowest border-b border-surface-container">
+<th class="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Icon</th>
+<th class="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Category Name</th>
+<th class="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Theme Color</th>
+<th class="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sort Order</th>
+<th class="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shadow-sm">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<p class="text-sm font-semibold text-on-surface">Housing &amp; Utilities</p>
+<p class="text-xs text-slate-500">Fixed overhead expenses</p>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-full bg-primary ring-4 ring-primary/10"></div>
+<span class="text-xs font-mono text-slate-600">#0058BE</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container rounded-full text-xs font-bold text-on-surface-variant">01</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed-variant shadow-sm">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<p class="text-sm font-semibold text-on-surface">Dining &amp; Leisure</p>
+<p class="text-xs text-slate-500">Variable lifestyle spending</p>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-full bg-tertiary ring-4 ring-tertiary/10"></div>
+<span class="text-xs font-mono text-slate-600">#924700</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container rounded-full text-xs font-bold text-on-surface-variant">02</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant shadow-sm">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<p class="text-sm font-semibold text-on-surface">Transportation</p>
+<p class="text-xs text-slate-500">Fuel, maintenance, and transit</p>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-full bg-secondary-fixed-dim ring-4 ring-secondary/10"></div>
+<span class="text-xs font-mono text-slate-600">#B1C6F9</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container rounded-full text-xs font-bold text-on-surface-variant">03</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5">
+<div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center text-on-error-container shadow-sm">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<p class="text-sm font-semibold text-on-surface">Health &amp; Wellness</p>
+<p class="text-xs text-slate-500">Insurance and medical costs</p>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-full bg-error ring-4 ring-error/10"></div>
+<span class="text-xs font-mono text-slate-600">#BA1A1A</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container rounded-full text-xs font-bold text-on-surface-variant">04</span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error/5 rounded-lg transition-all">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-8 py-6 bg-surface-container-lowest border-t border-surface-container flex items-center justify-between">
+<p class="text-xs text-slate-500 italic">Page 1 of 3 (24 Categories total)</p>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-400 disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary text-xs font-bold">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-xs font-bold transition-colors">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-xs font-bold transition-colors">3</button>
+</div>
+<button class="p-2 text-slate-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="ml-64 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 w-full py-8 mt-auto flex flex-col md:flex-row justify-between items-center px-12">
+<div class="mb-4 md:mb-0">
+<span class="font-semibold text-slate-700 dark:text-slate-300 font-headline">Financial Curator</span>
+<p class="text-slate-500 dark:text-slate-400 font-['Inter'] text-[10px] uppercase tracking-widest mt-1">© 2024 Financial Curator. Editorial Precision in Wealth.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-slate-400 dark:text-slate-500 font-['Inter'] text-xs uppercase tracking-widest hover:text-slate-900 dark:hover:text-slate-100 hover:underline transition-all duration-300" href="#">Privacy Policy</a>
+<a class="text-slate-400 dark:text-slate-500 font-['Inter'] text-xs uppercase tracking-widest hover:text-slate-900 dark:hover:text-slate-100 hover:underline transition-all duration-300" href="#">Terms of Service</a>
+<a class="text-slate-400 dark:text-slate-500 font-['Inter'] text-xs uppercase tracking-widest hover:text-slate-900 dark:hover:text-slate-100 hover:underline transition-all duration-300" href="#">Cookie Policy</a>
+</div>
+</footer>
+</body></html>

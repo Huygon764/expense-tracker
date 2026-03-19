@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SpendWise | Set Your First Budget</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-container": "#fffbff",
+                        "inverse-surface": "#2e3132",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#001a42",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#924700",
+                        "on-surface-variant": "#424754",
+                        "outline": "#727785",
+                        "surface": "#f8f9fa",
+                        "primary-fixed-dim": "#adc6ff",
+                        "surface-variant": "#e1e3e4",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container": "#edeeef",
+                        "on-tertiary-fixed": "#311400",
+                        "error-container": "#ffdad6",
+                        "primary": "#0058be",
+                        "tertiary-fixed": "#ffdcc6",
+                        "secondary-fixed-dim": "#b1c6f9",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9fa",
+                        "on-primary-container": "#fefcff",
+                        "primary-fixed": "#d8e2ff",
+                        "tertiary-container": "#b75b00",
+                        "surface-bright": "#f8f9fa",
+                        "surface-tint": "#005ac2",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-primary-fixed-variant": "#004395",
+                        "secondary": "#495e8a",
+                        "inverse-primary": "#adc6ff",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-low": "#f3f4f5",
+                        "on-surface": "#191c1d",
+                        "outline-variant": "#c2c6d6",
+                        "on-secondary-fixed": "#001a42",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-secondary-fixed-variant": "#304671",
+                        "on-secondary-container": "#405682",
+                        "on-background": "#191c1d",
+                        "primary-container": "#2170e4",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#b6ccff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-error-container": "#93000a"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .editorial-headline {
+            font-family: 'Manrope', sans-serif;
+        }
+        .ambient-shadow {
+            box-shadow: 0 20px 40px rgba(25, 28, 29, 0.04), 0 8px 16px rgba(25, 28, 29, 0.02);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen flex-col items-center justify-center p-6">
+<div class="w-full max-w-lg">
+<!-- Brand Header (Minimalist) -->
+<div class="mb-12 flex flex-col items-center text-center">
+<div class="bg-primary-container/10 p-4 rounded-xl mb-6">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<h1 class="editorial-headline text-4xl font-extrabold tracking-tight text-on-surface mb-3">Set Your First Budget</h1>
+<p class="text-on-surface-variant max-w-xs leading-relaxed">Financial mastery begins with a plan. Tell SpendWise how much you intend to manage.</p>
+</div>
+<!-- Onboarding Card -->
+<div class="bg-surface-container-lowest rounded-xl p-8 ambient-shadow border border-outline-variant/10">
+<form class="space-y-8">
+<!-- Amount Input -->
+<div class="space-y-2">
+<label class="block font-label text-xs uppercase tracking-widest font-semibold text-on-surface-variant" for="budget-amount">Budget Amount</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-on-surface-variant font-medium">
+                            $
+                        </div>
+<input class="block w-full bg-surface-container-low border-0 focus:ring-2 focus:ring-primary/20 text-2xl font-headline font-bold text-on-surface py-4 pl-8 rounded-lg transition-all" id="budget-amount" placeholder="0.00" type="text" value="100,000"/>
+</div>
+</div>
+<!-- Quick Select Grid -->
+<div class="space-y-3">
+<span class="block font-label text-xs uppercase tracking-widest font-semibold text-on-surface-variant">Quick Select</span>
+<div class="grid grid-cols-3 gap-3">
+<button class="py-2.5 px-4 rounded-lg bg-surface-container-high hover:bg-surface-dim text-on-surface font-medium text-sm transition-all active:scale-[0.98]" type="button">50k</button>
+<button class="py-2.5 px-4 rounded-lg bg-primary-container text-on-primary-container font-bold text-sm shadow-sm transition-all active:scale-[0.98]" type="button">100k</button>
+<button class="py-2.5 px-4 rounded-lg bg-surface-container-high hover:bg-surface-dim text-on-surface font-medium text-sm transition-all active:scale-[0.98]" type="button">200k</button>
+<button class="py-2.5 px-4 rounded-lg bg-surface-container-high hover:bg-surface-dim text-on-surface font-medium text-sm transition-all active:scale-[0.98]" type="button">500k</button>
+<button class="py-2.5 px-4 rounded-lg bg-surface-container-high hover:bg-surface-dim text-on-surface font-medium text-sm transition-all active:scale-[0.98]" type="button">1M</button>
+<button class="py-2.5 px-4 rounded-lg bg-surface-container-high hover:bg-surface-dim text-on-surface font-medium text-sm transition-all active:scale-[0.98]" type="button">2M</button>
+</div>
+</div>
+<!-- Budget Type -->
+<div class="space-y-2">
+<label class="block font-label text-xs uppercase tracking-widest font-semibold text-on-surface-variant" for="budget-type">Frequency</label>
+<div class="relative">
+<select class="block w-full appearance-none bg-surface-container-low border-0 focus:ring-2 focus:ring-primary/20 py-4 px-4 pr-10 rounded-lg text-on-surface font-medium transition-all" id="budget-type">
+<option>Weekly</option>
+<option selected="">Monthly</option>
+<option>Yearly</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="unfold_more">unfold_more</span>
+</div>
+</div>
+</div>
+<!-- CTA -->
+<div class="pt-4">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold py-4 px-6 rounded-lg text-lg flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-md active:scale-[0.98]" type="submit">
+                        Get Started
+                        <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Progress Indicator -->
+<div class="mt-12 flex justify-center items-center gap-4">
+<div class="h-1.5 w-8 rounded-full bg-surface-container-highest"></div>
+<div class="h-1.5 w-12 rounded-full bg-primary shadow-sm"></div>
+<div class="h-1.5 w-8 rounded-full bg-surface-container-highest"></div>
+</div>
+<p class="mt-8 text-center text-xs font-label uppercase tracking-widest text-outline">Step 2 of 3: Wealth Mapping</p>
+</div>
+<!-- Footer Copyright -->
+<footer class="mt-auto py-8">
+<p class="text-xs uppercase tracking-widest font-body text-slate-400">© 2024 SpendWise. Editorial Precision in Wealth.</p>
+</footer>
+</body></html>

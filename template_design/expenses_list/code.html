@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Expenses | Financial Curator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-bright": "#f8f9fa",
+                "primary-fixed": "#d8e2ff",
+                "error": "#ba1a1a",
+                "on-surface-variant": "#424754",
+                "tertiary-fixed": "#ffdcc6",
+                "surface-container-high": "#e7e8e9",
+                "primary-fixed-dim": "#adc6ff",
+                "secondary-container": "#b6ccff",
+                "on-tertiary": "#ffffff",
+                "primary": "#0058be",
+                "on-error-container": "#93000a",
+                "error-container": "#ffdad6",
+                "outline-variant": "#c2c6d6",
+                "on-error": "#ffffff",
+                "tertiary": "#924700",
+                "outline": "#727785",
+                "on-primary-fixed-variant": "#004395",
+                "on-primary-fixed": "#001a42",
+                "on-background": "#191c1d",
+                "inverse-primary": "#adc6ff",
+                "secondary-fixed": "#d8e2ff",
+                "secondary-fixed-dim": "#b1c6f9",
+                "on-primary-container": "#fefcff",
+                "background": "#f8f9fa",
+                "surface-container": "#edeeef",
+                "on-tertiary-fixed-variant": "#723600",
+                "on-secondary": "#ffffff",
+                "surface-container-highest": "#e1e3e4",
+                "inverse-on-surface": "#f0f1f2",
+                "on-secondary-fixed": "#001a42",
+                "on-secondary-container": "#405682",
+                "secondary": "#495e8a",
+                "inverse-surface": "#2e3132",
+                "surface-tint": "#005ac2",
+                "on-secondary-fixed-variant": "#304671",
+                "surface-dim": "#d9dadb",
+                "on-tertiary-container": "#fffbff",
+                "on-tertiary-fixed": "#311400",
+                "primary-container": "#2170e4",
+                "tertiary-fixed-dim": "#ffb786",
+                "tertiary-container": "#b75b00",
+                "on-primary": "#ffffff",
+                "surface-variant": "#e1e3e4",
+                "surface-container-lowest": "#ffffff",
+                "surface-container-low": "#f3f4f5",
+                "surface": "#f8f9fa",
+                "on-surface": "#191c1d"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #191c1d;
+        }
+        .editorial-shadow {
+            box-shadow: 0 20px 40px rgba(25, 28, 29, 0.04), 0 8px 16px rgba(25, 28, 29, 0.02);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #0058be 0%, #2170e4 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-slate-50 flex flex-col border-r border-slate-200 z-50">
+<div class="p-8">
+<div class="flex items-center gap-3 mb-10">
+<div class="w-10 h-10 primary-gradient rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div>
+<h1 class="text-2xl font-bold tracking-tight text-blue-800">Curator</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Wealth Management</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-700 font-bold border-r-4 border-blue-700 bg-blue-50/50 transition-colors duration-200 font-['Manrope'] text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                    Expenses
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+                    Categories
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                    Budgets
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="update">update</span>
+                    Recurring Expenses
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors duration-200 font-['Manrope'] font-medium text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="savings">savings</span>
+                    Savings Goals
+                </a>
+</nav>
+</div>
+<div class="mt-auto p-8 border-t border-slate-100">
+<div class="space-y-1 mb-6">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-900 transition-colors text-xs uppercase tracking-widest font-['Inter']" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="gavel">gavel</span>
+                    Privacy
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-900 transition-colors text-xs uppercase tracking-widest font-['Inter']" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="description">description</span>
+                    Terms
+                </a>
+</div>
+<button class="w-full py-3 px-4 primary-gradient text-white rounded-xl font-bold text-sm editorial-shadow active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                Add Transaction
+            </button>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-64 h-16 z-40 bg-white/80 backdrop-blur-md flex justify-end items-center px-8 gap-6 shadow-sm">
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 hover:text-blue-600 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-600 hover:text-blue-600 transition-colors">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right">
+<p class="text-xs font-bold text-slate-900 leading-none">Alex Sterling</p>
+<p class="text-[10px] text-slate-500">Premium Curator</p>
+</div>
+<img class="w-9 h-9 rounded-full object-cover ring-2 ring-blue-50 group-hover:ring-blue-100 transition-all" data-alt="User professional portrait profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGoUroCr9mPB5HVfmchkdqC2cnB5G5X8IKOfYlul3WU6iqBxJjUfdXrNKrVQfasTXo11teJ-8XD-XJOrP1xTacggi_MdO6fO0XsREbKDCraQeedwvyhxU9t3ebhCiVdwhkzNDQr1alLeUs3nmhax_aICqox-dIi6pgJ2ZgrYbUJqfwbQxSLHbNL3HBsERd_ZAEKEfwjWMHhV117rvYpiOtBoq52ZEw-fBnywat_b0jDuAYVoiW1RCTjt1UDap6pkewcWcX4igcBxY"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="max-w-7xl mx-auto px-12 py-12">
+<!-- Header Section with Editorial Asymmetry -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+<div class="max-w-xl">
+<h2 class="text-5xl font-['Manrope'] font-extrabold tracking-tight text-slate-900 mb-4">Expenses Ledger</h2>
+<p class="text-slate-500 font-['Inter'] leading-relaxed">A refined overview of your capital outflows. Use the granular controls to audit specific timeframes or categories.</p>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<button class="px-6 py-3 bg-surface-container-high text-on-surface font-semibold rounded-xl hover:bg-surface-dim transition-colors text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="filter_list">filter_list</span>
+                        Clear filter
+                    </button>
+<button class="px-6 py-3 primary-gradient text-white font-bold rounded-xl editorial-shadow active:scale-[0.98] transition-transform text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="add_circle">add_circle</span>
+                        Add Expense
+                    </button>
+</div>
+</div>
+<!-- Search & Filters Block -->
+<div class="bg-surface-container rounded-xl p-2 mb-8 flex flex-col lg:flex-row items-center gap-2">
+<div class="flex-1 w-full relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-sm font-['Inter'] placeholder:text-slate-400" placeholder="Search transactions, merchants, or notes..." type="text"/>
+</div>
+<div class="flex bg-surface-container-low rounded-lg p-1 w-full lg:w-auto">
+<button class="flex-1 lg:flex-none px-6 py-2 text-xs font-bold uppercase tracking-widest text-blue-700 bg-white rounded-md shadow-sm">Today</button>
+<button class="flex-1 lg:flex-none px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-slate-900 transition-colors">This Week</button>
+<button class="flex-1 lg:flex-none px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-slate-900 transition-colors">This Month</button>
+<button class="flex-1 lg:flex-none px-6 py-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-slate-900 transition-colors">This Year</button>
+</div>
+</div>
+<!-- Transactions List (Bento-style editorial cards) -->
+<div class="space-y-4">
+<!-- List Header (Labels) -->
+<div class="grid grid-cols-12 px-8 py-2 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
+<div class="col-span-2">Date &amp; Time</div>
+<div class="col-span-3">Category</div>
+<div class="col-span-3">Note</div>
+<div class="col-span-2 text-right">Amount</div>
+<div class="col-span-2 text-right">Actions</div>
+</div>
+<!-- Transaction Row 1 -->
+<div class="grid grid-cols-12 items-center bg-surface-container-lowest p-6 rounded-xl editorial-shadow hover:translate-y-[-2px] transition-transform duration-300">
+<div class="col-span-2">
+<p class="text-sm font-bold text-slate-900">Oct 24, 2024</p>
+<p class="text-[10px] text-slate-400">14:32 PM</p>
+</div>
+<div class="col-span-3 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] font-bold uppercase tracking-wider">Dining Out</span>
+</div>
+<div class="col-span-3">
+<p class="text-sm text-slate-600 font-medium">Business lunch at The Grotto</p>
+</div>
+<div class="col-span-2 text-right">
+<p class="text-lg font-['Manrope'] font-bold text-slate-900">$124.50</p>
+</div>
+<div class="col-span-2 flex justify-end gap-2">
+<button class="p-2 rounded-lg bg-surface-container text-slate-500 hover:text-blue-700 hover:bg-blue-50 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-slate-500 hover:text-error hover:bg-error-container/20 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Transaction Row 2 -->
+<div class="grid grid-cols-12 items-center bg-surface-container-low p-6 rounded-xl border border-transparent hover:border-slate-200 transition-all duration-300">
+<div class="col-span-2">
+<p class="text-sm font-bold text-slate-900">Oct 23, 2024</p>
+<p class="text-[10px] text-slate-400">09:15 AM</p>
+</div>
+<div class="col-span-3 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-bold uppercase tracking-wider">Groceries</span>
+</div>
+<div class="col-span-3">
+<p class="text-sm text-slate-600 font-medium">Weekly restock of essentials</p>
+</div>
+<div class="col-span-2 text-right">
+<p class="text-lg font-['Manrope'] font-bold text-slate-900">$82.14</p>
+</div>
+<div class="col-span-2 flex justify-end gap-2">
+<button class="p-2 rounded-lg bg-white/50 text-slate-500 hover:text-blue-700 hover:bg-white transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-white/50 text-slate-500 hover:text-error hover:bg-white transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Transaction Row 3 -->
+<div class="grid grid-cols-12 items-center bg-surface-container-lowest p-6 rounded-xl editorial-shadow hover:translate-y-[-2px] transition-transform duration-300">
+<div class="col-span-2">
+<p class="text-sm font-bold text-slate-900">Oct 22, 2024</p>
+<p class="text-[10px] text-slate-400">18:45 PM</p>
+</div>
+<div class="col-span-3 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed text-primary flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-bold uppercase tracking-wider">Transport</span>
+</div>
+<div class="col-span-3">
+<p class="text-sm text-slate-600 font-medium">Fuel for cross-state travel</p>
+</div>
+<div class="col-span-2 text-right">
+<p class="text-lg font-['Manrope'] font-bold text-slate-900">$55.00</p>
+</div>
+<div class="col-span-2 flex justify-end gap-2">
+<button class="p-2 rounded-lg bg-surface-container text-slate-500 hover:text-blue-700 hover:bg-blue-50 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-slate-500 hover:text-error hover:bg-error-container/20 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Transaction Row 4 -->
+<div class="grid grid-cols-12 items-center bg-surface-container-low p-6 rounded-xl border border-transparent hover:border-slate-200 transition-all duration-300">
+<div class="col-span-2">
+<p class="text-sm font-bold text-slate-900">Oct 21, 2024</p>
+<p class="text-[10px] text-slate-400">10:00 AM</p>
+</div>
+<div class="col-span-3 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-error-container text-error flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+</div>
+<span class="px-3 py-1 rounded-full bg-error-container text-on-error-container text-[10px] font-bold uppercase tracking-wider">Utilities</span>
+</div>
+<div class="col-span-3">
+<p class="text-sm text-slate-600 font-medium">Monthly High-Speed Internet Bill</p>
+</div>
+<div class="col-span-2 text-right">
+<p class="text-lg font-['Manrope'] font-bold text-slate-900">$215.00</p>
+</div>
+<div class="col-span-2 flex justify-end gap-2">
+<button class="p-2 rounded-lg bg-white/50 text-slate-500 hover:text-blue-700 hover:bg-white transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+</button>
+<button class="p-2 rounded-lg bg-white/50 text-slate-500 hover:text-error hover:bg-white transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Sophisticated Pagination -->
+<div class="mt-16 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-slate-200 pt-8">
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400">Showing 1-10 of 124 Results</p>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high text-slate-400 cursor-not-allowed">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white font-bold text-xs">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high text-slate-600 hover:bg-slate-200 transition-colors font-bold text-xs">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high text-slate-600 hover:bg-slate-200 transition-colors font-bold text-xs">3</button>
+<div class="w-10 h-10 flex items-center justify-center text-slate-400">...</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high text-slate-600 hover:bg-slate-200 transition-colors font-bold text-xs">13</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-high text-slate-600 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="ml-64 flex flex-col md:flex-row justify-between items-center px-12 w-full py-8 mt-auto border-t border-slate-200 bg-slate-50">
+<p class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500">
+            © 2024 Financial Curator. Editorial Precision in Wealth.
+        </p>
+<div class="flex gap-8 mt-4 md:mt-0">
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all duration-300" href="#">Privacy Policy</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all duration-300" href="#">Terms of Service</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all duration-300" href="#">Cookie Policy</a>
+</div>
+</footer>
+</body></html>
