@@ -37,6 +37,10 @@ return [
     'forgot_password_help' => 'Nhập email và chúng tôi sẽ gửi link đặt lại mật khẩu.',
     'dont_have_account' => 'Chưa có tài khoản?',
     'already_have_account' => 'Đã có tài khoản?',
+    'welcome_back' => 'Chào mừng trở lại',
+    'create_account_subtitle' => 'Tạo tài khoản của bạn',
+    'or' => 'hoặc',
+    'register_with_google' => 'Đăng ký với Google',
 
     // Navigation
     'dashboard' => 'Tổng quan',
@@ -52,6 +56,7 @@ return [
     'admin' => 'Quản trị',
     'manage_users' => 'Quản lý người dùng',
     'manage_categories' => 'Quản lý danh mục',
+    'more' => 'Thêm',
 
     // Dashboard
     'monthly_budget' => 'Ngân sách tháng',
@@ -72,6 +77,13 @@ return [
     'set_budget_now' => 'Set ngay',
     'percent_vs_last_month' => 'so với tháng trước',
     'no_expenses_start' => 'Chưa có chi tiêu nào. Bắt đầu ghi nhận!',
+    'good_morning' => 'Chao buoi sang',
+    'good_afternoon' => 'Chao buoi chieu',
+    'good_evening' => 'Chao buoi toi',
+    'monthly_spending' => 'Chi tieu thang',
+    'top_category' => 'Danh muc hang dau',
+    'daily_average' => 'Trung binh ngay',
+    'budget_overview' => 'Tong quan ngan sach',
 
     // Expenses
     'add_expense' => 'Thêm chi tiêu',
@@ -93,6 +105,7 @@ return [
     'create_category_first' => 'Hãy tạo danh mục trước khi thêm chi tiêu.',
 
     // Categories
+    'manage_your_categories' => 'Quản lý danh mục chi tiêu của bạn',
     'add_category' => 'Thêm danh mục',
     'edit_category' => 'Sửa danh mục',
     'create_category' => 'Tạo danh mục',
@@ -178,7 +191,10 @@ return [
 
     // Profile
     'edit_profile' => 'Chỉnh sửa hồ sơ',
+    'personal_identity' => 'Thông tin cá nhân',
+    'preferences' => 'Tùy chọn',
     'email_notifications' => 'Thông báo email',
+    'email_notifications_hint' => 'Nhận cảnh báo ngân sách và báo cáo qua email',
     'language' => 'Ngôn ngữ',
     'english' => 'Tiếng Anh',
     'vietnamese' => 'Tiếng Việt',

@@ -1,29 +1,61 @@
-<h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ __('messages.set_budget') }}</h1>
-<p class="text-gray-600 dark:text-gray-400 mb-6">{{ __('messages.set_budget_help') }}</p>
+<div class="max-w-lg mx-auto w-full">
+    <x-card class="p-8">
+        {{-- Logo --}}
+        <div class="text-center mb-6">
+            <a href="/" class="inline-block font-display text-2xl font-bold text-primary tracking-tight">
+                {{ __('messages.app_name') }}
+            </a>
+        </div>
 
-<form method="POST" action="{{ route('onboarding.storeStep2') }}" class="space-y-4">
-    @csrf
-    <div>
-        <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.period') }}</label>
-        <select name="type" id="type" required
-            class="mt-1 block w-full max-w-xs rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-            <option value="weekly" {{ old('type') === 'weekly' ? 'selected' : '' }}>{{ __('messages.weekly') }}</option>
-            <option value="monthly" {{ old('type', 'monthly') === 'monthly' ? 'selected' : '' }}>{{ __('messages.monthly') }}</option>
-        </select>
-        @error('type')
-            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-        @enderror
-    </div>
-    <div>
-        <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.amount') }}</label>
-        <input type="number" name="amount" id="amount" value="{{ old('amount') }}" required min="1" step="0.01"
-            class="mt-1 block w-full max-w-xs rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-        @error('amount')
-            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-        @enderror
-    </div>
-    <div class="flex gap-3 pt-2">
-        <a href="{{ route('onboarding.step1') }}" class="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.back') }}</a>
-        <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500">{{ __('messages.finish') }}</button>
-    </div>
-</form>
+        {{-- Step progress indicator --}}
+        <div class="flex items-center justify-center gap-3 mb-8">
+            {{-- Step 1: completed --}}
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary text-on-primary text-sm font-semibold">
+                    <x-icon name="check" class="w-4 h-4" />
+                </span>
+                <span class="text-xs font-medium text-on-surface-variant hidden sm:inline">{{ __('messages.categories') }}</span>
+            </div>
+
+            {{-- Connector --}}
+            <div class="w-12 h-0.5 rounded-full bg-primary"></div>
+
+            {{-- Step 2: active --}}
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-primary text-on-primary text-sm font-bold shadow-editorial-sm">
+                    2
+                </span>
+                <span class="text-xs font-semibold text-on-surface hidden sm:inline">{{ __('messages.budgets') }}</span>
+            </div>
+        </div>
+
+        {{-- Header --}}
+        <div class="text-center mb-8">
+            <h1 class="font-display text-2xl font-bold text-on-surface">{{ __('messages.set_budget') }}</h1>
+            <p class="text-sm text-on-surface-variant mt-1.5">{{ __('messages.set_budget_help') }}</p>
+        </div>
+
+        <form method="POST" action="{{ route('onboarding.storeStep2') }}" class="space-y-6">
+            @csrf
+
+            {{-- Period selector --}}
+            <x-form-select name="type" :label="__('messages.period')" required>
+                <option value="weekly" {{ old('type') === 'weekly' ? 'selected' : '' }}>{{ __('messages.weekly') }}</option>
+                <option value="monthly" {{ old('type', 'monthly') === 'monthly' ? 'selected' : '' }}>{{ __('messages.monthly') }}</option>
+            </x-form-select>
+
+            {{-- Amount input with quick buttons --}}
+            <x-amount-input name="amount" :value="old('amount')" required :label="__('messages.amount')" />
+
+            {{-- Actions --}}
+            <div class="flex items-center justify-between pt-2" style="border-top: 1px solid rgba(191,201,200,0.15);">
+                <x-btn variant="ghost" :href="route('onboarding.step1')" icon="arrow-left">
+                    {{ __('messages.back') }}
+                </x-btn>
+                <x-btn type="submit" icon="check">
+                    {{ __('messages.finish') }}
+                </x-btn>
+            </div>
+        </form>
+    </x-card>
+</div>

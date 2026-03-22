@@ -6,6 +6,67 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Fonts */
+    --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    /* Primary */
+    --color-primary: #0058be;
+    --color-primary-container: #2170e4;
+    --color-on-primary: #ffffff;
+
+    /* Secondary */
+    --color-secondary: #495e8a;
+    --color-secondary-container: #d6e3ff;
+    --color-secondary-fixed: #d6e3ff;
+    --color-on-secondary-fixed-variant: #2c4a7c;
+
+    /* Tertiary */
+    --color-tertiary: #924700;
+    --color-tertiary-container: #ffdcbe;
+
+    /* Error */
+    --color-error: #ba1a1a;
+    --color-error-container: #ffdad6;
+
+    /* Surface hierarchy */
+    --color-surface: #f8f9fa;
+    --color-surface-container-low: #f1f3f4;
+    --color-surface-container: #edeeef;
+    --color-surface-container-high: #e2e3e5;
+    --color-surface-container-highest: #d6d8da;
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-dim: #d7dadb;
+    --color-surface-bright: #f8f9fa;
+
+    /* Text */
+    --color-on-surface: #191c1d;
+    --color-on-surface-variant: #3f4948;
+    --color-outline-variant: #bfc9c8;
+
+    /* Shadows */
+    --shadow-editorial: 0 20px 40px rgba(25, 28, 29, 0.04), 0 8px 16px rgba(25, 28, 29, 0.02);
+    --shadow-editorial-sm: 0 8px 16px rgba(25, 28, 29, 0.03), 0 4px 8px rgba(25, 28, 29, 0.02);
+    --shadow-editorial-lg: 0 32px 64px rgba(25, 28, 29, 0.06), 0 16px 32px rgba(25, 28, 29, 0.03);
+
+    /* Spacing */
+    --spacing-18: 4.5rem;
+    --spacing-22: 5.5rem;
+}
+
+/* Gradient utility for primary CTAs */
+@utility bg-gradient-primary {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));
+}
+
+/* Glass effect for floating elements */
+@utility bg-glass {
+    background: rgba(248, 249, 250, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/* Ghost border for inputs */
+@utility border-ghost {
+    border: 1px solid rgba(191, 201, 200, 0.15);
 }

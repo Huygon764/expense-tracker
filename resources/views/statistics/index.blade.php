@@ -1,144 +1,183 @@
 @extends('layouts.app')
 
-@section('title', __('messages.statistics'))
+@section('page-title', __('messages.statistics'))
 
 @section('content')
-<div class="space-y-6">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ __('messages.statistics') }}</h1>
+<div class="space-y-8">
 
-    {{-- Filter: preset + custom --}}
-    <form method="GET" action="{{ route('statistics.index') }}" class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 flex flex-wrap items-end gap-4">
-        <div>
-            <label for="period" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.period_preset') }}</label>
-            <select name="period" id="period" class="mt-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100 text-sm">
-                <option value="today" {{ request('period') === 'today' ? 'selected' : '' }}>{{ __('messages.today') }}</option>
-                <option value="week" {{ request('period') === 'week' ? 'selected' : '' }}>{{ __('messages.this_week') }}</option>
-                <option value="month" {{ request('period') === 'month' || !request('period') ? 'selected' : '' }}>{{ __('messages.this_month') }}</option>
-                <option value="year" {{ request('period') === 'year' ? 'selected' : '' }}>{{ __('messages.this_year') }}</option>
-                <option value="custom" {{ $period === 'custom' ? 'selected' : '' }}>{{ __('messages.custom') }}</option>
-            </select>
-        </div>
-        <div>
-            <label for="date_from" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.date_from_custom') }}</label>
-            <input type="date" name="date_from" id="date_from" value="{{ $date_from }}"
-                class="mt-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100 text-sm">
-        </div>
-        <div>
-            <label for="date_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.date_to') }}</label>
-            <input type="date" name="date_to" id="date_to" value="{{ $date_to }}"
-                class="mt-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100 text-sm">
-        </div>
-        <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500">{{ __('messages.view_btn') }}</button>
-    </form>
+    {{-- Page header --}}
+    <div>
+        <h1 class="text-3xl font-display font-bold text-on-surface">{{ __('messages.statistics') }}</h1>
+    </div>
 
-    {{-- Total + compare previous period --}}
-    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
-        <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">{{ __('messages.total_in_period') }}</h2>
-        <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">{{ $date_from }} — {{ $date_to }}</p>
-        <p class="mt-1 text-xl font-semibold text-gray-900 dark:text-gray-100">{{ number_format($total, 0, '.', ',') }}</p>
-        @if($daysInRange > 0)
-            <p class="mt-0.5 text-sm text-gray-500 dark:text-gray-400">{{ __('messages.avg_per_day_label', ['amount' => number_format($avgPerDay, 0, '.', ',')]) }}</p>
-        @endif
-        <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
-            <p class="text-sm text-gray-700 dark:text-gray-300">{{ __('messages.this_period') }}: {{ number_format($total, 0, '.', ',') }} — {{ __('messages.prev_period') }}: {{ number_format($previousTotal, 0, '.', ',') }}</p>
-            <p class="mt-1 text-sm {{ $diffAmount > 0 ? 'text-red-600 dark:text-red-400' : ($diffAmount < 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400') }}">
-                {{ __('messages.difference') }}: {{ $diffAmount >= 0 ? '+' : '' }}{{ number_format($diffAmount, 0, '.', ',') }} ({{ $diffPercent >= 0 ? '+' : '' }}{{ $diffPercent }}%)
-                @if($diffAmount > 0) ↑ @elseif($diffAmount < 0) ↓ @endif
-            </p>
+    {{-- Period filter --}}
+    <x-card>
+        <form method="GET" action="{{ route('statistics.index') }}" class="space-y-4">
+            {{-- Pill buttons --}}
+            <div class="flex flex-wrap gap-2">
+                @php
+                    $periods = [
+                        'today' => __('messages.today'),
+                        'week' => __('messages.this_week'),
+                        'month' => __('messages.this_month'),
+                        'year' => __('messages.this_year'),
+                        'custom' => __('messages.custom'),
+                    ];
+                    $currentPeriod = $period ?? request('period', 'month');
+                @endphp
+                @foreach($periods as $key => $label)
+                    <button type="submit"
+                            name="period"
+                            value="{{ $key }}"
+                            class="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-150
+                                {{ $currentPeriod === $key
+                                    ? 'bg-primary text-on-primary shadow-editorial-sm'
+                                    : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high' }}">
+                        {{ $label }}
+                    </button>
+                @endforeach
+            </div>
+
+            {{-- Custom date range --}}
+            <div id="custom-date-range" class="{{ $currentPeriod === 'custom' ? '' : 'hidden' }}">
+                <div class="flex flex-wrap items-end gap-4 pt-4" style="border-top: 1px solid rgba(191,201,200,0.15);">
+                    <input type="hidden" name="period" value="custom" id="hidden-period">
+                    <x-form-input name="date_from" :label="__('messages.date_from_custom')" type="date" :value="$date_from" />
+                    <x-form-input name="date_to" :label="__('messages.date_to')" type="date" :value="$date_to" />
+                    <x-btn type="submit" variant="primary" icon="search">{{ __('messages.view_btn') }}</x-btn>
+                </div>
+            </div>
+        </form>
+    </x-card>
+
+    {{-- Hero stat: Total spending --}}
+    <div class="bg-gradient-primary rounded-2xl shadow-editorial p-8 text-on-primary">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+                <p class="text-sm font-semibold uppercase tracking-widest text-on-primary/70">{{ __('messages.total_in_period') }}</p>
+                <p class="mt-1 text-sm text-on-primary/70">{{ $date_from }} — {{ $date_to }}</p>
+                <p class="mt-3 text-4xl md:text-5xl font-display font-bold">{{ number_format($total, 0, '.', ',') }}</p>
+                @if($daysInRange > 0)
+                    <p class="mt-2 text-sm text-on-primary/70">{{ __('messages.avg_per_day_label', ['amount' => number_format($avgPerDay, 0, '.', ',')]) }}</p>
+                @endif
+            </div>
+            <div class="flex flex-col items-start md:items-end gap-2">
+                {{-- Comparison to previous period --}}
+                <div class="bg-white/15 backdrop-blur-sm rounded-xl px-5 py-3">
+                    <p class="text-xs text-on-primary/70 uppercase tracking-wider font-semibold">{{ __('messages.prev_period') }}</p>
+                    <p class="text-lg font-display font-bold text-on-primary">{{ number_format($previousTotal, 0, '.', ',') }}</p>
+                </div>
+                <div class="flex items-center gap-2 px-2">
+                    @if($diffAmount > 0)
+                        <x-icon name="trending-up" class="w-5 h-5 text-on-primary" />
+                    @elseif($diffAmount < 0)
+                        <x-icon name="trending-down" class="w-5 h-5 text-on-primary" />
+                    @endif
+                    <span class="text-sm font-semibold text-on-primary">
+                        {{ $diffAmount >= 0 ? '+' : '' }}{{ number_format($diffAmount, 0, '.', ',') }}
+                        ({{ $diffPercent >= 0 ? '+' : '' }}{{ $diffPercent }}%)
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 
-    {{-- Pie chart --}}
-    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
-        <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">{{ __('messages.spending_by_category') }}</h2>
-        @if($pieLabels->isNotEmpty())
-            <div class="h-64">
-                <canvas id="chart-pie"></canvas>
+    {{-- Charts grid --}}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {{-- Doughnut chart (category breakdown) --}}
+        <x-card>
+            <h2 class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant mb-4">{{ __('messages.spending_by_category') }}</h2>
+            @if($pieLabels->isNotEmpty())
+                <div class="h-72 flex items-center justify-center">
+                    <canvas id="chart-pie"></canvas>
+                </div>
+            @else
+                <div class="h-72 flex items-center justify-center">
+                    <p class="text-sm text-on-surface-variant">{{ __('messages.no_data') }}</p>
+                </div>
+            @endif
+        </x-card>
+
+        {{-- Bar chart (period) --}}
+        <x-card>
+            <h2 class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant mb-4">{{ __('messages.spending_by_time') }}</h2>
+            <div class="overflow-x-auto">
+                <div class="h-72 min-w-[280px]" style="min-width: {{ max(280, $barLabels->count() * 24) }}px;">
+                    <canvas id="chart-bar"></canvas>
+                </div>
             </div>
-        @else
-            <p class="py-8 text-center text-gray-500 dark:text-gray-400">{{ __('messages.no_data') }}</p>
-        @endif
+        </x-card>
     </div>
 
     {{-- Top 5 categories --}}
-    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
-        <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">{{ __('messages.top_5_categories') }}</h2>
+    <x-card>
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant mb-5">{{ __('messages.top_5_categories') }}</h2>
         @if(!empty($topCategories))
-            <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.category') }}</th>
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.amount') }}</th>
-                        <th scope="col" class="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">%</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @foreach($topCategories as $row)
-                        <tr class="bg-white dark:bg-gray-800">
-                            <td class="px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{{ $row['category_name'] }}</td>
-                            <td class="px-4 py-2 text-sm text-right text-gray-900 dark:text-gray-100">{{ number_format($row['total'], 0, '.', ',') }}</td>
-                            <td class="px-4 py-2 text-sm text-right text-gray-600 dark:text-gray-400">{{ $row['percent'] }}%</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="space-y-4">
+                @foreach($topCategories as $row)
+                    <div class="flex items-center gap-4">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-sm font-semibold text-on-surface truncate">{{ $row['category_name'] }}</span>
+                                <span class="text-sm font-semibold text-on-surface ml-2 shrink-0">{{ number_format($row['total'], 0, '.', ',') }}</span>
+                            </div>
+                            <x-progress-bar :percent="$row['percent']" color="primary" height="h-2" />
+                        </div>
+                        <span class="text-xs font-semibold text-on-surface-variant w-10 text-right shrink-0">{{ $row['percent'] }}%</span>
+                    </div>
+                @endforeach
             </div>
         @else
-            <p class="py-4 text-center text-gray-500 dark:text-gray-400">{{ __('messages.no_data') }}</p>
+            <p class="py-6 text-center text-sm text-on-surface-variant">{{ __('messages.no_data') }}</p>
         @endif
-    </div>
-
-    {{-- Bar chart (scroll on mobile) --}}
-    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
-        <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">{{ __('messages.spending_by_time') }}</h2>
-        <div class="overflow-x-auto">
-            <div class="h-64 min-w-[280px]" style="min-width: {{ max(280, $barLabels->count() * 24) }}px;">
-                <canvas id="chart-bar"></canvas>
-            </div>
-        </div>
-    </div>
+    </x-card>
 
     {{-- Expenses table --}}
-    <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-        <div class="flex justify-between items-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-            <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">{{ __('messages.expenses_in_period') }}</h2>
-            <a href="{{ route('expenses.index') }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">{{ __('messages.view_all') }}</a>
+    <x-card class="!p-0 overflow-hidden">
+        <div class="flex justify-between items-center px-6 py-4" style="border-bottom: 1px solid rgba(191,201,200,0.15);">
+            <h2 class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant">{{ __('messages.expenses_in_period') }}</h2>
+            <x-btn variant="ghost" size="sm" :href="route('expenses.index')">{{ __('messages.view_all') }}</x-btn>
         </div>
         @if($expenses->isNotEmpty())
             <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.date') }}</th>
-                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.category') }}</th>
-                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.amount') }}</th>
-                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.note') }}</th>
-                        <th scope="col" class="relative px-4 py-2"><span class="sr-only">{{ __('messages.edit') }}</span></th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @foreach($expenses as $expense)
-                        <tr class="bg-white dark:bg-gray-800">
-                            <td class="px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{{ $expense->date->format('d/m/Y') }}</td>
-                            <td class="px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{{ $expense->category?->name ?? '—' }}</td>
-                            <td class="px-4 py-2 text-sm text-gray-900 dark:text-gray-100">{{ number_format($expense->amount, 0, '.', ',') }}</td>
-                            <td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ $expense->note ?? '—' }}</td>
-                            <td class="px-4 py-2 text-right text-sm">
-                                <a href="{{ route('expenses.edit', $expense) }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">{{ __('messages.edit') }}</a>
-                            </td>
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="bg-surface-container-low">
+                            <th scope="col" class="px-6 py-3 text-left text-[10px] font-semibold uppercase tracking-widest text-on-surface-variant">{{ __('messages.date') }}</th>
+                            <th scope="col" class="px-6 py-3 text-left text-[10px] font-semibold uppercase tracking-widest text-on-surface-variant">{{ __('messages.category') }}</th>
+                            <th scope="col" class="px-6 py-3 text-right text-[10px] font-semibold uppercase tracking-widest text-on-surface-variant">{{ __('messages.amount') }}</th>
+                            <th scope="col" class="px-6 py-3 text-left text-[10px] font-semibold uppercase tracking-widest text-on-surface-variant">{{ __('messages.note') }}</th>
+                            <th scope="col" class="relative px-6 py-3"><span class="sr-only">{{ __('messages.edit') }}</span></th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach($expenses as $expense)
+                            <tr class="transition-colors hover:bg-surface-container-low" style="border-top: 1px solid rgba(191,201,200,0.15);">
+                                <td class="px-6 py-3.5 text-sm text-on-surface">{{ $expense->date->format('d/m/Y') }}</td>
+                                <td class="px-6 py-3.5 text-sm text-on-surface">
+                                    @if($expense->category?->name)
+                                        <x-badge color="secondary">{{ $expense->category->name }}</x-badge>
+                                    @else
+                                        <span class="text-on-surface-variant">—</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-3.5 text-sm text-right font-semibold text-on-surface">{{ number_format($expense->amount, 0, '.', ',') }}</td>
+                                <td class="px-6 py-3.5 text-sm text-on-surface-variant max-w-xs truncate">{{ $expense->note ?? '—' }}</td>
+                                <td class="px-6 py-3.5 text-right">
+                                    <x-btn variant="ghost" size="sm" :href="route('expenses.edit', $expense)" icon="edit">{{ __('messages.edit') }}</x-btn>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-            <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
+            <div class="px-6 py-4" style="border-top: 1px solid rgba(191,201,200,0.15);">
                 {{ $expenses->withQueryString()->links() }}
             </div>
         @else
-            <p class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">{{ __('messages.no_expenses_in_period') }}</p>
+            <p class="px-6 py-12 text-center text-sm text-on-surface-variant">{{ __('messages.no_expenses_in_period') }}</p>
         @endif
-    </div>
+    </x-card>
 </div>
 
 @if($pieLabels->isNotEmpty())
@@ -154,9 +193,28 @@
                 if (pieEl) {
                     var pieData = {
                         labels: @json($pieLabels),
-                        datasets: [{ data: @json($pieValues), backgroundColor: @json($pieColors) }]
+                        datasets: [{ data: @json($pieValues), backgroundColor: @json($pieColors), borderWidth: 0 }]
                     };
-                    new window.Chart(pieEl, { type: 'doughnut', data: pieData });
+                    new window.Chart(pieEl, {
+                        type: 'doughnut',
+                        data: pieData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '65%',
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        padding: 16,
+                                        usePointStyle: true,
+                                        pointStyleWidth: 8,
+                                        font: { family: 'Inter', size: 12 }
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
             }
             initPie();
@@ -177,12 +235,51 @@
         if (barEl) {
             var barData = {
                 labels: @json($barLabels),
-                datasets: [{ label: @json(__('messages.expenses')), data: @json($barValues), backgroundColor: '#4F46E5' }]
+                datasets: [{
+                    label: @json(__('messages.expenses')),
+                    data: @json($barValues),
+                    backgroundColor: '#2170e4',
+                    borderRadius: 6,
+                    borderSkipped: false
+                }]
             };
-            new window.Chart(barEl, { type: 'bar', data: barData });
+            new window.Chart(barEl, {
+                type: 'bar',
+                data: barData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', size: 11 } }
+                        },
+                        y: {
+                            grid: { color: 'rgba(191,201,200,0.15)' },
+                            ticks: { font: { family: 'Inter', size: 11 } }
+                        }
+                    }
+                }
+            });
         }
     }
     initBar();
+
+    // Toggle custom date range visibility
+    var pills = document.querySelectorAll('button[name="period"]');
+    var customRange = document.getElementById('custom-date-range');
+    var hiddenPeriod = document.getElementById('hidden-period');
+    pills.forEach(function(pill) {
+        pill.addEventListener('click', function(e) {
+            if (this.value === 'custom') {
+                e.preventDefault();
+                customRange.classList.remove('hidden');
+            }
+        });
+    });
 })();
 </script>
 @endpush

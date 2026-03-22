@@ -1,39 +1,63 @@
 @extends('layouts.app')
 
-@section('title', __('messages.reports'))
+@section('page-title', __('messages.reports'))
 
 @section('content')
-<div class="space-y-6">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ __('messages.reports') }}</h1>
+<div class="space-y-8">
 
+    {{-- Page header --}}
+    <div>
+        <h1 class="text-3xl font-display font-bold text-on-surface">{{ __('messages.reports') }}</h1>
+        <p class="mt-2 text-sm text-on-surface-variant">{{ __('messages.report_help') }}</p>
+    </div>
+
+    {{-- Error display --}}
     @if($errors->any())
-        <div class="rounded-md border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-3 text-sm text-red-800 dark:text-red-200">
-            <ul class="list-disc list-inside">
-                @foreach($errors->all() as $err)
-                    <li>{{ $err }}</li>
-                @endforeach
-            </ul>
+        <div class="bg-error-container rounded-2xl p-4">
+            <div class="flex items-start gap-3">
+                <x-icon name="alert-triangle" class="w-5 h-5 text-error shrink-0 mt-0.5" />
+                <ul class="text-sm text-error space-y-1">
+                    @foreach($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
     @endif
 
-    <form method="GET" action="{{ route('reports.index') }}" class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 flex flex-wrap items-end gap-4">
-        <div>
-            <label for="date_from" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.date_from') }}</label>
-            <input type="date" name="date_from" id="date_from" value="{{ old('date_from', request('date_from', now()->startOfMonth()->format('Y-m-d'))) }}"
-                class="mt-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100 text-sm">
-        </div>
-        <div>
-            <label for="date_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.date_to') }}</label>
-            <input type="date" name="date_to" id="date_to" value="{{ old('date_to', request('date_to', now()->format('Y-m-d'))) }}"
-                class="mt-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100 text-sm">
-        </div>
-        <div class="flex gap-2">
-            <a href="#" id="btn-pdf" class="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-500">{{ __('messages.export_pdf') }}</a>
-            <a href="#" id="btn-excel" class="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-500">{{ __('messages.export_excel') }}</a>
-        </div>
-    </form>
+    {{-- Date range and export --}}
+    <x-card>
+        <form method="GET" action="{{ route('reports.index') }}" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <x-form-input
+                    name="date_from"
+                    :label="__('messages.date_from')"
+                    type="date"
+                    icon="calendar"
+                    :value="old('date_from', request('date_from', now()->startOfMonth()->format('Y-m-d')))"
+                />
+                <x-form-input
+                    name="date_to"
+                    :label="__('messages.date_to')"
+                    type="date"
+                    icon="calendar"
+                    :value="old('date_to', request('date_to', now()->format('Y-m-d')))"
+                />
+            </div>
 
-    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('messages.report_help') }}</p>
+            <div style="border-top: 1px solid rgba(191,201,200,0.15);" class="pt-6">
+                <p class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant mb-4">{{ __('messages.export_pdf') }} / {{ __('messages.export_excel') }}</p>
+                <div class="flex flex-wrap gap-3">
+                    <x-btn variant="danger" icon="download" id="btn-pdf" href="#">
+                        {{ __('messages.export_pdf') }}
+                    </x-btn>
+                    <x-btn id="btn-excel" href="#" icon="download" class="bg-emerald-600 text-on-primary hover:bg-emerald-700 active:scale-[0.98]">
+                        {{ __('messages.export_excel') }}
+                    </x-btn>
+                </div>
+            </div>
+        </form>
+    </x-card>
 </div>
 
 @push('scripts')

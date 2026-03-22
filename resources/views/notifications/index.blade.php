@@ -1,61 +1,78 @@
 @extends('layouts.app')
 
-@section('title', __('messages.notifications'))
+@section('page-title', __('messages.notifications'))
 
 @section('content')
-<div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ __('messages.notifications') }}</h1>
-    @if($notifications->isNotEmpty())
-        <form method="POST" action="{{ route('notifications.mark-all-read') }}" class="inline">
-            @csrf
-            @method('PATCH')
-            <button type="submit" class="rounded-md bg-gray-200 dark:bg-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500">
-                {{ __('messages.mark_all_read') }}
-            </button>
-        </form>
+<div class="space-y-6">
+    {{-- Header --}}
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-display font-bold text-on-surface">{{ __('messages.notifications') }}</h1>
+        @if($notifications->isNotEmpty())
+            <form method="POST" action="{{ route('notifications.mark-all-read') }}" class="inline">
+                @csrf
+                @method('PATCH')
+                <x-btn type="submit" variant="secondary" size="sm" icon="check">
+                    {{ __('messages.mark_all_read') }}
+                </x-btn>
+            </form>
+        @endif
+    </div>
+
+    {{-- Notification list --}}
+    <div class="space-y-3">
+        @forelse($notifications as $notification)
+            @php
+                $typeIconMap = [
+                    'budget_alert' => ['icon' => 'alert-triangle', 'bg' => 'bg-tertiary/10 text-tertiary'],
+                    'info' => ['icon' => 'info', 'bg' => 'bg-primary/10 text-primary'],
+                    'warning' => ['icon' => 'alert-triangle', 'bg' => 'bg-tertiary/10 text-tertiary'],
+                    'error' => ['icon' => 'x', 'bg' => 'bg-error/10 text-error'],
+                ];
+                $typeInfo = $typeIconMap[$notification->type] ?? ['icon' => 'bell', 'bg' => 'bg-primary/10 text-primary'];
+            @endphp
+            <x-card class="!p-4 flex items-start gap-4 {{ !$notification->is_read ? 'border-l-4 border-l-primary' : '' }}">
+                {{-- Icon circle --}}
+                <div class="w-10 h-10 rounded-xl {{ $typeInfo['bg'] }} flex items-center justify-center shrink-0">
+                    <x-icon :name="$typeInfo['icon']" class="w-5 h-5" />
+                </div>
+
+                {{-- Content --}}
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm text-on-surface {{ !$notification->is_read ? 'font-semibold' : '' }}">{{ $notification->message }}</p>
+                    <div class="flex items-center gap-3 mt-1.5">
+                        <span class="text-xs text-on-surface-variant">{{ $notification->created_at->diffForHumans() }}</span>
+                        <x-badge :color="$notification->is_read ? 'secondary' : 'primary'" size="xs">
+                            {{ $notification->is_read ? __('messages.read_badge') : $notification->type }}
+                        </x-badge>
+                    </div>
+                </div>
+
+                {{-- Action --}}
+                <div class="shrink-0">
+                    @if(!$notification->is_read)
+                        <form method="POST" action="{{ route('notifications.mark-read', $notification) }}">
+                            @csrf
+                            @method('PATCH')
+                            <x-btn type="submit" variant="ghost" size="sm">
+                                {{ __('messages.mark_read') }}
+                            </x-btn>
+                        </form>
+                    @endif
+                </div>
+            </x-card>
+        @empty
+            <div class="py-16 text-center">
+                <div class="w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center mx-auto mb-4">
+                    <x-icon name="bell" class="w-7 h-7 text-on-surface-variant" />
+                </div>
+                <p class="text-on-surface-variant font-medium">{{ __('messages.no_notifications') }}</p>
+            </div>
+        @endforelse
+    </div>
+
+    {{-- Pagination --}}
+    @if($notifications->hasPages())
+        <div>{{ $notifications->links() }}</div>
     @endif
 </div>
-
-<div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-        <thead class="bg-gray-50 dark:bg-gray-700">
-            <tr>
-                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.message') }}</th>
-                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.status') }}</th>
-                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.date') }}</th>
-                <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.actions') }}</th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-            @forelse($notifications as $notification)
-                <tr class="bg-white dark:bg-gray-800 {{ $notification->is_read ? 'opacity-75' : '' }}">
-                    <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">{{ $notification->message }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ $notification->type }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ $notification->created_at->format('d/m/Y H:i') }}</td>
-                    <td class="px-4 py-3 text-right text-sm">
-                        @if(!$notification->is_read)
-                            <form method="POST" action="{{ route('notifications.mark-read', $notification) }}" class="inline">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit" class="text-indigo-600 dark:text-indigo-400 hover:underline">{{ __('messages.mark_read') }}</button>
-                            </form>
-                        @else
-                            <span class="text-gray-400 dark:text-gray-500">{{ __('messages.read_badge') }}</span>
-                        @endif
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="4" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">{{ __('messages.no_notifications') }}</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
-
-@if($notifications->hasPages())
-    <div class="mt-4">
-        {{ $notifications->links() }}
-    </div>
-@endif
 @endsection

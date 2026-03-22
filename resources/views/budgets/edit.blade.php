@@ -1,33 +1,32 @@
 @extends('layouts.app')
 
-@section('title', __('messages.edit_budget'))
+@section('page-title', __('messages.edit_budget'))
 
 @section('content')
-<div class="max-w-md">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">{{ __('messages.edit_budget') }}</h1>
+<div class="max-w-lg mx-auto">
+    <x-card>
+        <h1 class="font-display text-2xl font-bold text-on-surface mb-6">{{ __('messages.edit_budget') }}</h1>
 
-    <form method="POST" action="{{ route('budgets.update', $budget) }}" class="space-y-4">
-        @csrf
-        @method('PATCH')
+        <form method="POST" action="{{ route('budgets.update', $budget) }}" class="space-y-5">
+            @csrf
+            @method('PATCH')
 
-        <div>
-            <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.period') }}</label>
-            <select name="type" id="type" required
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
+            <x-form-select name="type" :label="__('messages.period')" :required="true">
                 <option value="weekly" {{ old('type', $budget->type) === 'weekly' ? 'selected' : '' }}>{{ __('messages.weekly') }}</option>
                 <option value="monthly" {{ old('type', $budget->type) === 'monthly' ? 'selected' : '' }}>{{ __('messages.monthly') }}</option>
-            </select>
-            @error('type')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+            </x-form-select>
 
-        <x-amount-input name="amount" :label="__('messages.amount')" :value="$budget->amount" :required="true" />
+            <x-amount-input name="amount" :label="__('messages.amount')" :value="$budget->amount" :required="true" />
 
-        <div class="flex gap-3 pt-2">
-            <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500">{{ __('messages.update') }}</button>
-            <a href="{{ route('budgets.index') }}" class="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.cancel') }}</a>
-        </div>
-    </form>
+            <div class="flex gap-3 pt-2">
+                <x-btn variant="primary" type="submit" icon="check">
+                    {{ __('messages.update') }}
+                </x-btn>
+                <x-btn variant="ghost" :href="route('budgets.index')" icon="arrow-left">
+                    {{ __('messages.cancel') }}
+                </x-btn>
+            </div>
+        </form>
+    </x-card>
 </div>
 @endsection

@@ -1,38 +1,47 @@
 @extends('layouts.app')
 
-@section('title', 'Add savings goal')
+@section('page-title', __('messages.add_goal'))
 
 @section('content')
-<div class="max-w-md">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Add savings goal</h1>
-
-    <form method="POST" action="{{ route('savings-goals.store') }}" class="space-y-4">
-        @csrf
-
-        <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
-            <input type="text" name="name" id="name" value="{{ old('name') }}" required maxlength="255"
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-            @error('name')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
+<div class="max-w-lg mx-auto">
+    <x-card>
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <x-icon name="target" class="w-5 h-5 text-primary" />
+            </div>
+            <h1 class="font-display text-xl font-bold text-on-surface">{{ __('messages.add_goal') }}</h1>
         </div>
 
-        <x-amount-input name="target_amount" label="Target amount" :required="true" />
+        <form method="POST" action="{{ route('savings-goals.store') }}" class="space-y-5">
+            @csrf
 
-        <div>
-            <label for="deadline" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Deadline</label>
-            <input type="date" name="deadline" id="deadline" value="{{ old('deadline') }}" required
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-            @error('deadline')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+            <x-form-input
+                name="name"
+                :label="__('messages.name')"
+                :value="old('name')"
+                :required="true"
+                maxlength="255"
+            />
 
-        <div class="flex gap-3 pt-2">
-            <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500">Add goal</button>
-            <a href="{{ route('savings-goals.index') }}" class="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Cancel</a>
-        </div>
-    </form>
+            <x-amount-input name="target_amount" :label="__('messages.target_amount')" :required="true" />
+
+            <x-form-input
+                name="deadline"
+                type="date"
+                :label="__('messages.deadline')"
+                :value="old('deadline')"
+                :required="true"
+            />
+
+            <div class="flex items-center gap-3 pt-2">
+                <x-btn variant="primary" type="submit">
+                    {{ __('messages.add_goal') }}
+                </x-btn>
+                <x-btn variant="ghost" :href="route('savings-goals.index')">
+                    {{ __('messages.cancel') }}
+                </x-btn>
+            </div>
+        </form>
+    </x-card>
 </div>
 @endsection

@@ -30,8 +30,8 @@ php artisan test
 php artisan queue:work
 
 # Scheduled commands
-php artisan expenses:create-recurring    # --dry-run supported
-php artisan budgets:check-thresholds
+php artisan recurring:create-expenses    # --dry-run supported
+php artisan budget:check-thresholds
 
 # Cache
 php artisan config:cache
@@ -80,6 +80,140 @@ Admin routes add `admin` middleware.
 - PHPUnit 11, SQLite in-memory for tests
 - Test suites: Unit, Feature
 - Config: `phpunit.xml`
+
+## Detailed Project Structure
+```
+app/
+  Console/Commands/
+    CreateRecurringExpensesCommand.php   # Daily cron: generates expenses from active rules
+    CheckBudgetThresholdsCommand.php     # Daily cron: checks budgets, sends alerts
+  Exports/
+    ExpensesReportExport.php             # Excel export (Maatwebsite/Excel)
+  Http/
+    Controllers/
+      Auth/
+        RegisterController.php           # Email/password registration
+        LoginController.php              # Login/logout
+        GoogleAuthController.php         # Google OAuth flow
+        PasswordResetLinkController.php  # Forgot password
+        NewPasswordController.php        # Password reset
+        ProfileController.php            # Edit name, notification prefs
+      Admin/
+        AdminUserController.php          # User management (toggle active)
+        AdminDefaultCategoryController.php # Default category CRUD
+      DashboardController.php            # Financial overview, charts
+      ExpenseController.php              # CRUD + budget alert trigger
+      BudgetController.php               # Weekly/monthly budget CRUD
+      CategoryController.php             # User category CRUD
+      RecurringExpenseController.php     # Recurring rules + toggle
+      SavingsGoalController.php          # Goals + deposits
+      StatisticsController.php           # Spending analysis, charts
+      ReportController.php               # PDF/Excel export
+      AiAnalyzeController.php            # Gemini AI analysis (AJAX)
+      NotificationController.php         # List, mark read
+      OnboardingController.php           # 2-step onboarding
+      LanguageController.php             # Locale switch
+    Middleware/
+      ActiveUserMiddleware.php           # Logout disabled users
+      AdminMiddleware.php                # Role check (abort 403)
+      EnsureOnboardingCompleted.php      # Redirect to onboarding
+      SetLocaleMiddleware.php            # Set app locale from session
+  Jobs/
+    SendBudgetAlertEmailJob.php          # Queued email for budget alerts
+  Mail/
+    BudgetAlertMail.php                  # Budget alert email template
+  Models/
+    User.php                             # Auth + relationships to all entities
+    Category.php                         # User-scoped expense categories
+    DefaultCategory.php                  # Template categories for onboarding
+    Expense.php                          # Individual expense records
+    Budget.php                           # Weekly/monthly spending limits
+    RecurringExpense.php                 # Auto-expense rules (weekly/monthly)
+    SavingsGoal.php                      # Financial targets with deadline
+    SavingsDeposit.php                   # Deposits toward savings goals
+    Notification.php                     # In-app budget alert notifications
+  Providers/
+    AppServiceProvider.php               # View composer: notification count/list
+  Services/
+    BudgetAlertService.php               # Threshold check + notification creation
+    GeminiService.php                    # Google Gemini API client
+bootstrap/
+  app.php                                # Middleware registration + aliases
+config/
+  app.php                                # Locale, timezone, encryption
+  onboarding.php                         # Default category definitions
+  services.php                           # Google OAuth + Gemini config
+database/
+  migrations/                            # 16 migration files
+  seeders/
+    DatabaseSeeder.php                   # Calls DefaultCategories + Admin seeders
+    DefaultCategoriesSeeder.php          # Seeds from config/onboarding.php
+    AdminSeeder.php                      # Creates admin@gmail.com account
+lang/
+  en/messages.php                        # English translations
+  vi/messages.php                        # Vietnamese translations
+  vi/validation.php                      # Vietnamese validation messages
+resources/views/                         # Blade templates
+routes/
+  web.php                                # All HTTP routes
+  console.php                            # Scheduled tasks (06:00, 07:00 daily)
+```
+
+## Coding Conventions (Detailed)
+
+### Controllers
+- Inline validation via `$request->validate()` -- no Form Request classes
+- Manual authorization: `if ($model->user_id !== Auth::id()) abort(403)`
+- Resource controllers for CRUD operations
+- Constructor injection for services (e.g., `BudgetAlertService`)
+- Return types: `View`, `RedirectResponse`, `JsonResponse`
+- Flash messages via `redirect()->route()->with('success', __('messages.key'))`
+
+### Models
+- `$fillable` for mass assignment (no `$guarded`)
+- `casts()` method for type casting (decimal, boolean, date, datetime)
+- Business logic in models: `getSpentInCurrentPeriod()`, `shouldRunToday()`, `getNextRunDate()`
+- Computed attributes via accessors: `getCurrentAmountAttribute()`, `getStatusAttribute()`
+- Scopes: `scopeActive()` on RecurringExpense
+
+### Database
+- All monetary values: `decimal(12,2)`
+- Foreign keys with cascade delete (except recurring_expense_id uses nullOnDelete)
+- No soft deletes
+- Timestamps on all tables
+
+### Services
+- Constructor DI: `BudgetAlertService` (injected into controllers/commands)
+- Static factory: `GeminiService::fromConfig()` (reads from config)
+- Services for cross-cutting logic only (budget alerts, external API)
+
+### Views
+- View composer in `AppServiceProvider` shares notification data to `layouts.app`
+- Blade components for reusable UI
+- Translation helper `__('messages.key')` for all user-facing text
+- Vietnamese day names in charts (T2=Monday through CN=Sunday)
+
+### Routes
+- Web routes only (no API routes)
+- Middleware groups: `auth`, `active`, `onboarding` for protected routes
+- Admin routes: `auth`, `active`, `admin`
+- CSRF exception: `auth/google/callback`
+
+### Queue & Scheduling
+- Queue connection: `database`
+- Jobs: `SendBudgetAlertEmailJob` (implements `ShouldQueue`)
+- Schedule in `routes/console.php`:
+  - `recurring:create-expenses` at 06:00
+  - `budget:check-thresholds` at 07:00
+
+### Caching
+- AI analysis cached per user per day (key: `ai_analysis_{userId}_{date}`, TTL: 1 hour)
+- Cache driver: `database`
+
+### Error Handling
+- Controllers abort with 403 for unauthorized access
+- Services throw exceptions (`InvalidArgumentException`, `RuntimeException`)
+- Commands use try/catch per item, log errors, continue processing
 
 ## Important Notes
 - NEVER read or output `.env` file

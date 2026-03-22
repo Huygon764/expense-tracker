@@ -1,100 +1,133 @@
 @extends('layouts.app')
 
-@section('title', __('messages.manage_users_title') . ' — ' . __('messages.admin'))
+@section('page-title', __('messages.manage_users'))
 
 @section('content')
 <div class="space-y-6">
-    <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('messages.manage_users_title') }}</h1>
-    </div>
+    <h1 class="text-2xl font-display font-bold text-on-surface">{{ __('messages.manage_users_title') }}</h1>
 
     {{-- Stats --}}
-    <div class="grid grid-cols-3 gap-4">
-        <div class="rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-            <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $totalUsers }}</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ __('messages.total_users') }}</p>
-        </div>
-        <div class="rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-            <p class="text-2xl font-bold text-green-600 dark:text-green-400">{{ $activeUsers }}</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ __('messages.active_users') }}</p>
-        </div>
-        <div class="rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 text-center">
-            <p class="text-2xl font-bold text-red-600 dark:text-red-400">{{ $disabledUsers }}</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ __('messages.disabled_users') }}</p>
-        </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <x-stat-card
+            :label="__('messages.total_users')"
+            :value="$totalUsers"
+            icon="user"
+            color="primary"
+        />
+        <x-stat-card
+            :label="__('messages.active_users')"
+            :value="$activeUsers"
+            icon="check"
+            color="primary"
+        />
+        <x-stat-card
+            :label="__('messages.disabled_users')"
+            :value="$disabledUsers"
+            icon="x"
+            color="error"
+        />
     </div>
 
     {{-- Flash messages --}}
     @if(session('success'))
-        <div class="rounded-md bg-green-50 dark:bg-green-900/20 p-4 text-sm text-green-800 dark:text-green-200">{{ session('success') }}</div>
+        <x-card class="!p-4 border-l-4 border-l-emerald-500">
+            <p class="text-sm text-emerald-700">{{ session('success') }}</p>
+        </x-card>
     @endif
     @if(session('error'))
-        <div class="rounded-md bg-red-50 dark:bg-red-900/20 p-4 text-sm text-red-800 dark:text-red-200">{{ session('error') }}</div>
+        <x-card class="!p-4 border-l-4 border-l-error">
+            <p class="text-sm text-error">{{ session('error') }}</p>
+        </x-card>
     @endif
 
     {{-- Search --}}
-    <form method="GET" action="{{ route('admin.users.index') }}" class="flex gap-2">
-        <input
-            type="text"
-            name="search"
-            value="{{ $search }}"
-            placeholder="{{ __('messages.search') }}…"
-            class="flex-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
-        <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">Tìm</button>
+    <form method="GET" action="{{ route('admin.users.index') }}" class="flex gap-3">
+        <div class="flex-1">
+            <x-form-input
+                name="search"
+                :value="$search"
+                :placeholder="__('messages.search') . '...'"
+                icon="search"
+            />
+        </div>
+        <x-btn type="submit" variant="primary" icon="search">
+            {{ __('messages.search') }}
+        </x-btn>
         @if($search)
-            <a href="{{ route('admin.users.index') }}" class="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.clear_filter') }}</a>
+            <x-btn :href="route('admin.users.index')" variant="secondary">
+                {{ __('messages.clear_filter') }}
+            </x-btn>
         @endif
     </form>
 
-    {{-- Table --}}
-    <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead class="bg-gray-50 dark:bg-gray-700">
-                <tr>
-                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.name') }}</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.email') }}</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.created_at') }}</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.status') }}</th>
-                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('messages.actions') }}</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                @forelse($users as $user)
-                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
-                    <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">{{ $user->name }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ $user->email }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{{ $user->created_at->format('d/m/Y') }}</td>
-                    <td class="px-4 py-3">
+    {{-- User list --}}
+    <div class="space-y-3">
+        @forelse($users as $user)
+            <x-card class="!p-4">
+                <div class="flex items-center gap-4">
+                    {{-- Avatar initials --}}
+                    <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                        <span class="text-sm font-bold">{{ strtoupper(mb_substr($user->name, 0, 2)) }}</span>
+                    </div>
+
+                    {{-- Info --}}
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-on-surface truncate">{{ $user->name }}</p>
+                        <p class="text-xs text-on-surface-variant truncate">{{ $user->email }}</p>
+                    </div>
+
+                    {{-- Date --}}
+                    <div class="hidden sm:block text-xs text-on-surface-variant shrink-0">
+                        {{ $user->created_at->format('d/m/Y') }}
+                    </div>
+
+                    {{-- Status badge --}}
+                    <div class="shrink-0">
                         @if($user->is_active)
-                            <span class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/30 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:text-green-300">{{ __('messages.active') }}</span>
+                            <x-badge color="success">{{ __('messages.active') }}</x-badge>
                         @else
-                            <span class="inline-flex items-center rounded-full bg-red-100 dark:bg-red-900/30 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:text-red-300">{{ __('messages.inactive') }}</span>
+                            <x-badge color="error">{{ __('messages.inactive') }}</x-badge>
                         @endif
-                    </td>
-                    <td class="px-4 py-3 text-right">
+                    </div>
+
+                    {{-- Toggle action --}}
+                    <div class="shrink-0">
                         <form method="POST" action="{{ route('admin.users.toggle-status', $user) }}" class="inline">
                             @csrf
                             @method('PATCH')
-                            <button
-                                type="submit"
-                                class="rounded-md px-3 py-1 text-xs font-medium {{ $user->is_active ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 hover:bg-red-100' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 hover:bg-green-100' }}"
-                                onclick="return confirm('{{ $user->is_active ? __('messages.confirm_disable_account', ['name' => $user->name]) : __('messages.confirm_enable_account', ['name' => $user->name]) }}')"
-                            >
-                                {{ $user->is_active ? __('messages.disable') : __('messages.enable') }}
-                            </button>
+                            @if($user->is_active)
+                                <x-btn
+                                    type="submit"
+                                    variant="danger"
+                                    size="sm"
+                                    onclick="return confirm('{{ __('messages.confirm_disable_account', ['name' => $user->name]) }}')"
+                                >
+                                    {{ __('messages.disable') }}
+                                </x-btn>
+                            @else
+                                <x-btn
+                                    type="submit"
+                                    variant="primary"
+                                    size="sm"
+                                    onclick="return confirm('{{ __('messages.confirm_enable_account', ['name' => $user->name]) }}')"
+                                >
+                                    {{ __('messages.enable') }}
+                                </x-btn>
+                            @endif
                         </form>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
-                        {{ $search ? __('messages.no_users_found') : __('messages.no_users_yet') }}
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            </x-card>
+        @empty
+            <div class="py-16 text-center">
+                <div class="w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center mx-auto mb-4">
+                    <x-icon name="user" class="w-7 h-7 text-on-surface-variant" />
+                </div>
+                <p class="text-on-surface-variant font-medium">
+                    {{ $search ? __('messages.no_users_found') : __('messages.no_users_yet') }}
+                </p>
+            </div>
+        @endforelse
     </div>
 
     {{-- Pagination --}}

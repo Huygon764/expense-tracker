@@ -1,37 +1,64 @@
 @extends('layouts.app')
 
-@section('title', __('messages.edit_profile'))
+@section('page-title', __('messages.profile'))
 
 @section('content')
-<div class="max-w-xl">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">{{ __('messages.edit_profile') }}</h1>
+<div class="space-y-6">
+    <h1 class="text-2xl font-display font-bold text-on-surface">{{ __('messages.edit_profile') }}</h1>
 
-    <form method="POST" action="{{ route('profile.update') }}" class="space-y-4">
+    <form method="POST" action="{{ route('profile.update') }}">
         @csrf
         @method('patch')
-        <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.name') }}</label>
-            <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" required autofocus
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-            @error('name')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
-        <div>
-            <span class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.email') }}</span>
-            <p class="mt-1 block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-600 px-3 py-2 text-gray-500 dark:text-gray-400">{{ $user->email }}</p>
-        </div>
-        <div>
-            <label class="flex items-center">
-                <input type="checkbox" name="email_notification" value="1" {{ old('email_notification', $user->email_notification) ? 'checked' : '' }}
-                    class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
-                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">{{ __('messages.email_notifications') }}</span>
-            </label>
-        </div>
-        <div>
-            <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                {{ __('messages.save') }}
-            </button>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            {{-- Left: Personal Identity --}}
+            <x-card>
+                <h2 class="text-base font-display font-bold text-on-surface mb-5">{{ __('messages.personal_identity') ?? 'Personal Identity' }}</h2>
+                <div class="space-y-4">
+                    <x-form-input
+                        name="name"
+                        :label="__('messages.name')"
+                        :value="$user->name"
+                        :required="true"
+                        icon="user"
+                        autofocus
+                    />
+
+                    <x-form-input
+                        name="email"
+                        :label="__('messages.email')"
+                        :value="$user->email"
+                        :readonly="true"
+                        icon="lock"
+                    />
+                </div>
+
+                <div class="mt-6">
+                    <x-btn type="submit" variant="primary" icon="check">
+                        {{ __('messages.save') }}
+                    </x-btn>
+                </div>
+            </x-card>
+
+            {{-- Right: Preferences --}}
+            <x-card>
+                <h2 class="text-base font-display font-bold text-on-surface mb-5">{{ __('messages.preferences') ?? 'Preferences' }}</h2>
+
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <div class="relative">
+                        <input type="checkbox" name="email_notification" value="1"
+                            {{ old('email_notification', $user->email_notification) ? 'checked' : '' }}
+                            class="sr-only peer"
+                        >
+                        <div class="w-11 h-6 rounded-full bg-surface-container-high peer-checked:bg-primary transition-colors"></div>
+                        <div class="absolute left-0.5 top-0.5 w-5 h-5 rounded-full bg-surface-container-lowest shadow-editorial-sm transition-transform peer-checked:translate-x-5"></div>
+                    </div>
+                    <div>
+                        <span class="text-sm font-semibold text-on-surface">{{ __('messages.email_notifications') }}</span>
+                        <p class="text-xs text-on-surface-variant mt-0.5">{{ __('messages.email_notifications_hint') ?? 'Receive budget alerts and reports via email' }}</p>
+                    </div>
+                </label>
+            </x-card>
         </div>
     </form>
 </div>

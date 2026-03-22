@@ -1,18 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.guest')
 
-@section('title', 'Onboarding')
+@section('title', __('messages.app_name') . ' - Onboarding')
 
-@section('content')
-<div class="max-w-lg">
-    <div class="mb-8 flex gap-2">
-        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full {{ $step >= 1 ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-500' }} text-sm font-medium">1</span>
-        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full {{ $step >= 2 ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-500' }} text-sm font-medium">2</span>
-    </div>
+@section('container_class', 'max-w-4xl')
 
+@section('logo')
+{{-- Logo is embedded inside step layouts --}}
+@endsection
+
+@section('card')
     @if($step === 1)
         @include('onboarding.partials.step1')
     @else
         @include('onboarding.partials.step2')
     @endif
-</div>
 @endsection

@@ -37,6 +37,10 @@ return [
     'forgot_password_help' => 'Enter your email and we\'ll send you a link to reset your password.',
     'dont_have_account' => 'Don\'t have an account?',
     'already_have_account' => 'Already have an account?',
+    'welcome_back' => 'Welcome back',
+    'create_account_subtitle' => 'Create your account',
+    'or' => 'or',
+    'register_with_google' => 'Register with Google',
 
     // Navigation
     'dashboard' => 'Dashboard',
@@ -52,6 +56,7 @@ return [
     'admin' => 'Admin',
     'manage_users' => 'Manage Users',
     'manage_categories' => 'Manage Categories',
+    'more' => 'More',
 
     // Dashboard
     'monthly_budget' => 'Monthly Budget',
@@ -72,6 +77,13 @@ return [
     'set_budget_now' => 'Set now',
     'percent_vs_last_month' => 'vs last month',
     'no_expenses_start' => 'No expenses yet. Start recording!',
+    'good_morning' => 'Good morning',
+    'good_afternoon' => 'Good afternoon',
+    'good_evening' => 'Good evening',
+    'monthly_spending' => 'Monthly Spending',
+    'top_category' => 'Top Category',
+    'daily_average' => 'Daily Average',
+    'budget_overview' => 'Budget Overview',
 
     // Expenses
     'add_expense' => 'Add Expense',
@@ -93,6 +105,7 @@ return [
     'create_category_first' => 'Create a category first before adding expenses.',
 
     // Categories
+    'manage_your_categories' => 'Manage your expense categories',
     'add_category' => 'Add Category',
     'edit_category' => 'Edit Category',
     'create_category' => 'Create category',
@@ -178,7 +191,10 @@ return [
 
     // Profile
     'edit_profile' => 'Edit Profile',
+    'personal_identity' => 'Personal Identity',
+    'preferences' => 'Preferences',
     'email_notifications' => 'Email Notifications',
+    'email_notifications_hint' => 'Receive budget alerts and reports via email',
     'language' => 'Language',
     'english' => 'English',
     'vietnamese' => 'Vietnamese',

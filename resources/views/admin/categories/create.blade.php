@@ -1,52 +1,65 @@
 @extends('layouts.app')
 
-@section('title', __('messages.add_default_category') . ' — ' . __('messages.admin'))
+@section('page-title', __('messages.add_default_category'))
 
 @section('content')
 <div class="max-w-lg space-y-6">
+    {{-- Header --}}
     <div class="flex items-center gap-3">
-        <a href="{{ route('admin.categories.index') }}" class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">← {{ __('messages.back') }}</a>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('messages.add_default_category') }}</h1>
+        <x-btn :href="route('admin.categories.index')" variant="ghost" size="sm" icon="arrow-left">
+            {{ __('messages.back') }}
+        </x-btn>
+        <h1 class="text-2xl font-display font-bold text-on-surface">{{ __('messages.add_default_category') }}</h1>
     </div>
 
-    <form method="POST" action="{{ route('admin.categories.store') }}" class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 space-y-4">
-        @csrf
+    <x-card>
+        <form method="POST" action="{{ route('admin.categories.store') }}" class="space-y-5">
+            @csrf
 
-        <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.name') }} <span class="text-red-500">*</span></label>
-            <input type="text" id="name" name="name" value="{{ old('name') }}" required
-                class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 @error('name') border-red-400 @enderror">
-            @error('name')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
-        </div>
+            <x-form-input
+                name="name"
+                :label="__('messages.name')"
+                :value="old('name')"
+                :required="true"
+                icon="tag"
+            />
 
-        <div>
-            <label for="icon" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.icon') }}</label>
-            <input type="text" id="icon" name="icon" value="{{ old('icon') }}" placeholder="🍔"
-                class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 @error('icon') border-red-400 @enderror">
-            @error('icon')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
-        </div>
+            <x-form-input
+                name="icon"
+                :label="__('messages.icon')"
+                :value="old('icon')"
+                placeholder="e.g. food emoji"
+            />
 
-        <div>
-            <label for="color" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.color') }}</label>
-            <div class="flex items-center gap-3">
-                <input type="color" id="color" name="color" value="{{ old('color', '#6366f1') }}"
-                    class="h-10 w-16 cursor-pointer rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-1">
-                <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('messages.color_picker_hint') }}</span>
+            <div>
+                <label for="color" class="block text-xs font-semibold uppercase tracking-widest text-on-surface-variant mb-1.5">{{ __('messages.color') }}</label>
+                <div class="flex items-center gap-3">
+                    <input type="color" id="color" name="color" value="{{ old('color', '#6366f1') }}"
+                        class="h-10 w-16 cursor-pointer rounded-xl bg-surface-container-low p-1">
+                    <span class="text-xs text-on-surface-variant">{{ __('messages.color_picker_hint') }}</span>
+                </div>
+                @error('color')
+                    <p class="mt-1.5 text-sm text-error">{{ $message }}</p>
+                @enderror
             </div>
-            @error('color')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
-        </div>
 
-        <div>
-            <label for="sort_order" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('messages.sort_order') }}</label>
-            <input type="number" id="sort_order" name="sort_order" value="{{ old('sort_order', 0) }}" min="0"
-                class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            @error('sort_order')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
-        </div>
+            <x-form-input
+                name="sort_order"
+                :label="__('messages.sort_order')"
+                type="number"
+                :value="old('sort_order', 0)"
+                min="0"
+            />
 
-        <div class="flex gap-3 pt-2">
-            <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">{{ __('messages.save') }}</button>
-            <a href="{{ route('admin.categories.index') }}" class="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.cancel') }}</a>
-        </div>
-    </form>
+            <div class="flex gap-3 pt-2" style="border-top: 1px solid rgba(191,201,200,0.15);">
+                <x-btn type="submit" variant="primary" icon="check">
+                    {{ __('messages.save') }}
+                </x-btn>
+                <x-btn :href="route('admin.categories.index')" variant="secondary">
+                    {{ __('messages.cancel') }}
+                </x-btn>
+            </div>
+        </form>
+    </x-card>
 </div>
 @endsection

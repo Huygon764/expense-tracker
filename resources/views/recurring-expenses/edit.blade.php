@@ -1,95 +1,70 @@
 @extends('layouts.app')
 
-@section('title', __('messages.edit_recurring'))
+@section('page-title', __('messages.edit_recurring'))
 
 @section('content')
-<div class="max-w-md">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">{{ __('messages.edit_recurring') }}</h1>
+<div class="max-w-lg mx-auto">
+    <x-card>
+        <h1 class="font-display text-2xl font-bold text-on-surface mb-6">{{ __('messages.edit_recurring') }}</h1>
 
-    <form method="POST" action="{{ route('recurring-expenses.update', $recurringExpense) }}" class="space-y-4" id="recurring-form">
-        @csrf
-        @method('PATCH')
+        <form method="POST" action="{{ route('recurring-expenses.update', $recurringExpense) }}" class="space-y-5" id="recurring-form">
+            @csrf
+            @method('PATCH')
 
-        <div>
-            <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Title</label>
-            <input type="text" name="title" id="title" value="{{ old('title', $recurringExpense->title) }}" required maxlength="255"
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-            @error('title')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+            <x-form-input name="title" :label="__('messages.title')" :value="old('title', $recurringExpense->title)" :required="true" maxlength="255" />
 
-        <x-amount-input name="amount" :label="__('messages.amount')" :value="$recurringExpense->amount" :required="true" />
+            <x-amount-input name="amount" :label="__('messages.amount')" :value="$recurringExpense->amount" :required="true" />
 
-        <div>
-            <label for="category_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
-            <select name="category_id" id="category_id"
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-                <option value="">No category</option>
+            <x-form-select name="category_id" :label="__('messages.category')">
+                <option value="">{{ __('messages.no_category') }}</option>
                 @foreach($categories as $cat)
                     <option value="{{ $cat->id }}" {{ old('category_id', $recurringExpense->category_id) == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
                 @endforeach
-            </select>
-            @error('category_id')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+            </x-form-select>
 
-        <div>
-            <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Type</label>
-            <select name="type" id="type" required
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-                <option value="weekly" {{ old('type', $recurringExpense->type) === 'weekly' ? 'selected' : '' }}>Weekly</option>
-                <option value="monthly" {{ old('type', $recurringExpense->type) === 'monthly' ? 'selected' : '' }}>Monthly</option>
-            </select>
-            @error('type')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+            <x-form-select name="type" :label="__('messages.frequency')" :required="true">
+                <option value="weekly" {{ old('type', $recurringExpense->type) === 'weekly' ? 'selected' : '' }}>{{ __('messages.weekly') }}</option>
+                <option value="monthly" {{ old('type', $recurringExpense->type) === 'monthly' ? 'selected' : '' }}>{{ __('messages.monthly') }}</option>
+            </x-form-select>
 
-        <div id="day-of-week-wrap" style="display: {{ old('type', $recurringExpense->type) === 'weekly' ? 'block' : 'none' }};">
-            <label for="day_of_week" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Day of week</label>
-            <select name="day_of_week" id="day_of_week"
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-                <option value="0" {{ old('day_of_week', $recurringExpense->day_of_week) === 0 ? 'selected' : '' }}>Sunday</option>
-                <option value="1" {{ old('day_of_week', $recurringExpense->day_of_week) === 1 ? 'selected' : '' }}>Monday</option>
-                <option value="2" {{ old('day_of_week', $recurringExpense->day_of_week) === 2 ? 'selected' : '' }}>Tuesday</option>
-                <option value="3" {{ old('day_of_week', $recurringExpense->day_of_week) === 3 ? 'selected' : '' }}>Wednesday</option>
-                <option value="4" {{ old('day_of_week', $recurringExpense->day_of_week) === 4 ? 'selected' : '' }}>Thursday</option>
-                <option value="5" {{ old('day_of_week', $recurringExpense->day_of_week) === 5 ? 'selected' : '' }}>Friday</option>
-                <option value="6" {{ old('day_of_week', $recurringExpense->day_of_week) === 6 ? 'selected' : '' }}>Saturday</option>
-            </select>
-            @error('day_of_week')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+            <div id="day-of-week-wrap" style="display: {{ old('type', $recurringExpense->type) === 'weekly' ? 'block' : 'none' }};">
+                <x-form-select name="day_of_week" :label="__('messages.day_of_week')">
+                    <option value="0" {{ old('day_of_week', $recurringExpense->day_of_week) === 0 ? 'selected' : '' }}>{{ __('messages.sunday') }}</option>
+                    <option value="1" {{ old('day_of_week', $recurringExpense->day_of_week) === 1 ? 'selected' : '' }}>{{ __('messages.monday') }}</option>
+                    <option value="2" {{ old('day_of_week', $recurringExpense->day_of_week) === 2 ? 'selected' : '' }}>{{ __('messages.tuesday') }}</option>
+                    <option value="3" {{ old('day_of_week', $recurringExpense->day_of_week) === 3 ? 'selected' : '' }}>{{ __('messages.wednesday') }}</option>
+                    <option value="4" {{ old('day_of_week', $recurringExpense->day_of_week) === 4 ? 'selected' : '' }}>{{ __('messages.thursday') }}</option>
+                    <option value="5" {{ old('day_of_week', $recurringExpense->day_of_week) === 5 ? 'selected' : '' }}>{{ __('messages.friday') }}</option>
+                    <option value="6" {{ old('day_of_week', $recurringExpense->day_of_week) === 6 ? 'selected' : '' }}>{{ __('messages.saturday') }}</option>
+                </x-form-select>
+            </div>
 
-        <div id="day-of-month-wrap" style="display: {{ old('type', $recurringExpense->type) === 'monthly' ? 'block' : 'none' }};">
-            <label for="day_of_month" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Day of month</label>
-            <select name="day_of_month" id="day_of_month"
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100">
-                @for($d = 1; $d <= 31; $d++)
-                    <option value="{{ $d }}" {{ old('day_of_month', $recurringExpense->day_of_month) == $d ? 'selected' : '' }}>{{ $d }}</option>
-                @endfor
-            </select>
-            @error('day_of_month')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+            <div id="day-of-month-wrap" style="display: {{ old('type', $recurringExpense->type) === 'monthly' ? 'block' : 'none' }};">
+                <x-form-select name="day_of_month" :label="__('messages.day_of_month')">
+                    @for($d = 1; $d <= 31; $d++)
+                        <option value="{{ $d }}" {{ old('day_of_month', $recurringExpense->day_of_month) == $d ? 'selected' : '' }}>{{ $d }}</option>
+                    @endfor
+                </x-form-select>
+            </div>
 
-        <div>
-            <label class="inline-flex items-center gap-2">
-                <input type="checkbox" name="is_active" value="1" {{ old('is_active', $recurringExpense->is_active) ? 'checked' : '' }}
-                    class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
-                <span class="text-sm text-gray-700 dark:text-gray-300">Active</span>
-            </label>
-        </div>
+            <div>
+                <label class="inline-flex items-center gap-2.5 cursor-pointer select-none">
+                    <input type="checkbox" name="is_active" value="1" {{ old('is_active', $recurringExpense->is_active) ? 'checked' : '' }}
+                        class="rounded-md w-5 h-5 bg-surface-container-low text-primary focus:ring-2 focus:ring-primary/20 transition-colors">
+                    <span class="text-sm font-semibold text-on-surface">{{ __('messages.active') }}</span>
+                </label>
+            </div>
 
-        <div class="flex gap-3 pt-2">
-            <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500">Update</button>
-            <a href="{{ route('recurring-expenses.index') }}" class="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Cancel</a>
-        </div>
-    </form>
+            <div class="flex gap-3 pt-2">
+                <x-btn variant="primary" type="submit" icon="check">
+                    {{ __('messages.update') }}
+                </x-btn>
+                <x-btn variant="ghost" :href="route('recurring-expenses.index')" icon="arrow-left">
+                    {{ __('messages.cancel') }}
+                </x-btn>
+            </div>
+        </form>
+    </x-card>
 </div>
 
 <script>

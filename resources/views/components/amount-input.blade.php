@@ -15,16 +15,17 @@
     $displayValue = $rawValue !== '' ? number_format((float) $rawValue, 0, '', ',') : '';
 @endphp
 <div class="amount-input-wrapper" data-amount-name="{{ $name }}">
-    <label for="{{ $name }}-display" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ $label }}</label>
+    <label for="{{ $name }}-display" class="block text-xs font-semibold uppercase tracking-widest text-on-surface-variant mb-1.5">{{ $label }}</label>
 
-    <div class="flex flex-wrap gap-2 mb-2 mt-1">
-        <button type="button" class="amount-quick-btn rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600" data-amount="50000">50k</button>
-        <button type="button" class="amount-quick-btn rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600" data-amount="100000">100k</button>
-        <button type="button" class="amount-quick-btn rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600" data-amount="200000">200k</button>
-        <button type="button" class="amount-quick-btn rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600" data-amount="500000">500k</button>
-        <button type="button" class="amount-quick-btn rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600" data-amount="1000000">1M</button>
-        <button type="button" class="amount-quick-btn rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600" data-amount="2000000">2M</button>
-        <button type="button" class="amount-quick-btn amount-quick-custom rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600" data-amount="custom">Custom</button>
+    <div class="flex flex-wrap gap-1.5 mb-3">
+        @foreach([['50000', '50k'], ['100000', '100k'], ['200000', '200k'], ['500000', '500k'], ['1000000', '1M'], ['2000000', '2M']] as [$amt, $lbl])
+            <button type="button"
+                    class="amount-quick-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-primary/10 hover:text-primary transition-colors"
+                    data-amount="{{ $amt }}">{{ $lbl }}</button>
+        @endforeach
+        <button type="button"
+                class="amount-quick-btn amount-quick-custom px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-primary/10 hover:text-primary transition-colors"
+                data-amount="custom">Custom</button>
     </div>
 
     <input type="hidden" name="{{ $name }}" id="{{ $name }}-real" value="{{ $rawValue !== '' ? (int) round((float) $rawValue) : '' }}" @if($required) required @endif>
@@ -34,12 +35,12 @@
            inputmode="numeric"
            autocomplete="off"
            value="{{ $displayValue }}"
-           class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100 @error($name) border-red-500 @enderror"
+           class="block w-full rounded-xl bg-surface-container-low text-on-surface text-sm py-3 px-4 placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-colors @error($name) ring-2 ring-error/30 @enderror"
            @if($disabled) disabled @endif
     >
 
     @error($name)
-        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+        <p class="mt-1.5 text-sm text-error">{{ $message }}</p>
     @enderror
 </div>
 
@@ -73,12 +74,10 @@
         }
         el.setSelectionRange(str.length, str.length);
     }
-
     function syncHidden(val) {
         var num = val === '' || val === null ? '' : (typeof val === 'number' ? val : unformatNum(val));
         hidden.value = num === '' ? '' : (Math.round(Number(num)) || '');
     }
-
     function setValue(num) {
         if (num === '' || num === null || num === undefined) {
             display.value = '';

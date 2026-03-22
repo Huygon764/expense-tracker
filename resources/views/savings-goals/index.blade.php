@@ -1,90 +1,128 @@
 @extends('layouts.app')
 
-@section('title', __('messages.savings_goals'))
+@section('page-title', __('messages.savings_goals'))
 
 @section('content')
-<div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ __('messages.savings_goals') }}</h1>
-    <a href="{{ route('savings-goals.create') }}" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500">
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <h1 class="font-display text-2xl font-bold text-on-surface">{{ __('messages.savings_goals') }}</h1>
+    <x-btn variant="primary" :href="route('savings-goals.create')" icon="plus">
         {{ __('messages.add_goal') }}
-    </a>
+    </x-btn>
 </div>
 
-<div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-        <thead class="bg-gray-50 dark:bg-gray-700">
-            <tr>
-                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.name') }}</th>
-                <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.target_amount') }}</th>
-                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.deadline') }}</th>
-                <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.deposited') }}</th>
-                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.progress') }}</th>
-                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.status') }}</th>
-                <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.monthly_needed') }}</th>
-                <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">{{ __('messages.actions') }}</th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-            @forelse($goals as $goal)
-                @php
-                    $current = (float) $goal->current_amount;
-                    $target = (float) $goal->target_amount;
-                    $pct = $target > 0 ? min(100, max(0, ($current / $target) * 100)) : 0;
-                @endphp
-                <tr>
-                    <td class="px-4 py-3 text-sm font-medium">{{ $goal->name }}</td>
-                    <td class="px-4 py-3 text-sm text-right">{{ number_format($target, 2) }}</td>
-                    <td class="px-4 py-3 text-sm">{{ $goal->deadline->format('d/m/Y') }}</td>
-                    <td class="px-4 py-3 text-sm text-right">{{ number_format($current, 2) }}</td>
-                    <td class="px-4 py-3">
-                        <div class="flex items-center gap-2">
-                            <div class="flex-1 h-2 max-w-xs rounded-full bg-gray-200 dark:bg-gray-600 overflow-hidden">
-                                <div class="h-full rounded-full {{ $goal->status === 'expired' ? 'bg-red-500' : ($goal->status === 'behind' ? 'bg-amber-500' : 'bg-indigo-600') }}"
-                                    style="width: {{ min(100, $pct) }}%"></div>
-                            </div>
-                            <span class="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                                {{ number_format($pct, 0) }}%
-                            </span>
-                        </div>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        @if($goal->status === 'achieved')
-                            <span class="rounded px-2 py-1 text-xs bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200">{{ __('messages.achieved') }}</span>
-                        @elseif($goal->status === 'expired')
-                            <span class="rounded px-2 py-1 text-xs bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200">{{ __('messages.expired') }}</span>
-                        @elseif($goal->status === 'on_track')
-                            <span class="rounded px-2 py-1 text-xs bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200">{{ __('messages.on_track') }}</span>
-                        @else
-                            <span class="rounded px-2 py-1 text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200">{{ __('messages.behind') }}</span>
-                        @endif
-                    </td>
-                    <td class="px-4 py-3 text-sm text-right">
-                        @if($goal->monthly_needed === null)
-                            —
-                        @elseif($goal->monthly_needed == 0 && $current >= $target)
-                            Done
-                        @elseif($goal->status === 'expired')
-                            Deadline passed
-                        @else
-                            {{ number_format($goal->monthly_needed, 2) }}
-                        @endif
-                    </td>
-                    <td class="px-4 py-3 text-right text-sm space-x-2 whitespace-nowrap">
-                        <a href="{{ route('savings-goals.deposits', $goal) }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">Deposits</a>
-                        <a href="{{ route('savings-goals.edit', $goal) }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">Edit</a>
-                        <form method="POST" action="{{ route('savings-goals.destroy', $goal) }}" class="inline ml-2" onsubmit="return confirm('Delete this savings goal?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-600 dark:text-red-400 hover:underline">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="8" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">No savings goals yet. <a href="{{ route('savings-goals.create') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">Add one</a>.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
+@forelse($goals as $goal)
+    @php
+        $current = (float) $goal->current_amount;
+        $target = (float) $goal->target_amount;
+        $pct = $target > 0 ? min(100, max(0, ($current / $target) * 100)) : 0;
+
+        $statusColorMap = [
+            'on_track' => 'success',
+            'behind' => 'tertiary',
+            'achieved' => 'primary',
+            'expired' => 'error',
+        ];
+        $statusColor = $statusColorMap[$goal->status] ?? 'secondary';
+
+        $statusLabelMap = [
+            'on_track' => __('messages.on_track'),
+            'behind' => __('messages.behind'),
+            'achieved' => __('messages.achieved'),
+            'expired' => __('messages.expired'),
+        ];
+        $statusLabel = $statusLabelMap[$goal->status] ?? $goal->status;
+
+        $progressBarColorMap = [
+            'on_track' => 'success',
+            'behind' => 'tertiary',
+            'achieved' => 'primary',
+            'expired' => 'error',
+        ];
+        $progressBarColor = $progressBarColorMap[$goal->status] ?? 'primary';
+    @endphp
+
+    @if($loop->first)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @endif
+
+    <x-card class="flex flex-col">
+        {{-- Header --}}
+        <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                    <x-icon name="target" class="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                    <h3 class="font-display text-base font-bold text-on-surface">{{ $goal->name }}</h3>
+                    <p class="text-xs text-on-surface-variant mt-0.5">
+                        <x-icon name="calendar" class="w-3 h-3 inline -mt-0.5" />
+                        {{ $goal->deadline->format('d/m/Y') }}
+                    </p>
+                </div>
+            </div>
+            <x-badge :color="$statusColor">{{ $statusLabel }}</x-badge>
+        </div>
+
+        {{-- Amount --}}
+        <div class="mb-4">
+            <div class="flex items-baseline justify-between mb-2">
+                <span class="text-sm text-on-surface-variant">{{ number_format($current, 0) }}</span>
+                <span class="text-sm font-semibold text-on-surface">{{ number_format($target, 0) }}</span>
+            </div>
+            <x-progress-bar :percent="$pct" :color="$progressBarColor" height="h-2.5" />
+            <p class="text-xs text-on-surface-variant mt-1.5 text-right">{{ number_format($pct, 0) }}%</p>
+        </div>
+
+        {{-- Monthly needed --}}
+        <div class="bg-surface-container-low rounded-xl px-4 py-3 mb-5">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant">{{ __('messages.monthly_needed') }}</span>
+                <span class="text-sm font-bold text-on-surface">
+                    @if($goal->monthly_needed === null)
+                        &mdash;
+                    @elseif($goal->monthly_needed == 0 && $current >= $target)
+                        Done
+                    @elseif($goal->status === 'expired')
+                        Deadline passed
+                    @else
+                        {{ number_format($goal->monthly_needed, 0) }}
+                    @endif
+                </span>
+            </div>
+        </div>
+
+        {{-- Actions --}}
+        <div class="mt-auto flex items-center gap-2" style="border-top: 1px solid rgba(191,201,200,0.15); padding-top: 1rem;">
+            <x-btn variant="secondary" size="sm" :href="route('savings-goals.deposits', $goal)" icon="dollar-sign">
+                {{ __('messages.deposited') }}
+            </x-btn>
+            <x-btn variant="ghost" size="sm" :href="route('savings-goals.edit', $goal)" icon="edit">
+                {{ __('messages.edit') }}
+            </x-btn>
+            <form method="POST" action="{{ route('savings-goals.destroy', $goal) }}" class="ml-auto" onsubmit="return confirm('{{ __('messages.confirm_delete') }}');">
+                @csrf
+                @method('DELETE')
+                <x-btn variant="ghost" size="sm" type="submit" icon="trash" class="text-error hover:bg-error-container">
+                    {{ __('messages.delete') }}
+                </x-btn>
+            </form>
+        </div>
+    </x-card>
+
+    @if($loop->last)
+        </div>
+    @endif
+
+@empty
+    <x-card class="text-center py-12">
+        <div class="w-16 h-16 rounded-2xl bg-surface-container mx-auto mb-4 flex items-center justify-center">
+            <x-icon name="target" class="w-8 h-8 text-on-surface-variant" />
+        </div>
+        <h3 class="font-display text-lg font-bold text-on-surface mb-1">{{ __('messages.savings_goals') }}</h3>
+        <p class="text-sm text-on-surface-variant mb-6">No savings goals yet. Start by creating one.</p>
+        <x-btn variant="primary" :href="route('savings-goals.create')" icon="plus">
+            {{ __('messages.add_goal') }}
+        </x-btn>
+    </x-card>
+@endforelse
 @endsection

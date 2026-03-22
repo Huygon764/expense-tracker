@@ -1,61 +1,44 @@
 @extends('layouts.app')
 
-@section('title', __('messages.add_expense'))
+@section('page-title', __('messages.add_expense'))
 
 @section('content')
-<div class="max-w-md">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">{{ __('messages.add_expense') }}</h1>
+<div class="max-w-lg mx-auto">
+    <x-card>
+        <h1 class="font-display text-2xl font-bold text-on-surface mb-6">{{ __('messages.add_expense') }}</h1>
 
-    @if($categories->isEmpty())
-        <p class="rounded-md bg-amber-50 dark:bg-amber-900/20 p-4 text-sm text-amber-800 dark:text-amber-200 mb-4">
-            {{ __('messages.create_category_first') }} <a href="{{ route('categories.create') }}" class="font-medium underline">{{ __('messages.add_category') }}</a>.
-        </p>
-    @endif
+        @if($categories->isEmpty())
+            <div class="rounded-xl bg-tertiary-container p-4 text-sm text-tertiary mb-6">
+                {{ __('messages.create_category_first') }}
+                <a href="{{ route('categories.create') }}" class="font-semibold underline">{{ __('messages.add_category') }}</a>.
+            </div>
+        @endif
 
-    <form method="POST" action="{{ route('expenses.store') }}" class="space-y-4" @if($categories->isEmpty()) onsubmit="return false;" @endif>
-        @csrf
+        <form method="POST" action="{{ route('expenses.store') }}" class="space-y-5" @if($categories->isEmpty()) onsubmit="return false;" @endif>
+            @csrf
 
-        <x-amount-input name="amount" :label="__('messages.amount')" :required="true" :disabled="$categories->isEmpty()" />
+            <x-amount-input name="amount" :label="__('messages.amount')" :required="true" :disabled="$categories->isEmpty()" />
 
-        <div>
-            <label for="category_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.category') }}</label>
-            <select name="category_id" id="category_id" required
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100"
-                @if($categories->isEmpty()) disabled @endif>
+            <x-form-select name="category_id" :label="__('messages.category')" :required="true" :disabled="$categories->isEmpty()">
                 <option value="">{{ __('messages.select_category') }}</option>
                 @foreach($categories as $cat)
                     <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
                 @endforeach
-            </select>
-            @error('category_id')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+            </x-form-select>
 
-        <div>
-            <label for="note" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.note_optional') }}</label>
-            <input type="text" name="note" id="note" value="{{ old('note') }}"
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100"
-                @if($categories->isEmpty()) disabled @endif>
-            @error('note')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+            <x-form-input name="note" :label="__('messages.note_optional')" :value="old('note')" :disabled="$categories->isEmpty()" />
 
-        <div>
-            <label for="date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.date') }}</label>
-            <input type="date" name="date" id="date" value="{{ old('date', date('Y-m-d')) }}" required
-                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-gray-900 dark:text-gray-100"
-                @if($categories->isEmpty()) disabled @endif>
-            @error('date')
-                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+            <x-form-input name="date" type="date" :label="__('messages.date')" :value="old('date', date('Y-m-d'))" :required="true" :disabled="$categories->isEmpty()" icon="calendar" />
 
-        <div class="flex gap-3 pt-2">
-            <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500" @if($categories->isEmpty()) disabled @endif>{{ __('messages.add_expense') }}</button>
-            <a href="{{ route('expenses.index') }}" class="rounded-md border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">{{ __('messages.cancel') }}</a>
-        </div>
-    </form>
+            <div class="flex gap-3 pt-2">
+                <x-btn variant="primary" type="submit" icon="check" :disabled="$categories->isEmpty()">
+                    {{ __('messages.add_expense') }}
+                </x-btn>
+                <x-btn variant="ghost" :href="route('expenses.index')" icon="arrow-left">
+                    {{ __('messages.cancel') }}
+                </x-btn>
+            </div>
+        </form>
+    </x-card>
 </div>
 @endsection
