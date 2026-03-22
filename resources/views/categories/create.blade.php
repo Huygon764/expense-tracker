@@ -13,7 +13,12 @@
 
             <x-form-input name="name" :label="__('messages.name')" :value="old('name')" required icon="tag" />
 
-            <x-form-input name="icon" :label="__('messages.icon')" :value="old('icon')" :placeholder="__('messages.icon_placeholder')" />
+            <div>
+                <x-form-input name="icon" :label="__('messages.icon')" :value="old('icon')" :placeholder="__('messages.icon_placeholder')" />
+                <div class="mt-2">
+                    <x-emoji-picker target="icon" />
+                </div>
+            </div>
 
             <div>
                 <label for="color" class="block text-xs font-semibold uppercase tracking-widest text-on-surface-variant mb-1.5">{{ __('messages.color_hex') }}</label>

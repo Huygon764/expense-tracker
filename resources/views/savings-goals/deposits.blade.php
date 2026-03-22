@@ -88,7 +88,7 @@
                     @endif
                 </div>
             </div>
-            <form method="POST" action="{{ route('savings-goals.deposits.destroy', $deposit) }}" class="shrink-0 ml-3" onsubmit="return confirm('{{ __('messages.confirm_delete') }}');">
+            <form method="POST" action="{{ route('savings-goals.deposits.destroy', $deposit) }}" class="shrink-0 ml-3" data-confirm="{{ __('messages.confirm_delete') }}">
                 @csrf
                 @method('DELETE')
                 <x-btn variant="ghost" size="sm" type="submit" icon="trash" class="text-error hover:bg-error-container">

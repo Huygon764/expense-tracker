@@ -57,13 +57,15 @@
             <x-btn variant="ghost" size="sm" icon="edit" :href="route('budgets.edit', $budget)">
                 {{ __('messages.edit') }}
             </x-btn>
-            <form method="POST" action="{{ route('budgets.destroy', $budget) }}" class="inline" onsubmit="return confirm('{{ __('messages.confirm_delete') }}');">
+            @if($budget->type === 'weekly')
+            <form method="POST" action="{{ route('budgets.destroy', $budget) }}" class="inline" data-confirm="{{ __('messages.confirm_delete') }}">
                 @csrf
                 @method('DELETE')
                 <x-btn variant="danger" size="sm" icon="trash" type="submit">
                     {{ __('messages.delete') }}
                 </x-btn>
             </form>
+            @endif
         </div>
     </x-card>
 

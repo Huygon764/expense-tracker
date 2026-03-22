@@ -92,7 +92,7 @@
 
                     {{-- Toggle action --}}
                     <div class="shrink-0">
-                        <form method="POST" action="{{ route('admin.users.toggle-status', $user) }}" class="inline">
+                        <form method="POST" action="{{ route('admin.users.toggle-status', $user) }}" class="inline" data-confirm="{{ $user->is_active ? __('messages.confirm_disable_account', ['name' => $user->name]) : __('messages.confirm_enable_account', ['name' => $user->name]) }}">
                             @csrf
                             @method('PATCH')
                             @if($user->is_active)
@@ -100,7 +100,6 @@
                                     type="submit"
                                     variant="danger"
                                     size="sm"
-                                    onclick="return confirm('{{ __('messages.confirm_disable_account', ['name' => $user->name]) }}')"
                                 >
                                     {{ __('messages.disable') }}
                                 </x-btn>
@@ -109,7 +108,6 @@
                                     type="submit"
                                     variant="primary"
                                     size="sm"
-                                    onclick="return confirm('{{ __('messages.confirm_enable_account', ['name' => $user->name]) }}')"
                                 >
                                     {{ __('messages.enable') }}
                                 </x-btn>

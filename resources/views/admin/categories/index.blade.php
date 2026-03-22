@@ -59,7 +59,7 @@
                         <x-btn :href="route('admin.categories.edit', $category)" variant="ghost" size="sm" icon="edit">
                             {{ __('messages.edit') }}
                         </x-btn>
-                        <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" class="inline">
+                        <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" class="inline" data-confirm="{{ __('messages.confirm_delete_category', ['name' => $category->name]) }}">
                             @csrf
                             @method('DELETE')
                             <x-btn
@@ -67,7 +67,6 @@
                                 variant="danger"
                                 size="sm"
                                 icon="trash"
-                                onclick="return confirm('{{ __('messages.confirm_delete_category', ['name' => $category->name]) }}')"
                             >
                                 {{ __('messages.delete') }}
                             </x-btn>

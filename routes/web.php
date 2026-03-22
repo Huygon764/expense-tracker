@@ -25,7 +25,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
 
 Route::get('/', function () {
-    return view('welcome');
+    return Auth::check()
+        ? redirect()->route('dashboard')
+        : redirect()->route('login');
 });
 
 Route::middleware(['auth', 'active', 'admin'])->prefix('admin')->name('admin.')->group(function () {

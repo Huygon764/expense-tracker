@@ -36,12 +36,16 @@ class OnboardingController extends Controller
         $userId = Auth::id();
 
         foreach ($defaults as $default) {
-            Category::create([
-                'user_id' => $userId,
-                'name' => $default->name,
-                'icon' => $default->icon,
-                'color' => $default->color,
-            ]);
+            Category::firstOrCreate(
+                [
+                    'user_id' => $userId,
+                    'name' => $default->name,
+                ],
+                [
+                    'icon' => $default->icon,
+                    'color' => $default->color,
+                ]
+            );
         }
 
         return redirect()->route('onboarding.step2');

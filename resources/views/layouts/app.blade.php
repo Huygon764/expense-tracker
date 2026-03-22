@@ -270,22 +270,47 @@
     </nav>
     @endauth
 
+    <x-confirm-modal />
+
     @stack('scripts')
     <script>
     (function() {
-        var loadingText = '{{ __("messages.save") }}...';
+        // Custom confirm modal: intercept forms with data-confirm attribute
         document.addEventListener('submit', function(e) {
             var form = e.target;
-            if (form && form.tagName === 'FORM' && form.method && form.method.toLowerCase() === 'post') {
+            if (!form || form.tagName !== 'FORM') return;
+
+            var confirmMsg = form.getAttribute('data-confirm');
+            if (confirmMsg) {
+                e.preventDefault();
+                window.dispatchEvent(new CustomEvent('confirm-modal', {
+                    detail: { message: confirmMsg, form: form }
+                }));
+                return;
+            }
+
+            // Loading state for POST forms
+            if (form.method && form.method.toLowerCase() === 'post') {
                 var btn = form.querySelector('button[type="submit"]');
                 if (btn && !btn.disabled) {
-                    if (!btn.hasAttribute('data-loading-original')) {
-                        btn.setAttribute('data-loading-original', btn.textContent.trim() || btn.value || '');
-                    }
                     btn.disabled = true;
                     btn.style.opacity = '0.6';
-                    btn.textContent = loadingText;
                 }
+            }
+        }, true);
+
+        // Also handle buttons with data-confirm via onclick
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('[data-confirm]');
+            if (!btn) return;
+            var form = btn.closest('form');
+            if (!form) return;
+            var confirmMsg = btn.getAttribute('data-confirm') || form.getAttribute('data-confirm');
+            if (confirmMsg) {
+                e.preventDefault();
+                window.dispatchEvent(new CustomEvent('confirm-modal', {
+                    detail: { message: confirmMsg, form: form }
+                }));
             }
         }, true);
     })();

@@ -284,4 +284,12 @@ return [
     'no_users_found' => 'Không tìm thấy user nào.',
     'confirm_delete_category' => 'Xóa danh mục :name?',
     'color_picker_hint' => 'Chọn màu cho danh mục',
+    'confirm' => 'Xác nhận',
+    'cannot_delete_monthly_budget' => 'Không thể xóa ngân sách tháng.',
+    'pick_emoji' => 'Chọn emoji',
+    'emoji_popular' => 'Phổ biến',
+    'emoji_food' => 'Đồ ăn & Thức uống',
+    'emoji_transport' => 'Di chuyển',
+    'emoji_shopping' => 'Mua sắm',
+    'emoji_other' => 'Khác',
 ];

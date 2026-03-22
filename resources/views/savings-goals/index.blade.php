@@ -99,7 +99,7 @@
             <x-btn variant="ghost" size="sm" :href="route('savings-goals.edit', $goal)" icon="edit">
                 {{ __('messages.edit') }}
             </x-btn>
-            <form method="POST" action="{{ route('savings-goals.destroy', $goal) }}" class="ml-auto" onsubmit="return confirm('{{ __('messages.confirm_delete') }}');">
+            <form method="POST" action="{{ route('savings-goals.destroy', $goal) }}" class="ml-auto" data-confirm="{{ __('messages.confirm_delete') }}">
                 @csrf
                 @method('DELETE')
                 <x-btn variant="ghost" size="sm" type="submit" icon="trash" class="text-error hover:bg-error-container">

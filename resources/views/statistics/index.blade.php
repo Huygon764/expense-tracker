@@ -41,10 +41,9 @@
             {{-- Custom date range --}}
             <div id="custom-date-range" class="{{ $currentPeriod === 'custom' ? '' : 'hidden' }}">
                 <div class="flex flex-wrap items-end gap-4 pt-4" style="border-top: 1px solid rgba(191,201,200,0.15);">
-                    <input type="hidden" name="period" value="custom" id="hidden-period">
                     <x-form-input name="date_from" :label="__('messages.date_from_custom')" type="date" :value="$date_from" />
                     <x-form-input name="date_to" :label="__('messages.date_to')" type="date" :value="$date_to" />
-                    <x-btn type="submit" variant="primary" icon="search">{{ __('messages.view_btn') }}</x-btn>
+                    <x-btn type="submit" variant="primary" icon="search" name="period" value="custom">{{ __('messages.view_btn') }}</x-btn>
                 </div>
             </div>
         </form>
@@ -271,12 +270,13 @@
     // Toggle custom date range visibility
     var pills = document.querySelectorAll('button[name="period"]');
     var customRange = document.getElementById('custom-date-range');
-    var hiddenPeriod = document.getElementById('hidden-period');
     pills.forEach(function(pill) {
         pill.addEventListener('click', function(e) {
             if (this.value === 'custom') {
                 e.preventDefault();
                 customRange.classList.remove('hidden');
+            } else {
+                customRange.classList.add('hidden');
             }
         });
     });

@@ -96,6 +96,11 @@ class BudgetController extends Controller
         if ($budget->user_id !== Auth::id()) {
             abort(403);
         }
+
+        if ($budget->type === 'monthly') {
+            return redirect()->route('budgets.index')->with('error', __('messages.cannot_delete_monthly_budget'));
+        }
+
         $budget->delete();
 
         return redirect()->route('budgets.index')->with('status', __('messages.budget_deleted'));

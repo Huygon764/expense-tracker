@@ -76,7 +76,7 @@
                 <x-btn variant="ghost" size="sm" icon="edit" :href="route('recurring-expenses.edit', $r)">
                     {{ __('messages.edit') }}
                 </x-btn>
-                <form method="POST" action="{{ route('recurring-expenses.destroy', $r) }}" class="inline" onsubmit="return confirm('{{ __('messages.confirm_delete') }}');">
+                <form method="POST" action="{{ route('recurring-expenses.destroy', $r) }}" class="inline" data-confirm="{{ __('messages.confirm_delete') }}">
                     @csrf
                     @method('DELETE')
                     <x-btn variant="danger" size="sm" icon="trash" type="submit">

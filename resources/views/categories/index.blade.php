@@ -47,7 +47,7 @@
                     <x-btn variant="ghost" size="sm" :href="route('categories.edit', $category)" icon="edit">
                         {{ __('messages.edit') }}
                     </x-btn>
-                    <form method="POST" action="{{ route('categories.destroy', $category) }}" class="inline" onsubmit="return confirm('{{ __('messages.confirm_delete') }}');">
+                    <form method="POST" action="{{ route('categories.destroy', $category) }}" class="inline" data-confirm="{{ __('messages.confirm_delete') }}">
                         @csrf
                         @method('DELETE')
                         <x-btn variant="ghost" size="sm" type="submit" icon="trash" class="text-error hover:text-error">

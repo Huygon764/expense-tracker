@@ -284,4 +284,12 @@ return [
     'no_users_found' => 'No users found.',
     'confirm_delete_category' => 'Delete category :name?',
     'color_picker_hint' => 'Pick a color for the category',
+    'confirm' => 'Confirm',
+    'cannot_delete_monthly_budget' => 'Monthly budget cannot be deleted.',
+    'pick_emoji' => 'Pick emoji',
+    'emoji_popular' => 'Popular',
+    'emoji_food' => 'Food & Drink',
+    'emoji_transport' => 'Transport',
+    'emoji_shopping' => 'Shopping',
+    'emoji_other' => 'Other',
 ];
