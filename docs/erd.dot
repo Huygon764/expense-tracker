@@ -1,0 +1,145 @@
+// ERD - Expense Tracker
+// Render: dot -Tpng docs/erd.dot -o docs/images/erd_diagram.png
+digraph ERD {
+    graph [rankdir=LR, splines=spline, nodesep=0.6, ranksep=1.4, bgcolor=white,
+           fontname="Helvetica",
+           label=<<FONT POINT-SIZE="22"><B>Sơ đồ quan hệ thực thể (ERD) — Expense Tracker</B></FONT><BR/><FONT POINT-SIZE="11" COLOR="#666666">PK = Khóa chính | FK = Khóa ngoại | ──&lt; = Quan hệ 1:N (chân chim ở phía nhiều)</FONT>>,
+           labelloc=t, fontsize=20];
+    node  [shape=plaintext, fontname="Helvetica", fontsize=10];
+    edge  [fontname="Helvetica", fontsize=9, color="#555555", arrowhead=crow, arrowtail=none, dir=both];
+
+    // ---------- Tables ----------
+    users [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD BGCOLOR="#2d3748" COLSPAN="2"><FONT COLOR="white"><B>users</B></FONT></TD></TR>
+        <TR><TD PORT="id" ALIGN="LEFT"><B>PK</B> id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD ALIGN="LEFT">name</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">email</TD><TD ALIGN="LEFT">VARCHAR(255) UNIQUE</TD></TR>
+        <TR><TD ALIGN="LEFT">email_verified_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">password</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">google_id</TD><TD ALIGN="LEFT">VARCHAR(255) UNIQUE</TD></TR>
+        <TR><TD ALIGN="LEFT">remember_token</TD><TD ALIGN="LEFT">VARCHAR(100)</TD></TR>
+        <TR><TD ALIGN="LEFT">email_notification</TD><TD ALIGN="LEFT">BOOLEAN</TD></TR>
+        <TR><TD ALIGN="LEFT">role</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">is_active</TD><TD ALIGN="LEFT">BOOLEAN</TD></TR>
+        <TR><TD ALIGN="LEFT">onboarding_completed_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">created_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">updated_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        </TABLE>>];
+
+    categories [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD BGCOLOR="#2d3748" COLSPAN="2"><FONT COLOR="white"><B>categories</B></FONT></TD></TR>
+        <TR><TD PORT="id" ALIGN="LEFT"><B>PK</B> id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD PORT="user_id" ALIGN="LEFT"><B>FK</B> user_id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD ALIGN="LEFT">name</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">icon</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">color</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">created_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">updated_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        </TABLE>>];
+
+    expenses [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD BGCOLOR="#2d3748" COLSPAN="2"><FONT COLOR="white"><B>expenses</B></FONT></TD></TR>
+        <TR><TD PORT="id" ALIGN="LEFT"><B>PK</B> id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD PORT="user_id" ALIGN="LEFT"><B>FK</B> user_id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD PORT="category_id" ALIGN="LEFT"><B>FK</B> category_id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD ALIGN="LEFT">amount</TD><TD ALIGN="LEFT">DECIMAL(12,2)</TD></TR>
+        <TR><TD ALIGN="LEFT">note</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">date</TD><TD ALIGN="LEFT">DATE</TD></TR>
+        <TR><TD PORT="recurring_expense_id" ALIGN="LEFT"><B>FK</B> recurring_expense_id</TD><TD ALIGN="LEFT">BIGINT NULL</TD></TR>
+        <TR><TD ALIGN="LEFT">created_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">updated_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        </TABLE>>];
+
+    budgets [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD BGCOLOR="#2d3748" COLSPAN="2"><FONT COLOR="white"><B>budgets</B></FONT></TD></TR>
+        <TR><TD PORT="id" ALIGN="LEFT"><B>PK</B> id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD PORT="user_id" ALIGN="LEFT"><B>FK</B> user_id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD ALIGN="LEFT">amount</TD><TD ALIGN="LEFT">DECIMAL(12,2)</TD></TR>
+        <TR><TD ALIGN="LEFT">type</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">created_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">updated_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        </TABLE>>];
+
+    recurring_expenses [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD BGCOLOR="#2d3748" COLSPAN="2"><FONT COLOR="white"><B>recurring_expenses</B></FONT></TD></TR>
+        <TR><TD PORT="id" ALIGN="LEFT"><B>PK</B> id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD PORT="user_id" ALIGN="LEFT"><B>FK</B> user_id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD PORT="category_id" ALIGN="LEFT"><B>FK</B> category_id</TD><TD ALIGN="LEFT">BIGINT NULL</TD></TR>
+        <TR><TD ALIGN="LEFT">title</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">amount</TD><TD ALIGN="LEFT">DECIMAL(12,2)</TD></TR>
+        <TR><TD ALIGN="LEFT">type</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">day_of_week</TD><TD ALIGN="LEFT">TINYINT NULL</TD></TR>
+        <TR><TD ALIGN="LEFT">day_of_month</TD><TD ALIGN="LEFT">TINYINT NULL</TD></TR>
+        <TR><TD ALIGN="LEFT">is_active</TD><TD ALIGN="LEFT">BOOLEAN</TD></TR>
+        <TR><TD ALIGN="LEFT">created_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">updated_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        </TABLE>>];
+
+    savings_goals [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD BGCOLOR="#2d3748" COLSPAN="2"><FONT COLOR="white"><B>savings_goals</B></FONT></TD></TR>
+        <TR><TD PORT="id" ALIGN="LEFT"><B>PK</B> id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD PORT="user_id" ALIGN="LEFT"><B>FK</B> user_id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD ALIGN="LEFT">name</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">target_amount</TD><TD ALIGN="LEFT">DECIMAL(12,2)</TD></TR>
+        <TR><TD ALIGN="LEFT">deadline</TD><TD ALIGN="LEFT">DATE</TD></TR>
+        <TR><TD ALIGN="LEFT">created_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">updated_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        </TABLE>>];
+
+    savings_deposits [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD BGCOLOR="#2d3748" COLSPAN="2"><FONT COLOR="white"><B>savings_deposits</B></FONT></TD></TR>
+        <TR><TD PORT="id" ALIGN="LEFT"><B>PK</B> id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD PORT="savings_goal_id" ALIGN="LEFT"><B>FK</B> savings_goal_id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD ALIGN="LEFT">amount</TD><TD ALIGN="LEFT">DECIMAL(12,2)</TD></TR>
+        <TR><TD ALIGN="LEFT">note</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">date</TD><TD ALIGN="LEFT">DATE</TD></TR>
+        <TR><TD ALIGN="LEFT">created_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">updated_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        </TABLE>>];
+
+    notifications [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD BGCOLOR="#2d3748" COLSPAN="2"><FONT COLOR="white"><B>notifications</B></FONT></TD></TR>
+        <TR><TD PORT="id" ALIGN="LEFT"><B>PK</B> id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD PORT="user_id" ALIGN="LEFT"><B>FK</B> user_id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD ALIGN="LEFT">type</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">message</TD><TD ALIGN="LEFT">TEXT</TD></TR>
+        <TR><TD ALIGN="LEFT">is_read</TD><TD ALIGN="LEFT">BOOLEAN</TD></TR>
+        <TR><TD ALIGN="LEFT">created_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">updated_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        </TABLE>>];
+
+    default_categories [label=<
+        <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR><TD BGCOLOR="#718096" COLSPAN="2"><FONT COLOR="white"><B>default_categories</B></FONT></TD></TR>
+        <TR><TD PORT="id" ALIGN="LEFT"><B>PK</B> id</TD><TD ALIGN="LEFT">BIGINT</TD></TR>
+        <TR><TD ALIGN="LEFT">name</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">icon</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">color</TD><TD ALIGN="LEFT">VARCHAR(255)</TD></TR>
+        <TR><TD ALIGN="LEFT">sort_order</TD><TD ALIGN="LEFT">SMALLINT</TD></TR>
+        <TR><TD ALIGN="LEFT">created_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        <TR><TD ALIGN="LEFT">updated_at</TD><TD ALIGN="LEFT">TIMESTAMP</TD></TR>
+        </TABLE>>];
+
+    // ---------- Relationships (1:N, crow's foot on the many side) ----------
+    users:id  -> categories:user_id;
+    users:id  -> expenses:user_id;
+    users:id  -> budgets:user_id;
+    users:id  -> recurring_expenses:user_id;
+    users:id  -> savings_goals:user_id;
+    users:id  -> notifications:user_id;
+
+    categories:id -> expenses:category_id;
+    categories:id -> recurring_expenses:category_id;
+
+    recurring_expenses:id -> expenses:recurring_expense_id;
+
+    savings_goals:id -> savings_deposits:savings_goal_id;
+}

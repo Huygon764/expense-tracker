@@ -1,0 +1,67 @@
+// Use Case Diagram - Expense Tracker
+// Render: dot -Tpng docs/usecase.dot -o docs/images/usecase_diagram.png
+digraph UseCase {
+    graph [rankdir=LR, splines=spline, nodesep=0.18, ranksep=2.2, bgcolor=white,
+           fontname="Helvetica", labelloc=t, fontsize=20,
+           label=<<FONT POINT-SIZE="22"><B>Sơ đồ Use Case — Expense Tracker</B></FONT>>];
+    node  [fontname="Helvetica", fontsize=10];
+    edge  [color="#888888", arrowhead=none];
+
+    // ---------- Actors ----------
+    node [shape=box, style="filled,rounded", fillcolor="#dbeafe", color="#3b82f6",
+          fontsize=12, width=1.2, height=0.6];
+    guest [label=<&#171;actor&#187;<BR/><B>Guest</B>>];
+    user  [label=<&#171;actor&#187;<BR/><B>User</B>>];
+    admin [label=<&#171;actor&#187;<BR/><B>Admin</B>>, fillcolor="#fee2e2", color="#ef4444"];
+
+    // ---------- Use cases (system boundary) ----------
+    subgraph cluster_system {
+        label="Hệ thống Expense Tracker";
+        fontsize=14; fontname="Helvetica"; style=rounded; color="#94a3b8"; labeljust=l;
+        node [shape=ellipse, style=filled, fillcolor="#f8fafc", color="#64748b", fontsize=10,
+              width=2.2, height=0.5, fixedsize=false];
+
+        uc01 [label="UC01: Đăng ký tài khoản"];
+        uc02 [label="UC02: Đăng nhập (email/mật khẩu)"];
+        uc03 [label="UC03: Đăng nhập Google OAuth"];
+        uc04 [label="UC04: Quên / Đặt lại mật khẩu"];
+
+        uc05 [label="UC05: Hoàn thành onboarding"];
+        uc06 [label="UC06: Xem dashboard"];
+        uc07 [label="UC07: Quản lý chi tiêu (CRUD, lọc, tìm kiếm)"];
+        uc08 [label="UC08: Quản lý danh mục"];
+        uc09 [label="UC09: Quản lý ngân sách tuần/tháng"];
+        uc10 [label="UC10: Quản lý chi tiêu định kỳ"];
+        uc11 [label="UC11: Quản lý mục tiêu tiết kiệm"];
+        uc12 [label="UC12: Nạp tiền vào mục tiêu tiết kiệm"];
+        uc13 [label="UC13: Xem thống kê"];
+        uc14 [label="UC14: Xuất báo cáo PDF"];
+        uc15 [label="UC15: Xuất báo cáo Excel"];
+        uc16 [label="UC16: Phân tích AI"];
+        uc17 [label="UC17: Xem thông báo"];
+        uc18 [label="UC18: Đánh dấu thông báo đã đọc"];
+        uc19 [label="UC19: Quản lý hồ sơ cá nhân"];
+        uc20 [label="UC20: Đổi ngôn ngữ"];
+        uc21 [label="UC21: Đăng xuất"];
+
+        uc22 [label="UC22: Xem / tìm kiếm người dùng"];
+        uc23 [label="UC23: Bật/tắt trạng thái người dùng"];
+        uc24 [label="UC24: Quản lý danh mục mặc định"];
+    }
+
+    // ---------- Associations ----------
+    guest -> uc01;
+    guest -> uc02;
+    guest -> uc03;
+    guest -> uc04;
+
+    user -> uc05; user -> uc06; user -> uc07; user -> uc08; user -> uc09;
+    user -> uc10; user -> uc11; user -> uc12; user -> uc13; user -> uc14;
+    user -> uc15; user -> uc16; user -> uc17; user -> uc18; user -> uc19;
+    user -> uc20; user -> uc21;
+
+    admin -> uc22; admin -> uc23; admin -> uc24;
+
+    // keep actors vertically ordered: Guest (top), User (mid), Admin (bottom)
+    guest -> user -> admin [style=invis];
+}
